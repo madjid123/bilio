@@ -53,7 +53,7 @@ Whole app is divided into three modules.
 
 - Admin
 - User
-- Browse books
+- Browse documents
 
 ### Admin module functionalities
 
@@ -61,15 +61,15 @@ Whole app is divided into three modules.
 - Login
 - Logout
 - Track all users activities
-- Add books
-- Update books
-- Delete books
-- Search books by category, title, author, ISBN
+- Add documents
+- Update documents
+- Delete documents
+- Search documents by category, title, author, ISBN
 - Find users by firstname, lastname, email and username
 - Delete user acount
 - Restrict individual user if violate any terms and conditions
 - Send notification to all/individual/filtered user (not ready yet, will be added as soon as I learn socket.io)
-- Browse books showcase
+- Browse documents showcase
 - Update admin profile and password
 - Add new admin
 - Delete currently logged in admin profile
@@ -80,19 +80,19 @@ Whole app is divided into three modules.
 - Login
 - Logout
 - Track own activities
-- Issue books
-- Renew books
-- Return books
+- Issue documents
+- Renew documents
+- Return documents
 - Pay fines (not ready yet, will be added asap)
-- Browse books showcase
-- Add, edit and delete comment on any books comment section
+- Browse documents showcase
+- Add, edit and delete comment on any documents comment section
 - Upload/Update profile picture
 - Update profile and password
 - Delete account
 
-### Browse books module functionalities
+### Browse documents module functionalities
 
 This module can be accessed by anyone
 
-- Show all books
-- Find books on filtered search
+- Show all documents
+- Find documents on filtered search

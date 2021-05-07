@@ -1,13 +1,13 @@
 const express = require("express"),
-      router = express.Router(),
-      passport = require("passport");
+   router = express.Router(),
+   passport = require("passport");
 
 // Import models
 const User = require("../models/user");
 
 //landing page
 router.get('/', (req, res) => {
-   res.render("landing"); 
+   res.render("landing");
 });
 
 //admin login handler
@@ -16,9 +16,9 @@ router.get("/adminLogin", (req, res) => {
 });
 
 router.post("/adminLogin", passport.authenticate("local", {
-        successRedirect : "/admin",
-        failureRedirect : "/adminLogin",
-    }), (req, res)=> {
+   successRedirect: "/admin",
+   failureRedirect: "/adminLogin",
+}), (req, res) => {
 });
 
 //admin logout handler
@@ -33,24 +33,24 @@ router.get("/adminSignup", (req, res) => {
 });
 
 router.post("/adminSignup", (req, res) => {
-   if(req.body.adminCode == "Open Sesame") {
-      
+   if (req.body.adminCode == "Open Sesame") {
+
       const newAdmin = new User({
-      username : req.body.username,
-      email : req.body.email,
-      isAdmin : true,
-   });
-   
-   User.register(newAdmin, req.body.password, (err, user) =>{
-      if(err) {
-          req.flash("error", "Given info matches someone registered as User. Please provide different info for registering as Admin");
-         return res.render("signup");
-      }
-      passport.authenticate("local")(req, res, function() {
-         req.flash("success", "Hello, " + user.username + " Welcome to Admin Dashboard");
-         res.redirect("/admin");
+         username: req.body.username,
+         email: req.body.email,
+         isAdmin: true,
       });
-   });
+
+      User.register(newAdmin, req.body.password, (err, user) => {
+         if (err) {
+            req.flash("error", "Given info matches someone registered as User. Please provide different info for registering as Admin");
+            return res.render("signup");
+         }
+         passport.authenticate("local")(req, res, function () {
+            req.flash("success", "Hello, " + user.username + " Welcome to Admin Dashboard");
+            res.redirect("/admin");
+         });
+      });
    } else {
       req.flash("error", "Secret word doesn't match!");
       return res.redirect("back");
@@ -63,9 +63,9 @@ router.get("/userLogin", (req, res) => {
 });
 
 router.post("/userLogin", passport.authenticate("local", {
-        successRedirect : "/user/1",
-        failureRedirect : "/userLogin",
-    }), (req, res)=> {
+   successRedirect: "/user/1",
+   failureRedirect: "/userLogin",
+}), (req, res) => {
 });
 
 //user -> user logout handler
@@ -81,21 +81,20 @@ router.get("/signUp", (req, res) => {
 
 router.post("/signUp", (req, res) => {
    const newUser = new User({
-      firstName : req.body.firstName,
-      lastName : req.body.lastName,
-      username : req.body.username,
-      email : req.body.email,
-      gender : req.body.gender,
-      address : req.body.address,
+      prenom: req.body.prenom,
+      nom: req.body.nom,
+      username: req.body.username,
+      email: req.body.email,
+      address: req.body.address,
    });
-   
-   User.register(newUser, req.body.password, (err, user) =>{
-      if(err) {
+
+   User.register(newUser, req.body.password, (err, user) => {
+      if (err) {
          return res.render("user/userSignup");
       }
-      passport.authenticate("local")(req, res, ()=> {
-        
-        res.redirect("/user/1");
+      passport.authenticate("local")(req, res, () => {
+
+         res.redirect("/user/1");
       });
    });
 });

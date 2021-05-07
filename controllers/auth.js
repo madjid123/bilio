@@ -69,21 +69,27 @@ exports.getUserSignUp = (req, res, next) => {
 
 exports.postUserSignUp = async (req, res, next) => {
   try {
-    const newUser = new User({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      username: req.body.username,
-      email: req.body.email,
-      gender: req.body.gender,
-      address: req.body.address,
-    });
+    with (req.body) {
+      const newUser = new User({
+        prenom: prenom,
+        dateDeNaissance: new Date(dateDeNaissance),
+        structure: structure,
+        categorie: categorie,
+        numero: numero,
+        nom: nom,
+        username: username,
+        email: email,
+        address: address,
+      });
 
-    await User.register(newUser, req.body.password);
-    await passport.authenticate("local")(req, res, () => {
-      res.redirect("/user/1");
-    });
+
+      await User.register(newUser, req.body.password);
+
+      var users = await User.find({})
+      res.redirect("/admin/users/1")
+    }
   } catch (err) {
     console.log(err);
-    return res.render("user/userSignup");
+    return res.redirect("back");
   }
 };

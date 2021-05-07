@@ -1,0 +1,159 @@
+<% include ../partials/header %>
+
+  <!--NAVIGATION BAR FOR ADMIN-->
+  <% include ../partials/adminNav %>
+
+    <% include ../partials/alerts %>
+      <div class="my-4 add-doc">
+
+
+        <form id="stepped" action="/admin/documents/add" method="post">
+          <div class="container-fluid" style='min-height: 10 0%;'>
+            <div class="row m-0 p-0 justify-content-center">
+              <div class="col-12">
+                <h1 class="text-center py-3">Ajouter Un document </h1>
+              </div>
+              <div class="col-md-8" style="color:#444">
+                <div class="indicators d-flex justify-content-around py-4 text-dark">
+                  <div class=" stepsdes bg-secondary px-3 py-1 shadow-sm mr-2 text-light">
+                    Titre/auteurs/Numéros</div>
+
+                  <div class="stepsdes bg-secondary px-3 py-1 shadow-sm mr-2 text-light">
+                    Edition/categorie/Indexation
+                  </div>
+
+                  <div class="stepsdes bg-secondary px-3 py-1 shadow-sm mr-2 text-light">Resume/Notes
+                  </div>
+
+
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class=" position-relative">
+                  <div class="steps">
+                    <div class="row  g-0 justify-content-center">
+                      <div class="col pr-4">
+                        <div class="form-group">
+                          <label class="form-control-label">Type de
+                            document </label>
+
+                          <select name="document[type]" class="form-control obl" size="1" value='<%= document.type %>'
+                            selected='<%= document.type %>'>
+                            <option value="" selected="">--</option>
+                            <option value="Livre">Livre</option>
+                            <option value="Thèse">Thèse</option>
+                            <option value="Article">Article</option>
+                            <option value="Autre">Autre</option>
+                          </select>
+
+
+
+                        </div>
+
+                      </div>
+                      <div class="col">
+                        <div class=" form-group">
+                          <label class="form-control-label">langue de
+                            publication</label>
+                          <input type="text" name="document[lang]" placeholder="langue de publication"
+                            class="form-control obl" value='<%= document.lang%>'>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="form-control-label">Titre propre</label>
+                        <input type="text" name="document[titre]" placeholder="Titre du document"
+                          class="form-control obl" value='<%= document.titre%>' required>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-control-label">Complément du Titre
+                        </label>
+                        <input type="text" name="document[compTitre]" placeholder="Complément du Titre "
+                          class="form-control" value='<%= document.compTitre%>'>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="form-control-label">Auteurs</label>
+                        <input type="text" name="document[auteur]" placeholder="les noms des auteurs"
+                          class="form-control obl" value='<%= document.auteur%>' required>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-control-label">ISBN</label>
+                        <input type="text" name="document[ISBN]" placeholder="ISBN" value='<%= document.ISBN %>'
+                          class="form-control obl" required>
+                      </div>
+
+
+                    </div>
+
+                  </div>
+
+                </div>
+                <div class="steps">
+                  <div class="row">
+                    <div class="form-group">
+                      <label class="form-control-label">Editeur</label>
+                      <input type="text" name="document[editeur]" placeholder="Editeur" class="form-control"
+                        value='<%= document.editeur%>' required>
+                    </div>
+                    <div class="col form-group">
+                      <label class="form-control-label">Année d' édition/de Soutenance</label>
+                      <input type="number" name="document[annee]" placeholder="Année d'édition ou de soutenance"
+                        class="form-control obl" value='<%= document.editeur%>' required>
+                    </div>
+
+                    <div class="col form-group">
+                      <label class="form-control-label">Categorie</label>
+                      <input type="text" name="document[categorie]" value='<%= document.categorie%>'
+                        placeholder="Categorie" class="form-control obl" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-control-label">Vedettes</label>
+                      <input type="text" name="document[vedettes]" value='<%= document.vedettes%>'
+                        placeholder="Vedettes" class="form-control" required>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+            <div class=" position-relative container ">
+
+              <div class="steps">
+
+                <div class="row gx-0 justify-content-center">
+                  <div class="col">
+                    <div class="form-group">
+                      <label class="form-control-label">Note générale</label>
+                      <textarea name="document[notegen]" cols="40" rows="5" class="form-control"
+                        value=''><%= document.notegen%></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-control-label">Resumé</label>
+                      <textarea name="document[resume]" value='' cols="40" rows="5"
+                        class="form-control obl"><%= document.resume%></textarea>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+          <div class="gx-0 bttns">
+
+            <button type="button" class="btnPrev btn btn-outline-success">Prev</button>
+
+            <button type="button" class="btnNext btn btn-outline-success">Next</button>
+          </div>
+      </div>
+
+      </form>
+      </div>
+
+
+
+      >
+      <% include ../partials/footer %>

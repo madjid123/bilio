@@ -1,6 +1,7 @@
 const express = require("express"),
-      router = express.Router(),
-      passport = require('passport');
+    router = express.Router(),
+    middleware = require("../middleware"),
+    passport = require('passport');
 
 
 // Import index controller
@@ -16,9 +17,9 @@ router.get('/', authController.getLandingPage);
 router.get("/auth/admin-login", authController.getAdminLoginPage)
 
 router.post("/auth/admin-login", passport.authenticate("local", {
-        successRedirect : "/admin",
-        failureRedirect : "/auth/admin-login",
-    }), (req, res)=> {
+    successRedirect: "/admin",
+    failureRedirect: "/auth/admin-login",
+}), (req, res) => {
 });
 
 //admin logout handler
@@ -34,17 +35,18 @@ router.post("/auth/admin-signup", authController.postAdminSignUp);
 router.get("/auth/user-login", authController.getUserLoginPage);
 
 router.post("/auth/user-login", passport.authenticate("local", {
-        successRedirect : "/user/1",
-        failureRedirect : "/auth/user-login",
-    }), (req, res)=> {
+    successRedirect: "/user/1",
+    failureRedirect: "/auth/user-login",
+}), (req, res) => {
 });
 
 //user -> user logout handler
 router.get("/auth/user-logout", authController.getUserLogout);
 
 //user sign up handler
-router.get("/auth/user-signUp", authController.getUserSignUp);
+router.get("/auth/user-signUp", middleware.isAdmin, authController.getUserSignUp);
 
-router.post("/auth/user-signup", authController.postUserSignUp);
+router.post("/auth/user-signup", middleware.isAdmin, authController.postUserSignUp);
 
+//admin -> profile
 module.exports = router;

@@ -1,42 +1,42 @@
 const mongoose = require("mongoose");
 
 const activitySchema = new mongoose.Schema({
-   info : {
-       id : {
-           type : mongoose.Schema.Types.ObjectId,
-           ref : "Book",
-       },
-       title : String,
-   },
-   
-    category : String,
-    
-    time : {
-        id : {
-            type : mongoose.Schema.Types.ObjectId,
-            ref : "Issue",
+    info: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Document",
         },
-        returnDate : Date,
-        issueDate : Date,
+        titre: String,
     },
-    
-    user_id : {
-        id : {
-            type : mongoose.Schema.Types.ObjectId,
-            ref : "User",
+
+    categorie: String,
+
+    time: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Issue",
         },
-        username : String,
+        returnDate: Date,
+        issueDate: Date,
     },
-    
-    fine : {
-        amount : Number,
-        date : Date,
+
+    user_id: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        },
+        username: String,
     },
-    
-    entryTime : {
-        type : Date,
-        default : Date.now(),
+
+    fine: {
+        amount: Number,
+        date: Date,
+    },
+
+    entryTime: {
+        type: Date,
+        default: Date.now(),
     }
 });
 
-module.exports =  mongoose.model("Activity", activitySchema);
+module.exports = mongoose.model("Activity", activitySchema);

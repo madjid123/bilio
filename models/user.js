@@ -2,11 +2,12 @@ const mongoose = require("mongoose"),
   passportLocalMongoose = require("passport-local-mongoose");
 
 const userSchema = new mongoose.Schema({
-  firstName: {
+  numero: String,
+  prenom: {
     type: String,
     trim: true,
   },
-  lastName: {
+  nom: {
     type: String,
     trim: true,
   },
@@ -14,15 +15,19 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  dateDeNaissance: Date,
+
   email: {
     type: String,
     trim: true,
   },
+  categorie: String,
+  addresse: String,
   password: String,
-  joined: { type: Date, default: Date.now() },
-  bookIssueInfo: [
+  dateDadhesion: { type: Date, default: Date.now() },
+  documentIssueInfo: [
     {
-      book_info: {
+      document_info: {
         id: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Issue",
@@ -30,7 +35,6 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
-  gender: String,
   address: String,
   image: {
     type: String,

@@ -1,14 +1,14 @@
 const express = require("express"),
-      router = express.Router(),
-      passport = require("passport"),
-      // fs = require("fs"),
-      // path = require("path"),
-      middleware = require("../middleware"),
-      User = require("../models/user"),
-      Book = require("../models/book"),
-      Activity = require("../models/activity"),
-      Issue = require("../models/issue"),
-      Comment = require("../models/comment");
+    router = express.Router(),
+    passport = require("passport"),
+    // fs = require("fs"),
+    // path = require("path"),
+    middleware = require("../middleware"),
+    User = require("../models/user"),
+    Document = require("../models/document"),
+    Activity = require("../models/activity"),
+    Issue = require("../models/issue"),
+    Comment = require("../models/comment");
 
 // importing controller
 const adminController = require('../controllers/admin');
@@ -22,20 +22,21 @@ router.post("/admin", middleware.isAdmin, adminController.postDashboard);
 //admin -> delete profile
 router.delete("/admin/delete-profile", middleware.isAdmin, adminController.deleteAdminProfile);
 
-//admin book inventory
-router.get("/admin/bookInventory/:filter/:value/:page", middleware.isAdmin, adminController.getAdminBookInventory);
+//admin document inventory
+router.get("/admin/documentInventory/:filter/:value/:page", middleware.isAdmin, adminController.getAdminDocumentInventory);
+//admin -> show document copies
+router.get("/admin/document/:doc_id/copies", middleware.isAdmin, adminController.getDocumentCopies)
+// admin -> show searched documents
+router.post("/admin/documentInventory/:filter/:value/:page", middleware.isAdmin, adminController.postAdminDocumentInventory);
 
-// admin -> show searched books
-router.post("/admin/bookInventory/:filter/:value/:page", middleware.isAdmin, adminController.postAdminBookInventory);
+//admin -> show documents to be updated
+router.get("/admin/document/update/:document_id", middleware.isAdmin, adminController.getUpdateDocument);
 
-//admin -> show books to be updated
-router.get("/admin/book/update/:book_id", middleware.isAdmin, adminController.getUpdateBook);
+//admin -> update document
+router.post("/admin/document/update/:document_id", middleware.isAdmin, adminController.postUpdateDocument);
 
-//admin -> update book
-router.post("/admin/book/update/:book_id", middleware.isAdmin, adminController.postUpdateBook);
-
-//admin -> delete book
-router.get("/admin/book/delete/:book_id", middleware.isAdmin, adminController.getDeleteBook);
+//admin -> delete document
+router.get("/admin/document/delete/:document_id", middleware.isAdmin, adminController.getDeleteDocument);
 
 //admin -> users list 
 router.get("/admin/users/:page", middleware.isAdmin, adminController.getUserList);
@@ -52,19 +53,27 @@ router.get("/admin/users/profile/:user_id", middleware.isAdmin, adminController.
 //admin -> show all activities of one user
 router.get("/admin/users/activities/:user_id", middleware.isAdmin, adminController.getUserAllActivities);
 
-//admin -> show activities by category
+//admin -> show activities by categorie
 router.post("/admin/users/activities/:user_id", middleware.isAdmin, adminController.postShowActivitiesByCategory);
 
 // admin -> delete a user
 router.get("/admin/users/delete/:user_id", middleware.isAdmin, adminController.getDeleteUser);
 
-//admin -> add new book
-router.get("/admin/books/add", middleware.isAdmin, adminController.getAddNewBook);
+//admin -> add new document
+router.get("/admin/documents/add", middleware.isAdmin, adminController.getAddNewDocument);
+router.post("/admin/documents/add", middleware.isAdmin, adminController.postAddNewDocument)
 
-router.post("/admin/books/add", middleware.isAdmin, adminController.postAddNewBook);
+router.post("/admin/documents/add", middleware.isAdmin, adminController.postAddNewDocument);
+//admin -> add new copy
+router.get("/admin/document/:doc_id/copies/add", middleware.isAdmin, adminController.getAddCopyDocument);
+router.post("/admin/document/:doc_id/copies/add", middleware.isAdmin, adminController.postAddCopyDocument);
+//admin -> update document copy
+router.get("/admin/document/:doc_id/copies/update/:copy_id", middleware.isAdmin, adminController.getUpdateCopyDocument)
+router.post("/admin/document/:doc_id/copies/update/:copy_id", middleware.isAdmin, adminController.postUpdateCopyDocument)
 
-//admin -> profile
-router.get("/admin/profile", middleware.isAdmin, adminController.getAdminProfile);
+//admin -> delete document copy 
+router.get('/admin/document/:doc_id/copies/delete/:copy_id', middleware.isAdmin, adminController.deleteCopyDocument)
+//admin -> register user
 
 //admin -> update profile
 router.post("/admin/profile", middleware.isAdmin, adminController.postUpdateAdminProfile);

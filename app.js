@@ -14,14 +14,19 @@ const express = require("express"),
   User = require("./models/user"),
   userRoutes = require("./routes/users"),
   adminRoutes = require("./routes/admin"),
-  bookRoutes = require("./routes/books"),
-  authRoutes = require("./routes/auth");
+  documentRoutes = require("./routes/documents"),
+  authRoutes = require("./routes/auth"),
+  cors = require("cors");
 
-// const Seed = require('./seed');
 
 // uncomment below line for first time to seed database;
-// Seed(1000);
-
+// const Seed = require('./seed');
+// Seed(10);
+app.use(cors({
+  origin: ['http://localhost:3000'],
+  methods: ['GET', 'POST'],
+  credentials: true // enable set cookie
+}))
 if (process.env.NODE_ENV !== "production") require("dotenv").config();
 
 // app config
@@ -29,7 +34,7 @@ app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(sanitizer());
 
@@ -108,11 +113,11 @@ app.use((req, res, next) => {
 //Routes
 app.use(userRoutes);
 app.use(adminRoutes);
-app.use(bookRoutes);
+app.use(documentRoutes);
 app.use(authRoutes);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`server is running`);
+  console.log(`server is running on  port: ${PORT}`);
 });
