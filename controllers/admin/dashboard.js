@@ -1,7 +1,7 @@
 // importing models
-const Document = require('../models/document');
-const User = require('../models/user');
-const Activity = require('../models/activity');
+const Document = require('../../models/document');
+const User = require('../../models/user');
+const Activity = require('../../models/activity');
 // GLOBAL_VARIABLES
 const PER_PAGE = 10;
 

@@ -1,10 +1,10 @@
 
 // importing models
-const Document = require('../models/document');
+const Document = require('../../models/document');
 
 // admin -> add new document
 exports.getAddNewDocument = (req, res, next) => {
-    res.render("admin/adddoc");
+    res.render("admin/document/adddoc");
 }
 
 exports.postAddNewDocument = async (req, res, next) => {

@@ -2,13 +2,13 @@
 const fs = require('fs');
 
 // importing models
-const User = require('../models/user');
-const Activity = require('../models/activity');
-const Issue = require('../models/issue');
-const Comment = require('../models/comment');
+const User = require('../../models/user');
+const Activity = require('../../models/activity');
+const Issue = require('../../models/issue');
+const Comment = require('../../models/comment');
 
 // importing utilities
-const deleteImage = require('../utils/delete_image');
+const deleteImage = require('../../utils/delete_image');
 
 // GLOBAL_VARIABLES
 const PER_PAGE = 10;
@@ -25,7 +25,7 @@ exports.getUserList = async (req, res, next) => {
 
         const users_count = await User.find().countDocuments();
 
-        res.render('admin/users', {
+        res.render('admin/user/users', {
             users: users,
             current: page,
             pages: Math.ceil(users_count / PER_PAGE),
@@ -45,10 +45,10 @@ exports.postShowSearchedUser = async (req, res, next) => {
 
         const users = await User.find({
             $or: [
-                { "prenom": search_value },
-                { "nom": search_value },
-                { "username": search_value },
-                { "email": search_value },
+                { "prenom": { $regex: ".*" + search_value + ".*" } },
+                { "nom": { $regex: ".*" + search_value + ".*" } },
+                { "username": { $regex: ".*" + search_value + ".*" } },
+                { "email": { $regex: ".*" + search_value + ".*" } },
             ]
         });
 
@@ -56,7 +56,7 @@ exports.postShowSearchedUser = async (req, res, next) => {
             req.flash("error", "User not found!");
             return res.redirect('back');
         } else {
-            res.render("admin/users", {
+            res.render("admin/user/users", {
                 users: users,
                 current: page,
                 pages: 0,
@@ -102,7 +102,7 @@ exports.getUserProfile = async (req, res, next) => {
         const comments = await Comment.find({ "auteur.id": user_id });
         const activities = await Activity.find({ "user_id.id": user_id }).sort('-entryTime');
 
-        res.render("admin/user", {
+        res.render("admin/user/user", {
             user: user,
             issues: issues,
             activities: activities,

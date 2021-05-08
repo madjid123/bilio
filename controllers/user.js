@@ -29,7 +29,7 @@ exports.getUserDashboard = async (req, res, next) => {
         // fetch user info from db and populate it with related document issue
         const user = await User.findById(user_id);
 
-        if (user.documentIssueInfo.length > 0) {
+        if (user.copyIssueInfo.length > 0) {
             const issues = await Issue.find({ "user_id.id": user._id });
 
             for (let issue of issues) {
@@ -184,7 +184,7 @@ exports.postIssueDocument = async (req, res, next) => {
         return res.redirect("back");
     }
 
-    if (req.user.documentIssueInfo.length >= 5) {
+    if (req.user.copyIssueInfo.length >= 5) {
         req.flash("warning", "You can't issue more than 5 documents at a time");
         return res.redirect("back");
     }
@@ -229,7 +229,7 @@ exports.postIssueDocument = async (req, res, next) => {
 
         await document.updateOne({ $inc: { "availableCopies": -1 } })
         // putting issue record on individual user document
-        user.documentIssueInfo.push(document._id);
+        user.copyIssueInfo.push(document._id);
 
         // logging the activity
         const activity = new Activity({
@@ -326,10 +326,10 @@ exports.postRenewDocument = async (req, res, next) => {
 
 // user -> return document working procedure
 /*
-    1. Find the position of the document to be returned from user.documentIssueInfo
+    1. Find the position of the document to be returned from user.copyIssueInfo
     2. Fetch the document from db and increament its stock by 1
     3. Remove issue record from db
-    4. Pop documentIssueInfo from user by position
+    4. Pop copyIssueInfo from user by position
     5. Log the activity
     6. refirect to /documents/return-renew
 */
@@ -337,7 +337,7 @@ exports.postReturnDocument = async (req, res, next) => {
     try {
         // finding the position
         const document_id = req.params.document_id;
-        const pos = req.user.documentIssueInfo.indexOf(req.params.document_id);
+        const pos = req.user.copyIssueInfo.indexOf(req.params.document_id);
 
         // fetching document from db and increament
         const document = await Document.findById(document_id);
@@ -351,7 +351,7 @@ exports.postReturnDocument = async (req, res, next) => {
         await issue.remove();
 
         // popping document issue info from user
-        req.user.documentIssueInfo.splice(pos, 1);
+        req.user.copyIssueInfo.splice(pos, 1);
         await req.user.save();
 
         // logging the activity

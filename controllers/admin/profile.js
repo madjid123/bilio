@@ -1,4 +1,4 @@
-const User = require('../models/user');// importing dependencies
+const User = require('../../models/user');// importing dependencies
 
 // admin -> delete profile working procedure
 /*

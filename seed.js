@@ -21,6 +21,7 @@ async function seed(limit) {
                 auteur: author[index2],
                 resume: faker.lorem.paragraphs(3),
                 categorie: category[index1],
+                lang: faker.lorem.word()
             });
             await document.save();
             for (let j = 0; j < 6; j++) {

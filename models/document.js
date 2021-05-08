@@ -26,7 +26,6 @@ const documentSchema = new mongoose.Schema({
     stock: { type: Number, default: 0 }
 });
 documentSchema.post('remove', async (doc) => {
-    console.log(doc)
     await Copy.deleteMany({ doc_id: doc._id })
 })
 module.exports = mongoose.model("Document", documentSchema);

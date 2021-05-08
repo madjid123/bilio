@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
   addresse: String,
   password: String,
   dateDadhesion: { type: Date, default: Date.now() },
-  documentIssueInfo: [
+  copyIssueInfo: [
     {
       document_info: {
         id: {

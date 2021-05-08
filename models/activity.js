@@ -9,6 +9,7 @@ const activitySchema = new mongoose.Schema({
         titre: String,
     },
 
+
     categorie: String,
 
     time: {

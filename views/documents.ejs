@@ -119,7 +119,7 @@
 
 
                 <% if(currentUser && documents[i].stock> 0 ) { var match = false%>
-                  <% user.documentIssueInfo.forEach(document_info=> { %>
+                  <% user.copyIssueInfo.forEach(document_info=> { %>
                     <% if(document_info._id.equals(documents[i]._id)) { %>
                       <a href="#" class="btn btn-xs btn-warning disabled" role="button" aria-disabled="true">Issued!</a>
                       <a href="/documents/return-renew" class="btn btn-xs btn-success" role="button">Return/Renew</a>

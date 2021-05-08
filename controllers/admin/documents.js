@@ -1,4 +1,4 @@
-const Document = require('../models/document');
+const Document = require('../../models/document');
 // importing dependencies
 // importing utilities
 
@@ -9,7 +9,7 @@ const PER_PAGE = 10;
 /*
     1. Construct search object
     2. Fetch documents by search object
-    3. Render admin/documentInventory
+    3. Render admin/document/documentInventory
 */
 exports.getAdminDocumentInventory = async (req, res, next) => {
     try {
@@ -34,8 +34,8 @@ exports.getAdminDocumentInventory = async (req, res, next) => {
             .skip((PER_PAGE * page) - PER_PAGE)
             .limit(PER_PAGE)
 
-        // rendering admin/documentInventory
-        res.render("admin/documentInventory", {
+        // rendering admin/document/documentInventory
+        res.render("admin/document/documentInventory", {
             documents: documents,
             current: page,
             pages: Math.ceil(documents_count / PER_PAGE),
@@ -74,8 +74,8 @@ exports.postAdminDocumentInventory = async (req, res, next) => {
             .skip((PER_PAGE * page) - PER_PAGE)
             .limit(PER_PAGE);
 
-        // rendering admin/documentInventory
-        res.render("admin/documentInventory", {
+        // rendering admin/document/documentInventory
+        res.render("admin/document/documentInventory", {
             documents: documents,
             current: page,
             pages: Math.ceil(documents_count / PER_PAGE),
@@ -92,7 +92,7 @@ exports.getDocumentCopies = async (req, res, next) => {
     const doc_id = req.params.doc_id;
     try {
         var document = await Document.findById(doc_id).populate('copies');
-        res.render('admin/Exemplaires', { copies: document.copies, doc_id: doc_id })
+        res.render('admin/copy/Exemplaires', { copies: document.copies, doc_id: doc_id })
     }
     catch (err) {
         console.log(err)

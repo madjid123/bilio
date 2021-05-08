@@ -1,13 +1,13 @@
 // importing models
-const Document = require('../models/document');
-const Copy = require('../models/copy');
+const Document = require('../../models/document');
+const Copy = require('../../models/copy');
 
 
 //add new copy
 
 exports.getAddCopyDocument = async (req, res, next) => {
     var document = await Document.findById(req.params.doc_id)
-    res.render("admin/addCopy", { document: document })
+    res.render("admin/copy/addCopy", { document: document })
 
 }
 exports.postAddCopyDocument = async (req, res, next) => {
@@ -41,7 +41,7 @@ exports.getUpdateCopyDocument = async (req, res, next) => {
     try {
         var copy = await Copy.findById(req.params.copy_id)
 
-        res.render("admin/copy", { copy: copy, doc_id: req.params.doc_id })
+        res.render("admin/copy/copy", { copy: copy, doc_id: req.params.doc_id })
 
     } catch (err) {
         console.log(err)
@@ -81,7 +81,8 @@ exports.deleteCopyDocument = async (req, res, next) => {
         await document.save();
         var doc_id = copy.doc_id
         await copy.remove();
-        res.redirect('/admin/document/update/' + doc_id)
+        req.flash("success", `l'exemplaire  : "${copy.cote}" du document [${document.titre}] a été supprimé`)
+        res.redirect('/admin/document/' + doc_id + '/copies')
     } catch (err) {
         console.log(err)
     }
