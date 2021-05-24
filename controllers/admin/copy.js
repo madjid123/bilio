@@ -32,7 +32,7 @@ exports.postAddCopyDocument = async (req, res, next) => {
 
         res.redirect("back")
     } catch (err) {
-        console.log(err)
+        console.error(err)
         res.redirect('back')
     }
 }
@@ -44,7 +44,7 @@ exports.getUpdateCopyDocument = async (req, res, next) => {
         res.render("admin/copy/copy", { copy: copy, doc_id: req.params.doc_id })
 
     } catch (err) {
-        console.log(err)
+        console.error(err)
         res.redirect('back')
     }
 }
@@ -65,7 +65,7 @@ exports.postUpdateCopyDocument = async (req, res, next) => {
 
 
     } catch (err) {
-        console.log(err)
+        console.error(err)
         res.redirect('back')
     }
 
@@ -75,7 +75,7 @@ exports.deleteCopyDocument = async (req, res, next) => {
     try {
         var copy = await Copy.findById(req.params.copy_id)
         var document = await Document.findById(copy.doc_id)
-        document.updateOne({ $inc: { "stock": -1 } }, (err, doc) => { if (err) console.log(err) })
+        document.updateOne({ $inc: { "stock": -1 } }, (err, doc) => { if (err) console.error(err) })
         document.availableCopies -= 1;
         await document.copies.pull({ _id: req.params.copy_id })
         await document.save();
@@ -84,6 +84,6 @@ exports.deleteCopyDocument = async (req, res, next) => {
         req.flash("success", `l'exemplaire  : "${copy.cote}" du document [${document.titre}] a été supprimé`)
         res.redirect('/admin/document/' + doc_id + '/copies')
     } catch (err) {
-        console.log(err)
+        console.error(err)
     }
 }

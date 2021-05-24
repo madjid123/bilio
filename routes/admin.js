@@ -44,7 +44,7 @@ router.get("/admin/users/:page", middleware.isAdmin, adminController.users.getUs
 router.post("/admin/users/:page", middleware.isAdmin, adminController.users.postShowSearchedUser);
 
 //admin -> flag/unflag user
-router.get("/admin/users/flagged/:user_id", middleware.isAdmin, adminController.users.getFlagUser);
+router.post("/admin/users/flagged/:user_id", middleware.isAdmin, adminController.users.postFlagUser);
 
 //admin -> show one user
 router.get("/admin/users/profile/:user_id", middleware.isAdmin, adminController.users.getUserProfile);
@@ -77,6 +77,7 @@ router.get('/admin/document/:doc_id/copies/delete/:copy_id', middleware.isAdmin,
 router.delete("/admin/delete-profile", middleware.isAdmin, adminController.profile.deleteAdminProfile);
 //admin -> update profile
 router.post("/admin/profile", middleware.isAdmin, adminController.profile.postUpdateAdminProfile);
+router.get("/admin/profile", middleware.isAdmin, adminController.profile.getAdminProfile);
 
 //admin -> update password
 router.put("/admin/update-password", middleware.isAdmin, adminController.profile.putUpdateAdminPassword);
@@ -86,5 +87,8 @@ router.get('/admin/issues/:page', middleware.isAdmin, adminController.issue.getI
 router.post('/admin/issues/:page', middleware.isAdmin, adminController.issue.postSearchIssues)
 
 router.post('/admin/issue/add', middleware.isAdmin, adminController.issue.postIssueDocument)
+router.get('/admin/issue/return/:issue_id', middleware.isAdmin, adminController.issue.ReturnDocument)
 
+router.get('/admin/add', middleware.isAdmin, adminController.users.getAddPrivUser)
+router.post('/admin/add', middleware.isAdmin, adminController.users.postAddPrivUser)
 module.exports = router;

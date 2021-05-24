@@ -32,7 +32,7 @@ exports.getDashboard = async (req, res, next) => {
             pages: Math.ceil(activity_count / PER_PAGE),
         });
     } catch (err) {
-        console.log(err)
+        console.error(err)
     }
 }
 
@@ -70,7 +70,7 @@ exports.postDashboard = async (req, res, next) => {
         });
 
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.redirect("back");
     }
 }

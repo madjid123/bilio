@@ -96,30 +96,72 @@
                           <td>$<%=user.fines%>
                           </td>
                           <td>
-                            <%if(user.copyIssueInfo.length> 0) { %>
-                              <a href="/admin/users/delete/<%=user._id%>"
-                                title="This user has documents in possession. Are you sure to delete this user?"
-                                class="btn btn-sm btn-danger">
-                                <i class="fa fa-trash"></i>
-                              </a>
-                              <% } else { %>
-                                <a href="/admin/users/delete/<%=user._id%>" titre="Delete User"
-                                  class="btn btn-sm btn-danger">
+                            <div style='display:flex; justify-content: center; ' class=''>
+                              <%if(user.copyIssueInfo.length> 0) { %>
+                                <a href="/admin/users/delete/<%=user._id%>"
+                                  title="This user has documents in possession. Are you sure to delete this user?"
+                                  class="btn btn-sm btn-danger m-1">
                                   <i class="fa fa-trash"></i>
                                 </a>
-                                <% } %>
+                                <% } else { %>
+                                  <a href="/admin/users/delete/<%=user._id%>" titre="Delete User"
+                                    class="btn btn-sm btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                  </a>
+                                  <% } %>
 
-                                  <% if(user.violationFlag) { %>
-                                    <a href="/admin/users/flagged/<%=user._id%>" titre="Lift the flag"
-                                      class="btn btn-sm btn-warning">
-                                      <i class="fa fa-flag"></i>
-                                    </a>
-                                    <% } else { %>
-                                      <a href="/admin/users/flagged/<%=user._id%>" titre="Warn user"
-                                        class="btn btn-sm btn-success">
-                                        <i class="fa fa-flag"></i>
-                                      </a>
-                                      <% } %>
+                                    <% if(user.violationFlag) { %>
+                                      <form action='/admin/users/flagged/<%=user._id%>' method='post'>
+                                        <button type='submit' titre=" Lift the flag"
+                                          class=" btn btn-sm  mx-1 btn-warning">
+                                          <i class="fa fa-flag"></i>
+                                        </button>
+                                      </form>
+
+                                      <% } else { %>
+                                        <div class="modal fade" id="supendlect">
+                                          <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                              <div class="modal-header bg-danger text-white">
+                                                <h5 class="modal-titre" id="deleteProfileModalLabel">
+                                                  Once you press yes, you will lose the admin facility permanently. Are
+                                                  you sure?
+                                                </h5>
+                                                <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                                              </div>
+                                              <div class="modal-body">
+                                                <form action="/admin/users/flagged/<%=user._id%>" method="POST">
+                                                  <div class="form-group">
+                                                    <label class="form-control-label"> Durée</label>
+                                                    <input type="number" class="form-control"
+                                                      placeholder="nombre de jours" name="duree">
+                                                    <label class="form-control-label">Motif </label>
+                                                    <input type="number" class="form-control" name="motif"
+                                                      placeholder="nombre de jours">
+                                                  </div>
+                                                  <div class="row">
+                                                    <div class="col">
+                                                      <input type="submit" value="supendre"
+                                                        class="btn btn-danger btn-block m-1">
+                                                    </div>
+                                                    <div class="col">
+                                                      <input type="button" value="annuler" data-dismiss="modal"
+                                                        class="btn btn-outline-primary btn-block m-1">
+                                                    </div>
+                                                  </div>
+                                                </form>
+
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <a href="/admin/users/flagged/<%=user._id%>" titre="Warn user"
+                                          class="btn btn-sm btn-success mx-1" data-toggle="modal"
+                                          data-target="#supendlect">
+                                          <i class="fa fa-flag"></i>
+                                        </a>
+                                        <% } %>
+                            </div>
                           </td>
                         </tr>
                         <% }); %>

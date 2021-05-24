@@ -95,7 +95,7 @@ exports.getDocumentCopies = async (req, res, next) => {
         res.render('admin/copy/Exemplaires', { copies: document.copies, doc_id: doc_id })
     }
     catch (err) {
-        console.log(err)
+        console.error(err)
         res.redirect('back')
     }
 }

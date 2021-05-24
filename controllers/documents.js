@@ -35,7 +35,7 @@ exports.getDocuments = async (req, res, next) => {
          user: req.user,
       })
    } catch (err) {
-      console.log(err)
+      console.error(err)
    }
 }
 
@@ -73,7 +73,7 @@ exports.findDocuments = async (req, res, next) => {
          user: req.user,
       })
    } catch (err) {
-      console.log(err)
+      console.error(err)
    }
 }
 
@@ -90,7 +90,7 @@ exports.getDocumentDetails = async (req, res, next) => {
       const document = await Document.findById(document_id).populate("comments").populate("copies");
       res.render("user/documentDetails", { document: document });
    } catch (err) {
-      console.log(err);
+      console.error(err);
       return res.redirect("back");
    }
 }

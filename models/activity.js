@@ -28,7 +28,7 @@ const activitySchema = new mongoose.Schema({
         },
         username: String,
     },
-
+    admin: String,
     fine: {
         amount: Number,
         date: Date,

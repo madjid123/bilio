@@ -3,6 +3,11 @@ const mongoose = require("mongoose"),
 
 const userSchema = new mongoose.Schema({
   numero: String,
+  type: {
+    type: String,
+    enum: ['admin', 'bibliothecaire', 'lecteur'],
+    required: true
+  },
   prenom: {
     type: String,
     trim: true,
@@ -21,7 +26,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  categorie: String,
+  categorie: {
+    type: String,
+    enum: ['Enseignant', 'Etudiant', 'Chercheur']
+  },
   addresse: String,
   password: String,
   dateDadhesion: { type: Date, default: Date.now() },
@@ -33,9 +41,9 @@ const userSchema = new mongoose.Schema({
           ref: "Issue",
         },
       },
+      copy_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Copy' }
     },
   ],
-  address: String,
   image: {
     type: String,
     default: "",
@@ -43,6 +51,7 @@ const userSchema = new mongoose.Schema({
   violationFlag: { type: Boolean, default: false },
   fines: { type: Number, default: 0 },
   isAdmin: { type: Boolean, default: false },
+  estInscrit: { type: Boolean, default: false }
 });
 
 userSchema.plugin(passportLocalMongoose);

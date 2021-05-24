@@ -24,7 +24,7 @@ exports.postAddNewDocument = async (req, res, next) => {
         req.flash("success", `A new document named ${new_document.titre} is added to the inventory`);
         res.redirect("/admin/documentInventory/all/all/1");
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.redirect('back');
     }
 };
@@ -37,11 +37,11 @@ exports.getUpdateDocument = async (req, res, next) => {
         const document = await Document.findById(document_id).populate('copies');
 
 
-        res.render('admin/document', {
+        res.render('admin/document/document', {
             document: document,
         })
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.redirect('back');
     }
 };
@@ -59,7 +59,7 @@ exports.postUpdateDocument = async (req, res, next) => {
 
         res.redirect("/admin/documentInventory/all/all/1");
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.redirect('back');
     }
 };
@@ -76,7 +76,7 @@ exports.getDeleteDocument = async (req, res, next) => {
         res.redirect('back');
 
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.redirect('back');
     }
 };

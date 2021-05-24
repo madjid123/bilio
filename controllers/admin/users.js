@@ -1,12 +1,14 @@
 // importing dependencies
 const fs = require('fs');
+const Mongoclient = require('mongodb').MongoClient
 
+const client = Mongoclient.connect(process.env.DB_URL, { useUnifiedTopology: true })
 // importing models
 const User = require('../../models/user');
 const Activity = require('../../models/activity');
 const Issue = require('../../models/issue');
 const Comment = require('../../models/comment');
-
+const Suspension = require('../../models/suspension');
 // importing utilities
 const deleteImage = require('../../utils/delete_image');
 
@@ -32,7 +34,7 @@ exports.getUserList = async (req, res, next) => {
         });
 
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.redirect('back');
     }
 };
@@ -63,13 +65,13 @@ exports.postShowSearchedUser = async (req, res, next) => {
             });
         }
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.redirect('back');
     }
 };
 
 // admin -> flag/unflag user
-exports.getFlagUser = async (req, res, next) => {
+exports.postFlagUser = async (req, res, next) => {
     try {
         const user_id = req.params.user_id;
 
@@ -77,17 +79,40 @@ exports.getFlagUser = async (req, res, next) => {
 
         if (user.violationFlag) {
             user.violationFlag = false;
+            await Suspension.findOneAndRemove({ "user.id": user_id });
             await user.save();
             req.flash("success", `An user named ${user.prenom} ${user.nom} is just unflagged!`);
         } else {
-            user.violationFlag = true;
+            //user.violationFlag = true;
+
+            const suspension = new Suspension({
+                user: {
+                    id: user._id,
+                    numero: user.numero
+                },
+                duree: req.body.duree,
+                motif: req.body.motif,
+
+
+            }
+            )
+            let duree = Number.parseInt(req.body.duree)
+            let tday = new Date(Date.now())
+            tday.setDate(tday.getDate() + duree)
+
+            console.log(tday)
+            suspension.expireAt = (req.body.duree !== undefined) ? tday : undefined;
+
+            await suspension.save()
             await user.save();
+            //            await Suspension.updateOne({ _id: suspension._id }, { created_at: { index: { expires: "10s" } } })
+
             req.flash("warning", `An user named ${user.prenom} ${user.nom} is just flagged!`);
         }
 
         res.redirect("/admin/users/1");
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.redirect('back');
     }
 };
@@ -109,7 +134,7 @@ exports.getUserProfile = async (req, res, next) => {
             comments: comments,
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.redirect('back');
     }
 }
@@ -125,7 +150,7 @@ exports.getUserAllActivities = async (req, res, next) => {
             activities: activities
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.redirect('back');
     }
 };
@@ -140,7 +165,7 @@ exports.postShowActivitiesByCategory = async (req, res, next) => {
             activities: activities,
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.redirect('back');
     }
 };
@@ -163,7 +188,46 @@ exports.getDeleteUser = async (req, res, next) => {
 
         res.redirect("/admin/users/1");
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.redirect('back');
     }
+}
+exports.getAddPrivUser = async (req, res, next) => {
+    try {
+        res.render('signup', { isAdmin: true })
+    } catch (err) {
+        console.error(err)
+        res.redirect('back')
+    }
+
+}
+exports.postAddPrivUser = async (req, res, next) => {
+    try {
+        if (req.body.adminCode === process.env.ADMIN_SECRET) {
+            const newAdmin = new User({
+                username: req.body.username,
+                email: req.body.email,
+                type: req.body.type,
+                isAdmin: (req.body.type === 'admin') ? true : false,
+            });
+
+            const user = await User.register(newAdmin, req.body.password);
+            req.flash(
+                "success",
+                "utilisateur : " + user.username + "[" + user.type + "] a été enregistré !"
+            );
+            res.redirect("back");
+        } else {
+            req.flash("error", "Secret code does not matching!");
+            return res.redirect("back");
+        }
+    } catch (err) {
+        req.flash(
+            "error",
+            "Given info matches someone registered as User. Please provide different info for registering as Admin"
+        ); console.error(err)
+
+        return res.render("signup", { isAdmin: true });
+    }
+
 }

@@ -20,7 +20,7 @@ exports.getAdminLogout = (req, res, next) => {
 };
 
 exports.getAdminSignUp = (req, res, next) => {
-  res.render("signup");
+  res.render("signup", { isAdmin: false });
 };
 
 exports.postAdminSignUp = async (req, res, next) => {
@@ -49,7 +49,7 @@ exports.postAdminSignUp = async (req, res, next) => {
       "error",
       "Given info matches someone registered as User. Please provide different info for registering as Admin"
     );
-    return res.render("signup");
+    return res.render("signup", { isAdmin: false });
   }
 };
 
@@ -77,6 +77,7 @@ exports.postUserSignUp = async (req, res, next) => {
         categorie: categorie,
         numero: numero,
         nom: nom,
+        type: "lecteur",
         username: username,
         email: email,
         address: address,
@@ -89,7 +90,7 @@ exports.postUserSignUp = async (req, res, next) => {
       res.redirect("/admin/users/1")
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.redirect("back");
   }
 };

@@ -10,7 +10,7 @@ exports.deleteAdminProfile = async (req, res, next) => {
         await User.findByIdAndRemove(req.user._id);
         res.redirect("/");
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.redirect('back');
     }
 }
@@ -27,10 +27,10 @@ exports.postUpdateAdminProfile = async (req, res, next) => {
 
         await User.findByIdAndUpdate(user_id, update_info);
 
-        res.redirect("/admin/profile");
+        res.redirect("admin/profile");
 
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.redirect('back');
     }
 };
@@ -49,7 +49,7 @@ exports.putUpdateAdminPassword = async (req, res, next) => {
         req.flash("success", "Your password is changed recently. Please login again to confirm");
         res.redirect("/auth/admin-login");
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.redirect('back');
     }
 };

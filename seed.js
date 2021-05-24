@@ -34,11 +34,12 @@ async function seed(limit) {
                     material: faker.lorem.sentence()
                 })
                 await copy.save()
-                await document.updateOne({ $inc: { "availableCopy": 1, "stock": 1 }, $addToSet: { copies: [copy._id] } })
+                await document.updateOne({ $inc: { "availableCopies": 1, "stock": 1 }, $addToSet: { copies: [copy._id] } })
             }
         } catch (err) {
-            console.log("Error at creating documents");
+            console.log("Error while creating documents");
         }
+
     }
 }
 

@@ -9,8 +9,10 @@ const ReservationSchema = new mongoose.Schema({
     user_info: {
         user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
     },
-    //les reservations sans confirmation seront automatiquement annuler apres 3 jours.
+    //les reservations sans confirmation seront automatiquement annuler apres 3 jours.,
+
     created_at: { type: mongoose.Schema.Types.Date, default: Date.now(), index: { expires: 3 * 24 * 60 * 60 } }
 
 })
+
 module.exports = mongoose.model("Reservation", ReservationSchema)

@@ -29,7 +29,7 @@ router.get("/adminLogout", (req, res) => {
 
 // sign up
 router.get("/adminSignup", (req, res) => {
-   res.render("signup");
+   res.render("signup", { isAdmin: false });
 });
 
 router.post("/adminSignup", (req, res) => {
@@ -44,7 +44,7 @@ router.post("/adminSignup", (req, res) => {
       User.register(newAdmin, req.body.password, (err, user) => {
          if (err) {
             req.flash("error", "Given info matches someone registered as User. Please provide different info for registering as Admin");
-            return res.render("signup");
+            return res.render("signup", { isAdmin: false });
          }
          passport.authenticate("local")(req, res, function () {
             req.flash("success", "Hello, " + user.username + " Welcome to Admin Dashboard");

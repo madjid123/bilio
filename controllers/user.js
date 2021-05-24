@@ -1,8 +1,8 @@
 // importing dependencies
+require('dotenv').config()
 const sharp = require('sharp');
 const uid = require('uid');
 const fs = require('fs');
-
 
 // importing models
 const User = require("../models/user"),
@@ -56,7 +56,7 @@ exports.getUserDashboard = async (req, res, next) => {
             activities: activities,
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.redirect('back');
     }
 }
@@ -90,7 +90,7 @@ exports.putUpdatePassword = async (req, res, next) => {
         req.flash("success", "Your password is recently updated. Please log in again to confirm");
         res.redirect("/auth/user-login");
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.redirect('back');
     }
 }
@@ -118,7 +118,7 @@ exports.putUpdateUserProfile = async (req, res, next) => {
 
         res.redirect('back');
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.redirect('back');
     }
 }
@@ -146,7 +146,7 @@ exports.postUploadUserImage = async (req, res, next) => {
 
             fs.unlink(req.file.path, (err) => {
                 if (err) {
-                    console.log(err);
+                    console.error(err);
                 }
             })
         } else {
@@ -167,7 +167,7 @@ exports.postUploadUserImage = async (req, res, next) => {
 
         res.redirect("/user/1/profile");
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.redirect('back');
     }
 };
@@ -257,7 +257,7 @@ exports.postIssueDocument = async (req, res, next) => {
         await reservation.save();
         res.redirect("/documents/all/all/1");
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.redirect("back");
     }
 }
@@ -269,7 +269,7 @@ exports.getShowRenewReturn = async (req, res, next) => {
         const issue = await Issue.find({ "user_id.id": user_id });
         res.render("user/return-renew", { user: issue });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.redirect("back");
     }
 }
@@ -318,7 +318,7 @@ exports.postRenewDocument = async (req, res, next) => {
 
         res.redirect("/documents/return-renew");
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.redirect("back");
 
     }
@@ -376,7 +376,7 @@ exports.postReturnDocument = async (req, res, next) => {
         // redirecting
         res.redirect("/documents/return-renew");
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.redirect("back");
     }
 }
@@ -432,7 +432,7 @@ exports.postNewComment = async (req, res, next) => {
 
         res.redirect("/documents/details/" + document_id);
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.redirect("back");
 
     }
@@ -477,7 +477,7 @@ exports.postUpdateComment = async (req, res, next) => {
         res.redirect("/documents/details/" + document_id);
 
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.redirect("back");
     }
 
@@ -526,7 +526,7 @@ exports.deleteComment = async (req, res, next) => {
         // redirecting
         res.redirect("/documents/details/" + document_id);
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return res.redirect("back");
     }
 }
@@ -550,7 +550,7 @@ exports.deleteUserAccount = async (req, res, next) => {
 
         res.redirect("/");
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.redirect('back');
     }
 }

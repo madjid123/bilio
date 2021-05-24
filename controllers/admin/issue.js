@@ -5,6 +5,7 @@ const User = require('../../models/user');
 const Copy = require('../../models/copy');
 const Activity = require('../../models/activity');
 const Issue = require('../../models/issue');
+const { Mongoose } = require('mongoose');
 const PER_PAGE = 10
 exports.getIssues = async (req, res, next) => {
     try {
@@ -30,7 +31,7 @@ exports.getIssues = async (req, res, next) => {
         });
 
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.redirect('back');
     }
 }
@@ -38,7 +39,7 @@ exports.postSearchIssues = async (req, res, next) => {
     try {
 
     } catch (err) {
-        console.log(err)
+        console.error(err)
         console.error(err.message)
         res.redirect('back');
     }
@@ -121,7 +122,56 @@ exports.postIssueDocument = async (req, res, next) => {
         await copy.save()
         res.redirect('/admin/issues/1')
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.redirect('back')
+    }
+}
+exports.ReturnDocument = async (req, res, next) => {
+    try {
+        // finding the position
+        const issue = await Issue.findById(req.params.issue_id);
+
+        const document_id = issue.document_info.doc_id;
+        const user = await User.findById(issue.user_id.id)
+        const pos = user.copyIssueInfo.indexOf(document_id);
+
+        // fetching document from db and increament
+        const document = await Document.findById(document_id);
+        document.availableCopies += 1;
+        await document.save();
+
+        // updating availability status.
+        await Copy.findByIdAndUpdate(issue.document_info.copy_id, { isAvailable: true })
+
+        // popping document issue info from user
+        user.copyIssueInfo.splice(pos, 1);
+        await user.save();
+
+        // logging the activity
+        const activity = new Activity({
+            info: {
+                id: issue.document_info.id,
+                titre: issue.document_info.titre,
+            },
+            categorie: "Return",
+            time: {
+                id: issue._id,
+                issueDate: issue.document_info.issueDate,
+                returnDate: issue.document_info.returnDate,
+            },
+            user_id: {
+                id: user._id,
+                username: user.username,
+            },
+            admin: req.session.passport.user
+        });
+        await activity.save();
+        await issue.remove();
+
+
+        res.redirect("/admin/issues/1");
+    } catch (err) {
+        console.error(err);
+        return res.redirect("back");
     }
 }

@@ -20,8 +20,8 @@ const express = require("express"),
 
 
 // uncomment below line for first time to seed database;
-// const Seed = require('./seed');
-// Seed(10);
+//const Seed = require('./seed');
+//Seed(10);
 app.use(cors({
   origin: ['http://localhost:3000'],
   methods: ['GET', 'POST'],
@@ -48,14 +48,12 @@ mongoose
   })
   .then(() => console.log("MongoDB is connected"))
   .catch((error) => console.log(error));
-
 //PASSPORT CONFIGURATION
 
 const store = new MongoStore({
   uri: process.env.DB_URL,
   collection: "sessions",
 });
-
 app.use(
   session({
     //must be declared before passport session and initialize method
