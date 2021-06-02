@@ -53,7 +53,7 @@
                                     <div class=" row justify-content-center text-center">
                                         <div class="col form-group">
                                             <label for="">N Exemplaire</label>
-                                            <input type="text" name="copy_num" id="" class="form-control rounded-pill  "
+                                            <input type="text" name="exemplaire_num" id="" class="form-control rounded-pill  "
                                                 placeholder="N exemplaire" aria-describedby="helpId">
                                         </div>
                                         <div class="col form-group">
@@ -98,7 +98,7 @@
                                                     <%= pret.document_info.doc_id.titre %>
                                                 </td>
                                                 <td>
-                                                    <%= pret.document_info.copy_id.cote %>
+                                                    <%= pret.document_info.exemplaire_id.cote %>
                                                 </td>
                                                 <td>
                                                     <%= `${pret.user_id.id.nom} ${pret.user_id.id.prenom} ` %>

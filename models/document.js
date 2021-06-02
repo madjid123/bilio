@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Copy = require("./copy");
+const exemplaire = require("./exemplaire");
 const documentSchema = new mongoose.Schema({
     titre: String,
     compTitre: String,
@@ -15,13 +15,13 @@ const documentSchema = new mongoose.Schema({
     vedettes: String,
     copies: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Copy"
+        ref: "exemplaire"
     }
     ],
     availableCopies: { type: Number, default: 0 },
     stock: { type: Number, default: 0 }
 });
 documentSchema.post('remove', async (doc) => {
-    await Copy.deleteMany({ doc_id: doc._id })
+    await exemplaire.deleteMany({ doc_id: doc._id })
 })
 module.exports = mongoose.model("Document", documentSchema);

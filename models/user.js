@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
   addresse: String,
   password: String,
   dateDadhesion: { type: Date, default: Date.now() },
-  copypretInfo: [
+  exemplairepretInfo: [
     {
       document_info: {
         id: {
@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
           ref: "pret",
         },
       },
-      copy_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Copy' }
+      exemplaire_id: { type: mongoose.Schema.Types.ObjectId, ref: 'exemplaire' }
     },
   ],
   image: {

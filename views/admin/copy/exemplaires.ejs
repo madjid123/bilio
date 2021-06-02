@@ -36,28 +36,28 @@
 
 
 
-                                                <% copies.forEach(copy=> { %>
+                                                <% copies.forEach(exemplaire=> { %>
 
                                                     <tr>
                                                         <td>
-                                                            <%= copy.cote%>
+                                                            <%= exemplaire.cote%>
                                                         </td>
                                                         <td>
-                                                            <%= copy.localization%>
+                                                            <%= exemplaire.localization%>
                                                         </td>
                                                         <td>
-                                                            <%= copy.material%>
+                                                            <%= exemplaire.material%>
                                                         </td>
                                                         <td>
-                                                            <%= copy.landtype%>
+                                                            <%= exemplaire.landtype%>
                                                         </td>
                                                         <td>
-                                                            <%= copy.status%>
+                                                            <%= exemplaire.status%>
                                                         </td>
                                                         <td>
-                                                            <a href="/admin/document/<%=copy.doc_id%>/copies/update/<%=copy._id%>"
+                                                            <a href="/admin/document/<%=exemplaire.doc_id%>/copies/update/<%=exemplaire._id%>"
                                                                 class=" btn rounded-pill  btn-outline-primary btn-sm">Update</a>
-                                                            <a href="/admin/document/<%=copy.doc_id%>/copies/delete/<%=copy._id%>"
+                                                            <a href="/admin/document/<%=exemplaire.doc_id%>/copies/delete/<%=exemplaire._id%>"
                                                                 class=" btn rounded-pill  btn-sm btn-danger">Delete</a>
 
                                                         </td>

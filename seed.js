@@ -1,7 +1,7 @@
 const Document = require('./models/document.js');
 const faker = require('faker');
 const category = ["Science", "Biology", "Physics", "Chemistry", "Novel", "Travel", "Cooking", "Philosophy", "Mathematics", "Ethics", "Technology"];
-const Copy = require('./models/copy.js');
+const exemplaire = require('./models/exemplaire.js');
 const author = [];
 for (let i = 0; i < 11; i++) {
     author.push(faker.name.findName());
@@ -25,7 +25,7 @@ async function seed(limit) {
             });
             await document.save();
             for (let j = 0; j < 6; j++) {
-                const copy = new Copy({
+                const exemplaire = new exemplaire({
                     cote: faker.lorem.words(),
                     doc_id: document._id,
                     status: faker.lorem.word(),
@@ -33,8 +33,8 @@ async function seed(limit) {
                     landtype: faker.lorem.sentence(),
                     material: faker.lorem.sentence()
                 })
-                await copy.save()
-                await document.updateOne({ $inc: { "availableCopies": 1, "stock": 1 }, $addToSet: { copies: [copy._id] } })
+                await exemplaire.save()
+                await document.updateOne({ $inc: { "availableCopies": 1, "stock": 1 }, $addToSet: { copies: [exemplaire._id] } })
             }
         } catch (err) {
             console.log("Error while creating documents");

@@ -66,23 +66,23 @@
                                         </thead>
                                         <tbody>
 
-                                            <% document.copies.forEach(copy=> { %>
+                                            <% document.copies.forEach(exemplaire=> { %>
 
                                                 <tr>
                                                     <td>
-                                                        <%= copy.cote%>
+                                                        <%= exemplaire.cote%>
                                                     </td>
                                                     <td>
-                                                        <%= copy.localization%>
+                                                        <%= exemplaire.localization%>
                                                     </td>
                                                     <td>
-                                                        <%= copy.material%>
+                                                        <%= exemplaire.material%>
                                                     </td>
                                                     <td>
-                                                        <%= copy.landtype%>
+                                                        <%= exemplaire.landtype%>
                                                     </td>
                                                     <td>
-                                                        <%= copy.status%>
+                                                        <%= exemplaire.status%>
                                                     </td>
                                                 </tr>
                                                 <% }); %>

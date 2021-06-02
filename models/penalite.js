@@ -7,9 +7,9 @@ const penaliteSchema = new mongoose.Schema({
     },
 
     montant: Number,
-    copy_id: {
+    exemplaire_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Copy"
+        ref: "exemplaire"
     },
     date: {
         type: mongoose.Schema.Types.Date,

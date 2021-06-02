@@ -63,14 +63,14 @@ router.get("/admin/documents/add", middleware.estAdmin, adminController.document
 router.post("/admin/documents/add", middleware.estAdmin, adminController.document.postAddNewDocument)
 
 router.post("/admin/documents/add", middleware.estAdmin, adminController.document.postAddNewDocument);
-//admin -> add new copy
-router.get("/admin/document/:doc_id/copies/add", middleware.estAdmin, adminController.copy.getAddCopyDocument);
-router.post("/admin/document/:doc_id/copies/add", middleware.estAdmin, adminController.copy.postAddCopyDocument);
-//admin -> update document copy
-router.get("/admin/document/:doc_id/copies/update/:copy_id", middleware.estAdmin, adminController.copy.getUpdateCopyDocument)
-router.post("/admin/document/:doc_id/copies/update/:copy_id", middleware.estAdmin, adminController.copy.postUpdateCopyDocument)
-//admin -> delete document copy 
-router.get('/admin/document/:doc_id/copies/delete/:copy_id', middleware.estAdmin, adminController.copy.deleteCopyDocument)
+//admin -> add new exemplaire
+router.get("/admin/document/:doc_id/copies/add", middleware.estAdmin, adminController.exemplaire.getAddexemplaireDocument);
+router.post("/admin/document/:doc_id/copies/add", middleware.estAdmin, adminController.exemplaire.postAddexemplaireDocument);
+//admin -> update document exemplaire
+router.get("/admin/document/:doc_id/copies/update/:exemplaire_id", middleware.estAdmin, adminController.exemplaire.getUpdateexemplaireDocument)
+router.post("/admin/document/:doc_id/copies/update/:exemplaire_id", middleware.estAdmin, adminController.exemplaire.postUpdateexemplaireDocument)
+//admin -> delete document exemplaire 
+router.get('/admin/document/:doc_id/copies/delete/:exemplaire_id', middleware.estAdmin, adminController.exemplaire.deleteexemplaireDocument)
 
 
 //admin -> delete profile

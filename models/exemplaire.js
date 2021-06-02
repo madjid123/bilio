@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 
-const CopySchema = new mongoose.Schema({
+const exemplaireSchema = new mongoose.Schema({
     doc_id: { type: mongoose.SchemaTypes.ObjectId, ref: 'Document', required: true },
     cote: String,
     localization: String,
@@ -12,4 +12,4 @@ const CopySchema = new mongoose.Schema({
 
 })
 
-module.exports = mongoose.model("Copy", CopySchema)
+module.exports = mongoose.model("exemplaire", exemplaireSchema)

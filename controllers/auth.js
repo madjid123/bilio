@@ -31,12 +31,11 @@ exports.postAdminSignUp = async (req, res, next) => {
         email: req.body.email,
         estAdmin: true,
       });
-
       const user = await User.register(newAdmin, req.body.password);
       await passport.authenticate("local")(req, res, () => {
         req.flash(
           "success",
-          "Hello, " + user.username + " Welcome to Admin Dashboard"
+          "Bonjour, " + user.username + " Bienvenue au tableau de bord"
         );
         res.redirect("/admin");
       });

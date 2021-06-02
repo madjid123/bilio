@@ -10,12 +10,12 @@ const User = require("../models/user"),
     Document = require("../models/document"),
     pret = require("../models/pret"),
     Comment = require("../models/comment"),
-    Copy = require('../models/copy'),
+    exemplaire = require('../models/exemplaire'),
     Reservation = require("../models/reservation");
 
 // importing utilities
 const deleteImage = require('../utils/delete_image');
-const { copy } = require('../routes/admin');
+const { exemplaire } = require('../routes/admin');
 
 // GLOBAL_VARIABLES
 const PER_PAGE = 5;
@@ -29,7 +29,7 @@ exports.getUserDashboard = async (req, res, next) => {
         // fetch user info from db and populate it with related document pret
         const user = await User.findById(user_id);
 
-        if (user.copypretInfo.length > 0) {
+        if (user.exemplairepretInfo.length > 0) {
             const prets = await pret.find({ "user_id.id": user._id });
 
             for (let pret of prets) {
@@ -41,19 +41,10 @@ exports.getUserDashboard = async (req, res, next) => {
                 }
             }
         }
-        const activities = await Activity
-            .find({ "user_id.id": req.user._id })
-            .sort({ _id: -1 })
-            .skip((PER_PAGE * page) - PER_PAGE)
-            .limit(PER_PAGE);
-
-        const activity_count = await Activity.find({ "user_id.id": req.user._id }).countDocuments();
 
         res.render("user/index", {
             user: user,
             current: page,
-            pages: Math.ceil(activity_count / PER_PAGE),
-            activities: activities,
         });
     } catch (err) {
         console.error(err);
@@ -77,16 +68,6 @@ exports.putUpdatePassword = async (req, res, next) => {
         await user.changePassword(oldPassword, newPassword);
         await user.save();
 
-        // logging activity
-        const activity = new Activity({
-            categorie: "Update Password",
-            user_id: {
-                id: req.user._id,
-                username: req.user.username,
-            },
-        });
-        await activity.save();
-
         req.flash("success", "Your password is recently updated. Please log in again to confirm");
         res.redirect("/auth/user-login");
     } catch (err) {
@@ -106,15 +87,7 @@ exports.putUpdateUserProfile = async (req, res, next) => {
         }
         await User.findByIdAndUpdate(req.user._id, userUpdateInfo);
 
-        // logging activity
-        const activity = new Activity({
-            categorie: "Update Profile",
-            user_id: {
-                id: req.user._id,
-                username: req.user.username,
-            }
-        });
-        await activity.save();
+        
 
         res.redirect('back');
     } catch (err) {
@@ -156,14 +129,7 @@ exports.postUploadUserImage = async (req, res, next) => {
         user.image = imageUrl;
         await user.save();
 
-        const activity = new Activity({
-            categorie: "Upload Photo",
-            user_id: {
-                id: req.user._id,
-                username: user.username,
-            }
-        });
-        await activity.save();
+       
 
         res.redirect("/user/1/profile");
     } catch (err) {
@@ -184,7 +150,7 @@ exports.postpretDocument = async (req, res, next) => {
         return res.redirect("back");
     }
 
-    if (req.user.copypretInfo.length >= 5) {
+    if (req.user.exemplairepretInfo.length >= 5) {
         req.flash("warning", "You can't pret more than 5 documents at a time");
         return res.redirect("back");
     }
@@ -194,11 +160,11 @@ exports.postpretDocument = async (req, res, next) => {
         const user = await User.findById(req.params.user_id);
 
         // registering pret
-        var copy_id = null
-        document.copies.map(async (copy) => {
-            if (copy.isAvailable == true) {
-                copy_id = copy._id
-                await Copy.findByIdAndUpdate(copy._id, { isAvailable: false })
+        var exemplaire_id = null
+        document.copies.map(async (exemplaire) => {
+            if (exemplaire.isAvailable == true) {
+                exemplaire_id = exemplaire._id
+                await exemplaire.findByIdAndUpdate(exemplaire._id, { isAvailable: false })
                 return
             }
         })
@@ -206,7 +172,7 @@ exports.postpretDocument = async (req, res, next) => {
             pretStatus: "reserver",
             document_info: {
                 doc_id: document._id,
-                copy_id: copy_id
+                exemplaire_id: exemplaire_id
             },
             user_id: {
                 id: user._id,
@@ -219,7 +185,7 @@ exports.postpretDocument = async (req, res, next) => {
         });
         const reservation = new Reservation({
             doc_info: {
-                copy_id: copy_id
+                exemplaire_id: exemplaire_id
             },
             user_info: {
                 id: user._id,
@@ -229,7 +195,7 @@ exports.postpretDocument = async (req, res, next) => {
 
         await document.updateOne({ $inc: { "availableCopies": -1 } })
         // putting pret record on individual user document
-        user.copypretInfo.push(document._id);
+        user.exemplairepretInfo.push(document._id);
 
 
 

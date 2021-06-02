@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Copy = require("./copy")
+const exemplaire = require("./exemplaire")
 const pretSchema = new mongoose.Schema({
     pretType: String,
     pretStatus: String,
@@ -8,9 +8,9 @@ const pretSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Document',
         },
-        copy_id: {
+        exemplaire_id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Copy'
+            ref: 'exemplaire'
         },
         pretDate: { type: Date, default: Date.now() },
         //Date.now() + 7 * 24 * 60 * 60 * 1000 
@@ -39,7 +39,7 @@ const pretSchema = new mongoose.Schema({
 
 
 pretSchema.post(['remove', 'delete', 'deleteOne'], async (doc) => {
-    await Copy.findByIdAndUpdate(doc.document_info.copy_id, { $set: { isAvailable: true } })
+    await exemplaire.findByIdAndUpdate(doc.document_info.exemplaire_id, { $set: { isAvailable: true } })
 })
 const schedule = require('node-schedule');
 let i = 0

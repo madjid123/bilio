@@ -1,4 +1,4 @@
-const copy = require('./admin/copy'),
+const exemplaire = require('./admin/exemplaire'),
     users = require('./admin/users'),
     dashboard = require('./admin/dashboard'),
     pret = require('./admin/pret'),
@@ -8,5 +8,5 @@ const copy = require('./admin/copy'),
     suspensions = require('./admin/suspensions')
 module.exports = {
 
-    copy, users, dashboard, pret, profile, documents, document, suspensions
+    exemplaire, users, dashboard, pret, profile, documents, document, suspensions
 }

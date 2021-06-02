@@ -3,7 +3,7 @@
 const infogen = require('./dureepret')
 const Document = require('../../models/document');
 const User = require('../../models/user');
-const Copy = require('../../models/copy');
+const exemplaire = require('../../models/exemplaire');
 const Activity = require('../../models/activity');
 const pret = require('../../models/pret');
 const { Mongoose } = require('mongoose');
@@ -17,7 +17,7 @@ exports.getprets = async (req, res, next) => {
             .sort('-document_info.pretDate')
             .skip((PER_PAGE * page) - PER_PAGE)
             .limit(PER_PAGE)
-            .populate("document_info.copy_id")
+            .populate("document_info.exemplaire_id")
             .populate("document_info.doc_id")
             .populate("user_id.id")
             .populate("admin_id.id")
@@ -49,7 +49,7 @@ exports.postSearchprets = async (req, res, next) => {
 exports.postpretDocument = async (req, res, next) => {
     try {
         const user_num = req.body.user_num
-        const copy_num = req.body.copy_num
+        const exemplaire_num = req.body.exemplaire_num
 
         const user = await User.findOne({ numero: user_num })
         if (!user) {
@@ -62,33 +62,33 @@ exports.postpretDocument = async (req, res, next) => {
             return res.redirect("back");
         }
 
-        if (user.copypretInfo && user.copypretInfo.length >= 5) {
+        if (user.exemplairepretInfo && user.exemplairepretInfo.length >= 5) {
             req.flash("warning", "le lecteur ne peut pas prêt plus que 5 documents dans la même période");
             return res.redirect("back");
         }
 
-        const copy = await Copy.findOne({ cote: copy_num })
+        const exemplaire = await exemplaire.findOne({ cote: exemplaire_num })
 
-        if (!copy) {
+        if (!exemplaire) {
             req.flash('error', "Ce exemplaire n'existe pas")
             return res.redirect("back");
         }
 
-        // document.copies.map(async (copy) => {
-        //     if (copy.isAvailable == true) {
-        //         copy_id = copy._id
-        //         await Copy.findByIdAndUpdate(copy._id, { isAvailable: false }) //         return
+        // document.copies.map(async (exemplaire) => {
+        //     if (exemplaire.isAvailable == true) {
+        //         exemplaire_id = exemplaire._id
+        //         await exemplaire.findByIdAndUpdate(exemplaire._id, { isAvailable: false }) //         return
         //     }
         // })
-        if (copy.isAvailable === false) {
+        if (exemplaire.isAvailable === false) {
             req.flash('error', "Ce exemplaire n'est pas disponible pour le moment");
             return res.redirect('back');
         }
-        copy.isAvailable = false
-        const document = await Document.findById(copy.doc_id)
+        exemplaire.isAvailable = false
+        const document = await Document.findById(exemplaire.doc_id)
 
         var dateDeRetourne;
-        if (copy.landtype === 'consultation sur place') {
+        if (exemplaire.landtype === 'consultation sur place') {
             let tday = new Date()
             dateDeRetourne = tday.setHours(18, 0, 0)
         } else {
@@ -96,10 +96,10 @@ exports.postpretDocument = async (req, res, next) => {
         }
         const pret = new pret({
             pretStatus: "en cours",
-            pretType: copy.landtype,
+            pretType: exemplaire.landtype,
             document_info: {
-                doc_id: copy.doc_id,
-                copy_id: copy._id,
+                doc_id: exemplaire.doc_id,
+                exemplaire_id: exemplaire._id,
                 returnDate: dateDeRetourne
             },
             user_id: {
@@ -113,7 +113,7 @@ exports.postpretDocument = async (req, res, next) => {
         })
         await document.updateOne({ $inc: { "availableCopies": -1 } })
         // putting pret record on individual user document
-        user.copypretInfo.push(copy._id);
+        user.exemplairepretInfo.push(exemplaire._id);
 
         // logging the activity
         const activity = new Activity({
@@ -136,7 +136,7 @@ exports.postpretDocument = async (req, res, next) => {
         await document.save()
         await pret.save()
         await activity.save()
-        await copy.save()
+        await exemplaire.save()
         res.redirect('/admin/prets/1')
     } catch (err) {
         console.error(err);
@@ -150,7 +150,7 @@ exports.ReturnDocument = async (req, res, next) => {
 
         const document_id = pret.document_info.doc_id;
         const user = await User.findById(pret.user_id.id)
-        const pos = user.copypretInfo.indexOf(document_id);
+        const pos = user.exemplairepretInfo.indexOf(document_id);
 
         // fetching document from db and increament
         const document = await Document.findById(document_id);
@@ -158,10 +158,10 @@ exports.ReturnDocument = async (req, res, next) => {
         await document.save();
 
         // updating availability status.
-        await Copy.findByIdAndUpdate(pret.document_info.copy_id, { isAvailable: true })
+        await exemplaire.findByIdAndUpdate(pret.document_info.exemplaire_id, { isAvailable: true })
 
         // popping document pret info from user
-        user.copypretInfo.splice(pos, 1);
+        user.exemplairepretInfo.splice(pos, 1);
         await user.save();
 
         // logging the activity

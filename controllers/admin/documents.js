@@ -92,7 +92,7 @@ exports.getDocumentCopies = async (req, res, next) => {
     const doc_id = req.params.doc_id;
     try {
         var document = await Document.findById(doc_id).populate('copies');
-        res.render('admin/copy/Exemplaires', { copies: document.copies, doc_id: doc_id })
+        res.render('admin/exemplaire/Exemplaires', { copies: document.copies, doc_id: doc_id })
     }
     catch (err) {
         console.error(err)
