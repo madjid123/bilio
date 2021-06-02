@@ -12,37 +12,40 @@
                 <h4>Admin Sign Up</h4>
               </div>
               <div class="card-block">
-                <form class="p-3" action=<% if(!isAdmin) {%> "/auth/admin-signup" <%} else{%> "/admin/add" <%} %>
+                <form class="p-3" action=<% if(!estAdmin) {%> "/auth/admin-signup" <%} else{%> "/admin/add" <%} %>
                       method="POST">
 
                       <div class="form-group">
-                        <label class="form-control-label">Pick a username</label>
-                        <input type="text" name="username" placeholder="Username" class="form-control" required>
+                        <label class="form-label">Pick a username</label>
+                        <input type="text" name="username" placeholder="Username" class="form-control rounded-pill  "
+                          required>
                       </div>
 
                       <div class="form-group">
-                        <label class="form-control-label">Email</label>
-                        <input type="email" name="email" placeholder="Email" class="form-control" required>
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" placeholder="Email" class="form-control rounded-pill  "
+                          required>
                       </div>
                       <div class="form-group">
-                        <label class="form-control-label">Type</label>
-                        <select class="form-control" name='type'>
+                        <label class="form-label">Type</label>
+                        <select class="form-control rounded-pill  " name='type'>
                           <option value="admin">Administrateur</option>
                           <option value="bibliothecaire">bibliothécaire</option>
                         </select>
                       </div>
                       <div class="form-group">
-                        <label class="form-control-label">Password</label>
-                        <input type="password" name="password" placeholder="Password" class="form-control" required>
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" placeholder="Password"
+                          class="form-control rounded-pill  " required>
                       </div>
 
                       <div class="form-group">
-                        <label class="form-control-label">Secret Code</label>
-                        <input type="text" name="adminCode" placeholder="Enter the secret code" class="form-control"
-                          required>
+                        <label class="form-label">Secret Code</label>
+                        <input type="text" name="adminCode" placeholder="Enter the secret code"
+                          class="form-control rounded-pill  " required>
                       </div>
 
-                      <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                      <button type="submit" class=" btn rounded-pill  btn-primary btn-block">Submit</button>
                 </form>
               </div>
             </div>

@@ -5,138 +5,99 @@
 
         <!--BOOK DETAILS-->
 
-        <div class="container mt-3">
-            <div class="row justify-content-center">
-                <div class="col-md-10">
-                    <div class="card">
+        <div class="container mt-3 mb-3 rounded-pill">
+            <div class="row justify-content-center mb-3">
+                <div class="col-md-10 mb-4">
+                    <div class="card ">
                         <div class="card-header">
                             <h4 class="text-center">
                                 <%= document.titre %>
                             </h4>
                         </div>
-                        <small class="text-muted px-3 py-2">Author : <%= document.auteur %> </small>
-                        <small class="text-muted px-3 py-2">ISBN : <%= document.ISBN %> </small>
-                        <small class="text-muted px-3 py-2">Category : <%= document.categorie %> </small>
-                        <small class="text-muted px-3 py-2">In Stock : <%= document.stock %> </small>
-                        <div class="card-body">
-                            <a>Description :</a>
-                            <p class="card-text">
-                                <%- document.resume %>
-                            </p>
-                            <h4>Exemplaires :</h4>
-                            <table class="table table-striped">
+                        <small class="px-3 py-2">
+                            <a class="font-weight-bold" font="bold">Auteurs :</a>
+                            <%= document.auteur %>
+                        </small>
+                        <small class="px-3 py-2"> <a class="font-weight-bold" font="bold">ISBN : </a>
+                            <%= document.ISBN %>
+                        </small>
+                        <small class="px-3 py-2"><a class="font-weight-bold" font="bold">Categorie : </a>
+                            <%= document.categorie %>
+                        </small>
+                        <small class="px-3 py-2"><a class="font-weight-bold" font="bold">Année
+                                <%=(document.type==='Livre' )? "d'edition" :"" %>:
+                            </a>
+                            <%= document.annee %>
+                        </small>
+                        <%if(document.edition !==undefined) {%>
+                            <small class="px-3 py-2"><a class="font-weight-bold" font="bold">Edition: </a>
+                                <%= document.edition%>
+                            </small>
+                            <%}%>
+                                <small class="px-3 py-2"><a class="font-weight-bold" font="bold">type de document:
+                                    </a>
+                                    <%= document.type%>
+                                </small>
+                                <small class="px-3 py-2"><a class="font-weight-bold" font="bold">Langue:
+                                    </a>
+                                    <%= document.lang%>
+                                </small>
+                                <small class="px-3 py-2"><a class="font-weight-bold" font="bold">Nombre d'exemplaire :
+                                    </a>
+                                    <%= document.stock %>
+                                </small>
 
-                                <thead class="thead-inverse">
-                                    <tr>
-                                        <th>cote</th>
-                                        <th>localisation</th>
-                                        <th>support</th>
-                                        <th>type de pret</th>
-                                        <th>statut</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                                <div class="card-body">
+                                    <a class="font-weight-bold" font="bold">Résume: </a>
+                                    <p class="card-text">
+                                        <%- document.resume %>
+                                    </p>
+                                    <h4>Exemplaires :</h4>
+                                    <table class="table table">
 
-                                    <% document.copies.forEach(copy=> { %>
+                                        <thead class="thead-inverse thead-dark">
+                                            <tr>
+                                                <th>cote</th>
+                                                <th>localisation</th>
+                                                <th>support</th>
+                                                <th>type de pret</th>
+                                                <th>statut</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
-                                        <tr>
-                                            <td>
-                                                <%= copy.cote%>
-                                            </td>
-                                            <td>
-                                                <%= copy.localization%>
-                                            </td>
-                                            <td>
-                                                <%= copy.material%>
-                                            </td>
-                                            <td>
-                                                <%= copy.landtype%>
-                                            </td>
-                                            <td>
-                                                <%= copy.status%>
-                                            </td>
-                                        </tr>
-                                        <% }); %>
+                                            <% document.copies.forEach(copy=> { %>
 
-                                </tbody>
-                            </table>
+                                                <tr>
+                                                    <td>
+                                                        <%= copy.cote%>
+                                                    </td>
+                                                    <td>
+                                                        <%= copy.localization%>
+                                                    </td>
+                                                    <td>
+                                                        <%= copy.material%>
+                                                    </td>
+                                                    <td>
+                                                        <%= copy.landtype%>
+                                                    </td>
+                                                    <td>
+                                                        <%= copy.status%>
+                                                    </td>
+                                                </tr>
+                                                <% }); %>
 
-                        </div>
+                                        </tbody>
+                                    </table>
 
-                        <div class="card my-3 bg-light">
-                            <% if(currentUser) { %>
-                                <p class="p-3">
-                                    <button class="btn btn-primary float-right" type="button" data-toggle="collapse"
-                                        data-target="#collapseCommentBox" aria-expanded="false"
-                                        aria-controls="collapseCommentBox">
-                                        Leave a comment
-                                    </button>
-                                </p>
-                                <div class="collapse" id="collapseCommentBox">
-                                    <form action="/documents/details/<%=document._id%>/comment" method="POST">
-                                        <textarea name="comment" class="form-control"></textarea>
-                                        <input type="submit" class="btn btn-outline-success btn-sm m-1 float-right">
-                                    </form>
                                 </div>
 
-                                <% } %>
 
-
-                                    <ul class="list-group list-group-flush">
-
-                                        <%document.comments.forEach((comment)=> { %>
-                                            <li class="list-group-item">
-
-                                                <strong>
-                                                    <%=comment.auteur.username%>
-                                                </strong>
-                                                <span><em> at <%=comment.date.toDateString()%></em></span>
-                                                <p>
-                                                    <%=comment.text%>
-                                                </p>
-
-                                                <% if(currentUser && comment.auteur.id.equals(currentUser._id)) {%>
-
-                                                    <button id="edit" class="btn btn-primary px-1 py-0">
-                                                        <i class="fa fa-pencil"></i>
-                                                    </button>
-
-                                                    <form class="d-inline"
-                                                        action="/documents/details/<%=document._id%>/<%=comment._id%>?_method=DELETE"
-                                                        method="POST">
-                                                        <button class="btn btn-sm btn-danger px-1 py-0">
-                                                            <i class="fa fa-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                    <% } %>
-
-                                                        <div class="d-none" id="editCommentBox">
-                                                            <form
-                                                                action="/documents/details/<%=document._id%>/<%=comment._id%>"
-                                                                method="POST">
-                                                                <textarea name="comment[text]"
-                                                                    class="form-control"><%=comment.text%></textarea>
-                                                                <input type="submit"
-                                                                    class="btn btn-outline-success btn-sm m-1 float-right">
-                                                            </form>
-                                                        </div>
-
-
-
-                                            </li>
-                                            <% }); %>
-                                    </ul>
-                        </div>
                     </div>
                 </div>
             </div>
 
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-            <script>
-                $('button').on('click', function () {
-                    $(this).prev().toggleClass('d-none');
-                    $(this).next().next().toggleClass('d-none');
-                });
-            </script>
-            <% include ../partials/footer %>
+        <% include ../partials/footer %>

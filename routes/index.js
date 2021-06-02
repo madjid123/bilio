@@ -7,7 +7,7 @@ const User = require("../models/user");
 
 //landing page
 router.get('/', (req, res) => {
-   res.render("landing");
+   res.render("/documents/all/all/1");
 });
 
 //admin login handler
@@ -29,7 +29,7 @@ router.get("/adminLogout", (req, res) => {
 
 // sign up
 router.get("/adminSignup", (req, res) => {
-   res.render("signup", { isAdmin: false });
+   res.render("signup", { estAdmin: false });
 });
 
 router.post("/adminSignup", (req, res) => {
@@ -38,13 +38,13 @@ router.post("/adminSignup", (req, res) => {
       const newAdmin = new User({
          username: req.body.username,
          email: req.body.email,
-         isAdmin: true,
+         estAdmin: true,
       });
 
       User.register(newAdmin, req.body.password, (err, user) => {
          if (err) {
             req.flash("error", "Given info matches someone registered as User. Please provide different info for registering as Admin");
-            return res.render("signup", { isAdmin: false });
+            return res.render("signup", { estAdmin: false });
          }
          passport.authenticate("local")(req, res, function () {
             req.flash("success", "Hello, " + user.username + " Welcome to Admin Dashboard");

@@ -7,7 +7,7 @@ if (process.env.NODE_ENV !== "production") require("dotenv").config();
 const User = require("../models/user");
 
 exports.getLandingPage = (req, res, next) => {
-  res.render("landing");
+  res.redirect("/documents/all/all/1");
 };
 
 exports.getAdminLoginPage = (req, res, next) => {
@@ -20,7 +20,7 @@ exports.getAdminLogout = (req, res, next) => {
 };
 
 exports.getAdminSignUp = (req, res, next) => {
-  res.render("signup", { isAdmin: false });
+  res.render("signup", { estAdmin: false });
 };
 
 exports.postAdminSignUp = async (req, res, next) => {
@@ -29,7 +29,7 @@ exports.postAdminSignUp = async (req, res, next) => {
       const newAdmin = new User({
         username: req.body.username,
         email: req.body.email,
-        isAdmin: true,
+        estAdmin: true,
       });
 
       const user = await User.register(newAdmin, req.body.password);
@@ -49,7 +49,7 @@ exports.postAdminSignUp = async (req, res, next) => {
       "error",
       "Given info matches someone registered as User. Please provide different info for registering as Admin"
     );
-    return res.render("signup", { isAdmin: false });
+    return res.render("signup", { estAdmin: false });
   }
 };
 
@@ -81,6 +81,7 @@ exports.postUserSignUp = async (req, res, next) => {
         username: username,
         email: email,
         address: address,
+        suspension_id: undefined
       });
 
 

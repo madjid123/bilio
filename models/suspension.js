@@ -1,6 +1,6 @@
 require('dotenv').config()
 const mongoose = require('mongoose')
-const User = require('./user')
+//const User = require('./user')
 const MongoClient = require('mongodb').MongoClient
 const { MongoCron } = require('mongodb-cron');
 const mongo = new MongoClient(process.env.DB_URL, { useUnifiedTopology: true, useNewUrlParser: true })
@@ -14,11 +14,10 @@ const suspensionSchema = new mongoose.Schema({
     },
     motif: String,
     duree: Number,
-    expires: Date,
     expireAt: Date
 
 })
-//suspensionSchema.index({ "expireAt": 1 }, { expireAfterSeconds: 0 })
+suspensionSchema.index({ "expireAt": 1 }, { expireAfterSeconds: 0 })
 
 suspensionSchema.post(['remove', 'findOneAndRemove', 'deleteOne', 'deleteMany', 'findOneAndDelete'], async (doc, next) => {
     console.log(doc)
@@ -26,17 +25,19 @@ suspensionSchema.post(['remove', 'findOneAndRemove', 'deleteOne', 'deleteMany', 
     console.log("done deleting")
     next()
 })
-suspensionSchema.post('save', async (doc, next) => {
-    console.log(doc)
-    await User.findByIdAndUpdate(doc.user.id, {
-        $set: {
-            violationFlag
-                : true
-        }
-    })
-    next()
-    console.log("done")
-})
+// suspensionSchema.post('save', async (doc, next) => {
+//     console.log(doc)
+//     await User.findOneAndUpdate({ _id: doc.user.id }, {
+//         $set: {
+//             suspension_id: doc._id,
+//             violationFlag
+//                 : true
+
+//         }
+//     })
+//     next()
+//     console.log("done")
+// })
 
 const runjob = async () => {
     await mongo.connect()
@@ -54,5 +55,5 @@ const runjob = async () => {
         interval: '* * * * * *', // every second
     });
 }
-runjob()
+//runjob()
 module.exports = mongoose.model("Suspension", suspensionSchema)

@@ -1,11 +1,12 @@
 const copy = require('./admin/copy'),
     users = require('./admin/users'),
     dashboard = require('./admin/dashboard'),
-    issue = require('./admin/issue'),
+    pret = require('./admin/pret'),
     profile = require('./admin/profile'),
     documents = require('./admin/documents'),
-    document = require('./admin/document');
+    document = require('./admin/document'),
+    suspensions = require('./admin/suspensions')
 module.exports = {
 
-    copy, users, dashboard, issue, profile, documents, document
+    copy, users, dashboard, pret, profile, documents, document, suspensions
 }

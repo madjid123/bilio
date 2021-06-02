@@ -7,46 +7,33 @@ const express = require("express"),
 const userController = require('../controllers/user');
 
 // user -> dashboard
-router.get("/user/:page", middleware.isLoggedIn, userController.getUserDashboard);
+router.get("/user/:page", middleware.estConnecte, userController.getUserDashboard);
 
 // user -> profile
-router.get("/user/:page/profile", middleware.isLoggedIn, userController.getUserProfile);
+router.get("/user/:page/profile", middleware.estConnecte, userController.getUserProfile);
 
 //user -> upload image
-router.post("/user/1/image", middleware.isLoggedIn, userController.postUploadUserImage);
+router.post("/user/1/image", middleware.estConnecte, userController.postUploadUserImage);
 
 //user -> update password
-router.put("/user/1/update-password", middleware.isLoggedIn, userController.putUpdatePassword);
+router.put("/user/1/update-password", middleware.estConnecte, userController.putUpdatePassword);
 
 //user -> update profile
-router.put("/user/1/update-profile", middleware.isLoggedIn, userController.putUpdateUserProfile);
+router.put("/user/1/update-profile", middleware.estConnecte, userController.putUpdateUserProfile);
 
 //user -> notification
-router.get("/user/1/notification", middleware.isLoggedIn, userController.getNotification);
+router.get("/user/1/notification", middleware.estConnecte, userController.getNotification);
 
-//user -> issue a document
-router.post("/documents/:document_id/issue/:user_id", middleware.isLoggedIn, userController.postIssueDocument);
+//user -> pret a document
+router.post("/documents/:document_id/pret/:user_id", middleware.estConnecte, userController.postpretDocument);
 
 //user -> show return-renew page
-router.get("/documents/return-renew", middleware.isLoggedIn, userController.getShowRenewReturn);
+router.get("/documents/return-renew", middleware.estConnecte, userController.getShowRenewReturn);
 
 //user -> renew document
-router.post("/documents/:document_id/renew", middleware.isLoggedIn, middleware.isLoggedIn, userController.postRenewDocument);
-
-// user -> return document
-
-router.post("/documents/:document_id/return", middleware.isLoggedIn, userController.postReturnDocument);
-
-//user -> create new comment
-router.post("/documents/details/:document_id/comment", middleware.isLoggedIn, userController.postNewComment);
-
-//user -> update existing comment
-router.post("/documents/details/:document_id/:comment_id", middleware.isLoggedIn, userController.postUpdateComment);
-
-//user -> delete existing comment
-router.delete("/documents/details/:document_id/:comment_id", middleware.isLoggedIn, userController.deleteComment);
+router.post("/documents/:document_id/renew", middleware.estConnecte, middleware.estConnecte, userController.postRenewDocument);
 
 // user -> delete user account
-router.delete("/user/1/delete-profile", middleware.isLoggedIn, userController.deleteUserAccount);
+router.delete("/user/1/delete-profile", middleware.estConnecte, userController.deleteUserAccount);
 
 module.exports = router;

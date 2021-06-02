@@ -2,26 +2,33 @@ const multer = require("multer");
 
 const middleware = {};
 
-middleware.isLoggedIn = function (req, res, next) {
+middleware.estConnecte = function (req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
-    req.flash("error", "You need to be logged in first");
+    req.flash("error", "Vous devez être connecté pour y accéder");
     res.redirect("/");
 };
 
-middleware.isAdmin = function (req, res, next) {
+middleware.estAdmin = function (req, res, next) {
     if (req.isAuthenticated() && req.user.type === 'admin') {
         return next();
     }
-    req.flash("error", "Sorry, this route is allowed for admin only");
+    req.flash("error", "Accés est permis que pour l'administrateur");
+    res.redirect("/");
+};
+middleware.estLecteur = function (req, res, next) {
+    if (req.isAuthenticated() && req.user.type === 'lecteur') {
+        return next();
+    }
+    req.flash("error", "Accés réserver au lecteur");
     res.redirect("/");
 };
 middleware.estBibliothecaire = (req, res, next) => {
     if (req.isAuthenticated() && req.user.type === 'bibliothecaire') {
         return next()
     }
-    req.flash("error", "Accéss est permis que pour le bibliothecaire ")
+    req.flash("error", "Accés réserver bibliothecaire ")
     res.redierct('/')
 }
 middleware.upload = multer({

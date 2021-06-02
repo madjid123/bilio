@@ -4,14 +4,8 @@
   <!--NAVIGATION BAR FOR ADMIN-->
   <% include ../../partials/adminNav %>
 
-    <header id="main-header" class="py-2 bg-primary text-white">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <h1><i class="fa fa-users"></i> Users</h1>
-          </div>
-        </div>
-      </div>
+    <header id="main-header" class="py-2  text-center">
+      <h1><i class="fa fa-users"></i> Users</h1>
     </header>
 
     <!-- ACTIONS -->
@@ -19,17 +13,17 @@
       <div class="container">
         <div class="row">
           <div class="col-md-3 mr-auto">
-            <a href="/admin" class="btn btn-light btn-block">
-              <i class="fa fa-arrow-left"></i> Back To Dashboard
+            <a href="/admin" class=" btn rounded-pill  btn-light btn-block">
+              <i class="fa fa-arrow-left"></i> Retourner au tableau de bord
             </a>
           </div>
           <div class="col-md-6">
             <form action="/admin/users/1" method="POST">
               <div class="input-group">
-                <input name="searchUser" type="text" class="form-control"
+                <input name="searchUser" type="text" class="form-control rounded-pill  "
                   placeholder="Search User by First Name, Last Name, username, E-mail">
                 <span class="input-group-btn">
-                  <button class="btn btn-primary">Search</button>
+                  <button class=" btn rounded-pill  btn-primary">Search</button>
                 </span>
               </div>
             </form>
@@ -57,15 +51,13 @@
                 <table class="table table-striped" style="overflow: auto">
                   <thead class="thead-inverse text-center justify-content-center">
                     <tr class="justify-content-center">
-                      <th class='py-3'>Name</th>
-                      <th class='py-3'>User name</th>
+                      <th class='py-3'>Nom</th>
+                      <th class='py-3'>Username</th>
                       <th class='py-3'>Email</th>
-                      <th class='py-3'>Date Regisetered</th>
-                      <th class='py-3'>Violation flag</th>
-                      <th class='py-3'>Fine</th>
+                      <th class='py-3'>Date d'adhéstion</th>
                       <th>
 
-                        <a href='/auth/user-signup/' class="btn btn-primary gx-0 text-white"><i
+                        <a href='/auth/user-signup/' class=" btn rounded-pill  btn-primary gx-0 text-white"><i
                             class='bi bi-plus-circle'></i> Lecteur</a>
 
                       </th>
@@ -74,13 +66,13 @@
                   <tbody>
 
                     <% users.forEach(user=> { %>
-                      <% if (user.isAdmin) return; %>
-                        <tr>
+                      <% if (user.estAdmin) return; %>
+                        <tr class='<%=(user.violationFlag)? "table-danger": ""%>'>
                           <td>
                             <%=user.prenom + " " + user.nom%>
                           </td>
                           <td>
-                            <a href="/admin/users/profile/<%=user._id%>" title="Visit this user">
+                            <a href="/admin/users/profile/<%=user._id%>" Titre="Visit this user">
                               <%=user.username%>
                             </a>
                           </td>
@@ -91,21 +83,16 @@
                             <%=user.dateDadhesion.toDateString()%>
                           </td>
                           <td>
-                            <%=user.violationFlag%>
-                          </td>
-                          <td>$<%=user.fines%>
-                          </td>
-                          <td>
                             <div style='display:flex; justify-content: center; ' class=''>
-                              <%if(user.copyIssueInfo.length> 0) { %>
+                              <%if(user.copypretInfo.length> 0) { %>
                                 <a href="/admin/users/delete/<%=user._id%>"
-                                  title="This user has documents in possession. Are you sure to delete this user?"
-                                  class="btn btn-sm btn-danger m-1">
+                                  Titre="This user has documents in possession. Are you sure to delete this user?"
+                                  class=" btn rounded-pill  btn-sm btn-danger m-1">
                                   <i class="fa fa-trash"></i>
                                 </a>
                                 <% } else { %>
                                   <a href="/admin/users/delete/<%=user._id%>" titre="Delete User"
-                                    class="btn btn-sm btn-danger">
+                                    class=" btn rounded-pill  btn-sm btn-danger">
                                     <i class="fa fa-trash"></i>
                                   </a>
                                   <% } %>
@@ -113,13 +100,13 @@
                                     <% if(user.violationFlag) { %>
                                       <form action='/admin/users/flagged/<%=user._id%>' method='post'>
                                         <button type='submit' titre=" Lift the flag"
-                                          class=" btn btn-sm  mx-1 btn-warning">
+                                          class="  btn rounded-pill  btn-sm  mx-1 btn-warning">
                                           <i class="fa fa-flag"></i>
                                         </button>
                                       </form>
 
                                       <% } else { %>
-                                        <div class="modal fade" id="supendlect">
+                                        <div class="modal fade" id="supendlect<%=user._id%>">
                                           <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
                                               <div class="modal-header bg-danger text-white">
@@ -132,21 +119,21 @@
                                               <div class="modal-body">
                                                 <form action="/admin/users/flagged/<%=user._id%>" method="POST">
                                                   <div class="form-group">
-                                                    <label class="form-control-label"> Durée</label>
-                                                    <input type="number" class="form-control"
+                                                    <label class="form-label"> Durée</label>
+                                                    <input type="number" class="form-control rounded-pill  "
                                                       placeholder="nombre de jours" name="duree">
-                                                    <label class="form-control-label">Motif </label>
-                                                    <input type="number" class="form-control" name="motif"
-                                                      placeholder="nombre de jours">
+                                                    <label class="form-label">Motif </label>
+                                                    <input type="text" class="form-control rounded-pill  " name="motif"
+                                                      placeholder="motif">
                                                   </div>
                                                   <div class="row">
                                                     <div class="col">
                                                       <input type="submit" value="supendre"
-                                                        class="btn btn-danger btn-block m-1">
+                                                        class=" btn rounded-pill  btn-danger btn-block m-1">
                                                     </div>
                                                     <div class="col">
                                                       <input type="button" value="annuler" data-dismiss="modal"
-                                                        class="btn btn-outline-primary btn-block m-1">
+                                                        class=" btn rounded-pill  btn-outline-primary btn-block m-1">
                                                     </div>
                                                   </div>
                                                 </form>
@@ -156,8 +143,9 @@
                                           </div>
                                         </div>
                                         <a href="/admin/users/flagged/<%=user._id%>" titre="Warn user"
-                                          class="btn btn-sm btn-success mx-1" data-toggle="modal"
-                                          data-target="#supendlect">
+                                          class=" btn rounded-pill  btn-sm btn-success mx-1" data-toggle="modal"
+                                          data-target="#supendlect<%=user._id%>">
+
                                           <i class="fa fa-flag"></i>
                                         </a>
                                         <% } %>
@@ -180,7 +168,7 @@
 
                             <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %>
                               <% if (i !==1) { %>
-                                <li class="page-item disabled"><a class="page-link">..../../a></li>
+                                <li class="page-item disabled"><a class="page-link">....</li>
                                 <% } %>
                                   <% for (; i <=(Number(current) + 4) && i <=pages; i++) { %>
                                     <% if (i==current) { %>
@@ -193,7 +181,7 @@
                                           </a> </li>
                                         <% } %>
                                           <% if (i==Number(current) + 4 && i < pages) { %>
-                                            <li class="page-item disabled"><a class="page-link">..../../a></li>
+                                            <li class="page-item disabled"><a class="page-link">....</li>
                                             <% } %>
                                               <% } %>
                                                 <% if (current==pages) { %>

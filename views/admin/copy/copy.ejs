@@ -8,27 +8,27 @@
                 <div class="col-md-8">
                     <form action="/admin/document/<%= doc_id%>/copies/update/<%=copy._id%>" method="POST">
                         <div class="form-group">
-                            <label for="titre" class="form-control-label">Cote</label>
-                            <input name="document[cote]" type="text" class="form-control" value="<%-copy.cote%>"
-                                required>
+                            <label for="titre" class="form-label">Cote</label>
+                            <input name="document[cote]" type="text" class="form-control rounded-pill  "
+                                value="<%-copy.cote%>" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="auteur" class="form-control-label">localisation</label>
-                            <input name="document[localization]" type="text" class="form-control"
+                            <label for="auteur" class="form-label">localisation</label>
+                            <input name="document[localization]" type="text" class="form-control rounded-pill  "
                                 value="<%-copy.localization%>" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="categorie" class="form-control-label">Statut</label>
-                            <input name="document[status]" type="text" class="form-control" value="<%-copy.status%>"
-                                required>
+                            <label for="categorie" class="form-label">Statut</label>
+                            <input name="document[status]" type="text" class="form-control rounded-pill  "
+                                value="<%-copy.status%>" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="auteur" class="form-control-label">Type de pret</label>
-                            <select name="document[landtype]" class="form-control-select" value="<%-copy.landtype%>"
-                                default='' required>
+                            <label for="auteur" class="form-label">Type de pret</label>
+                            <select name="document[landtype]" class="form-control rounded-pill  -select"
+                                value="<%-copy.landtype%>" default='' required>
                                 <option value="--">--</option>
                                 <option value="pret externe">pret externe</option>
                                 <option value="consulation sur place">consulation sur place</option>
@@ -37,7 +37,7 @@
 
                         </div>
 
-                        <button class="btn btn-block btn-primary">Update</button>
+                        <button class=" btn rounded-pill  btn-block btn-primary">Update</button>
                     </form>
                 </div>
             </div>

@@ -5,7 +5,7 @@ const express = require("express"),
 // Importing controller
 const documentController = require('../controllers/documents');
 
-// Browse documents
+// Parcourir les documents
 router.get("/documents/:filter/:value/:page", documentController.getDocuments);
 
 // Fetch documents by search value

@@ -1,55 +1,11 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark p-0 sticky-right">
-  <div class="container">
-    <a class="navbar-brand" href="/admin">Home</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav">
-
-        <li class="nav-item px-2">
-          <a class="nav-link" href="/admin/documentInventory/all/all/1">Document Inventory</a>
-        </li>
-
-        <li class="nav-item px-2">
-          <a class="nav-link" href="/admin/users/1">Users</a>
-        </li>
-
-        <li class="nav-item px-2">
-          <a class="nav-link" href="/admin/documents/add">Add Documents</a>
-        </li>
-
-        <li class="nav-item px-2">
-          <a class="nav-link" href="/documents/all/all/1">Browse Documents</a>
-        </li>
-
-      </ul>
-
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item dropdown mr-3">
-          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-            <i class="far fa-user"></i> Welcome <%=currentUser.username%>
-          </a>
-          <div class="dropdown-menu">
-            <a href="/admin/profile" class="dropdown-item">
-              <i class="far fa-user-circle"></i> Profile
-            </a>
-
-            <a href="/auth/admin-logout" class="dropdown-item">
-              <i class="fa fa-user-times"></i> Logout
-            </a>
-          </div>
-        </li>
-        <!-- <li class="nav-item">
+<!-- <li class="nav-item">
               <a href="/admin/notifications" class="nav-link">
                   <i class="fa fa-bell"></i><span class="badge badge-danger badge-pill">2</span>
               </a>
             </li> -->
-      </ul>
-    </div>
-  </div>
+</ul>
+</div>
+</div>
 
 </nav>
 <div class="row flex-nowrap p-0 m-0">
@@ -103,14 +59,15 @@
                 <a href="/admin/users/1" class="nav-link px-0"> <span class="d-none d-sm-inline">Lecteurs</span></a>
               </li>
               <li>
-                <a href="/admin/issues/1" class="nav-link px-0"> <span class="d-none d-sm-inline">Exemplaires</span></a>
+                <a href="/admin/prets/1" class="nav-link px-0"> <span class="d-none d-sm-inline">Exemplaires</span></a>
               </li>
               <li>
                 <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0"> <span
                     class="d-none d-sm-inline">Administration</span></a>
                 <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#submenu2">
                   <li> <a class="nav-link px-0" href="#"> <span class="d-none d-sm-inline">Penalitees</span></a></li>
-                  <li> <a class="nav-link px-0" href="#"> <span class="d-none d-sm-inline">Suspensions</span></a></li>
+                  <li> <a class="nav-link px-0" href="/admin/suspensions/1"> <span
+                        class="d-none d-sm-inline">Suspensions</span></a></li>
 
                 </ul>
               </li>
@@ -123,17 +80,18 @@
       <div class="dropdown pb-4">
         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1"
           data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
-          <span class="d-none d-sm-inline mx-1">loser</span>
+          <img src="<%= (currentUser.image)?`${currentUser.image}` : `images/profile.png`%>" alt="hugenerd" width="30"
+            height="30" class="rounded-circle">
+          <span class="d-none d-sm-inline mx-1">
+            <%= currentUser.username%>
+          </span>
         </a>
         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-          <li><a class="dropdown-item" href="#">New project...</a></li>
-          <li><a class="dropdown-item" href="#">Settings</a></li>
-          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li><a href='/admin/profile' class="dropdown-item" href="#">Profile</a></li>
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li><a class="dropdown-item" href="/auth/admin-logout">Sign out</a></li>
+          <li><a class="dropdown-item" href="/auth/admin-logout">déconnecter</a></li>
         </ul>
       </div>
     </div>

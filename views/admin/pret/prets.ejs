@@ -3,190 +3,189 @@
 
     <!--NAVIGATION BAR FOR ADMIN-->
     <% include ../../partials/adminNav %>
-        <% include ../../partials/alerts%>
-            <header id="main-header" class="py-3 bg-primary text-white">
-                <div class="container">
+        <header id="main-header" class="py-3 bg-primary text-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h1><i class="fa fa-pencil"></i> Gestion des prêts</h1>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!--ACTIONS-->
+        <section id="search_bar" class="my-3 m-1 py-4 bg-light">
+            <div class="container  text-white">
+                <form action="/admin/documentInventory/all/all/1" method="POST">
                     <div class="row">
-                        <div class="col-md-6">
-                            <h1><i class="fa fa-pencil"></i> Gestion des prêts</h1>
+                        <div class="col-md-5 p-1">
+                            <select name="filter" class="form-control rounded-pill  ">
+                                <option selected disabled>Select Option
+                                </option>
+                                <option name="titre">N° Exemplaire</option>
+                                <option name="auteur">N° Etudiant</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-5 p-1">
+                            <input name="searchName" type="text" class="form-control rounded-pill  "
+                                placeholder="Recherche utlisateurs">
+                        </div>
+
+                        <div class="col-md-2 p-1">
+                            <input type="submit" class=" btn rounded-pill  btn-outline-primary btn-block"
+                                value="Search">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <% include ../../partials/alerts %>
+
+            <!-- BOOK INVENTORY -->
+            <section id="documentInventory" class="mt-5">
+                <div class="container m-0 p-0">
+                    <div class=" row">
+                        <form action='/admin/pret/add' method='post' class="form">
+                            <div class="col ">
+                                <div class="card p-4 ">
+                                    <div class=" row justify-content-center text-center">
+                                        <div class="col form-group">
+                                            <label for="">N Exemplaire</label>
+                                            <input type="text" name="copy_num" id="" class="form-control rounded-pill  "
+                                                placeholder="N exemplaire" aria-describedby="helpId">
+                                        </div>
+                                        <div class="col form-group">
+                                            <label for="">N lecteur</label>
+                                            <input type="text" name="user_num" id="" class="form-control rounded-pill  "
+                                                placeholder="N lecteur" aria-describedby="helpId">
+                                        </div>
+                                        <div class=" form-group"> <input type='submit'
+                                                class=" btn rounded-pill  px-5 btn-primary " value="Effectuer un prêt">
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <div class="container mt-5 p-0">
+                    <div class="row p-2">
+                        <div class="col">
+                            <div class="col card text-white">
+                                <table class="table table-striped">
+                                    <thead class="thead-inverse">
+                                        <tr>
+                                            <th>Titre du document</th>
+                                            <th>Cote d'exemplaire</th>
+                                            <th>nom et prenom</th>
+                                            <th>numero du lecteur</th>
+                                            <th>date du pret</th>
+                                            <th>date de retourne</th>
+                                            <th>Edit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% prets.forEach(pret=> { %>
+
+                                            <tr>
+                                                <td>
+                                                    <%= pret.document_info.doc_id.titre %>
+                                                </td>
+                                                <td>
+                                                    <%= pret.document_info.copy_id.cote %>
+                                                </td>
+                                                <td>
+                                                    <%= `${pret.user_id.id.nom} ${pret.user_id.id.prenom} ` %>
+                                                </td>
+                                                <td>
+                                                    <%= pret.user_id.id.numero %>
+                                                </td>
+                                                <td>
+                                                    <%= pret.document_info.pretDate.toDateString() %>
+                                                </td>
+                                                <td>
+                                                    <%= pret.document_info.returnDate.toDateString() %>
+                                                </td>
+                                                <td>
+                                                    <span class='text-white justify-content-center text-center'>
+                                                        <a href="/admin/pret/return/<%=pret._id%>"
+                                                            class=" btn rounded-pill  btn-danger btn-sm m-1">Retourner</a>
+
+                                                        >
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <% }); %>
+
+                                    </tbody>
+                                </table>
+
+                                <% if (pages> 0) { %>
+                                    <nav class="ml-3 mb-2">
+                                        <ul class="pagination offset-md-3">
+
+                                            <% if (current==1) { %>
+                                                <li class="page-item disabled"><a class="page-link">First</a></li>
+                                                <% } else { %>
+                                                    <li class="page-item"><a
+                                                            href="/admin/documentInventory/<%=filter%>/<%=value%>/1"
+                                                            class="page-link">First</a></li>
+                                                    <% } %>
+
+                                                        <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %>
+                                                            <% if (i !==1) { %>
+                                                                <li class="page-item disabled"><a class="page-link">....
+                                                                </li>
+                                                                <% } %>
+                                                                    <% for (; i <=(Number(current) + 4) && i <=pages;
+                                                                        i++) { %>
+                                                                        <% if (i==current) { %>
+                                                                            <li class="page-item active"><a
+                                                                                    class="page-link">
+                                                                                    <%= i %>
+                                                                                </a></li>
+                                                                            <% } else { %>
+                                                                                <li class="page-item"><a
+                                                                                        class="page-link"
+                                                                                        href="/admin/documentInventory/<%=filter%>/<%=value%>/<%=i%>">
+                                                                                        <%=i%>
+                                                                                    </a> </li>
+                                                                                <% } %>
+                                                                                    <% if (i==Number(current) + 4 && i <
+                                                                                        pages) { %>
+                                                                                        <li class="page-item disabled">
+                                                                                            <a class="page-link">....
+                                                                                        </li>
+                                                                                        <% } %>
+                                                                                            <% } %>
+                                                                                                <% if (current==pages) {
+                                                                                                    %>
+                                                                                                    <li
+                                                                                                        class="page-item disabled">
+                                                                                                        <a
+                                                                                                            class="page-link">Last</a>
+                                                                                                    </li>
+                                                                                                    <% } else { %>
+                                                                                                        <li
+                                                                                                            class="page-item">
+                                                                                                            <a href="/admin/documentInventory/<%=filter%>/<%=value%>/<%=pages%>"
+                                                                                                                class="page-link">Last</a>
+                                                                                                        </li>
+                                                                                                        <% } %>
+                                        </ul>
+                                    </nav>
+                                    <% } %>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </header>
-
-            <!--ACTIONS-->
-            <section id="search_bar" class="my-3 m-1 py-4 bg-light">
-                <div class="container  text-white">
-                    <form action="/admin/documentInventory/all/all/1" method="POST">
-                        <div class="row">
-                            <div class="col-md-5 p-1">
-                                <select name="filter" class="form-control">
-                                    <option selected disabled>Select Option
-                                    </option>
-                                    <option name="titre">N° Exemplaire</option>
-                                    <option name="auteur">N° Etudiant</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-5 p-1">
-                                <input name="searchName" type="text" class="form-control"
-                                    placeholder="Recherche utlisateurs">
-                            </div>
-
-                            <div class="col-md-2 p-1">
-                                <input type="submit" class="btn btn-outline-primary btn-block" value="Search">
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </section>
 
-            <% include ../../partials/alerts %>
-
-                <!-- BOOK INVENTORY -->
-                <section id="documentInventory" class="mt-5">
-                    <div class="container m-0 p-0">
-                        <div class=" row">
-                            <form action='/admin/issue/add' method='post' class="form">
-                                <div class="col ">
-                                    <div class="card p-4 ">
-                                        <div class=" row justify-content-center text-center">
-                                            <div class="col form-group">
-                                                <label for="">N Exemplaire</label>
-                                                <input type="text" name="copy_num" id="" class="form-control"
-                                                    placeholder="N exemplaire" aria-describedby="helpId">
-                                            </div>
-                                            <div class="col form-group">
-                                                <label for="">N lecteur</label>
-                                                <input type="text" name="user_num" id="" class="form-control"
-                                                    placeholder="N lecteur" aria-describedby="helpId">
-                                            </div>
-                                            <div class=" form-group"> <input type='submit' class="btn px-5 btn-primary "
-                                                    value="Effectuer un prêt"></div>
-                                        </div>
-
-
-                                    </div>
-
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
-                    <div class="container mt-5 p-0">
-                        <div class="row p-2">
-                            <div class="col">
-                                <div class="col card text-white">
-                                    <table class="table table-striped">
-                                        <thead class="thead-inverse">
-                                            <tr>
-                                                <th>Titre du document</th>
-                                                <th>Cote d'exemplaire</th>
-                                                <th>nom et prenom</th>
-                                                <th>numero du lecteur</th>
-                                                <th>date du pret</th>
-                                                <th>date de retourne</th>
-                                                <th>Edit</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <% issues.forEach(issue=> { %>
-
-                                                <tr>
-                                                    <td>
-                                                        <%= issue.document_info.doc_id.titre %>
-                                                    </td>
-                                                    <td>
-                                                        <%= issue.document_info.copy_id.cote %>
-                                                    </td>
-                                                    <td>
-                                                        <%= `${issue.user_id.id.nom} ${issue.user_id.id.prenom} ` %>
-                                                    </td>
-                                                    <td>
-                                                        <%= issue.user_id.id.numero %>
-                                                    </td>
-                                                    <td>
-                                                        <%= issue.document_info.issueDate.toDateString() %>
-                                                    </td>
-                                                    <td>
-                                                        <%= issue.document_info.returnDate.toDateString() %>
-                                                    </td>
-                                                    <td>
-                                                        <span class='text-white justify-content-center text-center'>
-                                                            <a href="/admin/issue/return/<%=issue._id%>"
-                                                                class="btn btn-danger btn-sm m-1">Retourner</a>
-
-                                                            >
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <% }); %>
-
-                                        </tbody>
-                                    </table>
-
-                                    <% if (pages> 0) { %>
-                                        <nav class="ml-3 mb-2">
-                                            <ul class="pagination offset-md-3">
-
-                                                <% if (current==1) { %>
-                                                    <li class="page-item disabled"><a class="page-link">First</a></li>
-                                                    <% } else { %>
-                                                        <li class="page-item"><a
-                                                                href="/admin/documentInventory/<%=filter%>/<%=value%>/1"
-                                                                class="page-link">First</a></li>
-                                                        <% } %>
-
-                                                            <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %>
-                                                                <% if (i !==1) { %>
-                                                                    <li class="page-item disabled"><a
-                                                                            class="page-link">..../../a></li>
-                                                                    <% } %>
-                                                                        <% for (; i <=(Number(current) + 4) && i
-                                                                            <=pages; i++) { %>
-                                                                            <% if (i==current) { %>
-                                                                                <li class="page-item active"><a
-                                                                                        class="page-link">
-                                                                                        <%= i %>
-                                                                                    </a></li>
-                                                                                <% } else { %>
-                                                                                    <li class="page-item"><a
-                                                                                            class="page-link"
-                                                                                            href="/admin/documentInventory/<%=filter%>/<%=value%>/<%=i%>">
-                                                                                            <%=i%>
-                                                                                        </a> </li>
-                                                                                    <% } %>
-                                                                                        <% if (i==Number(current) + 4 &&
-                                                                                            i < pages) { %>
-                                                                                            <li
-                                                                                                class="page-item disabled">
-                                                                                                <a class="page-link">..../../a>
-                                                                                            </li>
-                                                                                            <% } %>
-                                                                                                <% } %>
-                                                                                                    <% if
-                                                                                                        (current==pages)
-                                                                                                        { %>
-                                                                                                        <li
-                                                                                                            class="page-item disabled">
-                                                                                                            <a
-                                                                                                                class="page-link">Last</a>
-                                                                                                        </li>
-                                                                                                        <% } else { %>
-                                                                                                            <li
-                                                                                                                class="page-item">
-                                                                                                                <a href="/admin/documentInventory/<%=filter%>/<%=value%>/<%=pages%>"
-                                                                                                                    class="page-link">Last</a>
-                                                                                                            </li>
-                                                                                                            <% } %>
-                                            </ul>
-                                        </nav>
-                                        <% } %>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                </section>
-
-                <% include ../../partials/footer %>
+            <% include ../../partials/footer %>

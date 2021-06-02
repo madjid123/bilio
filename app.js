@@ -20,8 +20,8 @@ const express = require("express"),
 
 
 // uncomment below line for first time to seed database;
-//const Seed = require('./seed');
-//Seed(10);
+// const Seed = require('./seed');
+// Seed(1000);
 app.use(cors({
   origin: ['http://localhost:3000'],
   methods: ['GET', 'POST'],
@@ -100,7 +100,7 @@ app.use(
 );
 app.use("/images", express.static(path.join(__dirname, "images")));
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   res.locals.currentUser = req.user;
   res.locals.error = req.flash("error");
   res.locals.success = req.flash("success");
@@ -117,5 +117,5 @@ app.use(authRoutes);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`server is running on  port: ${PORT}`);
+  console.log(`server is running on  port : [${PORT}]`);
 });

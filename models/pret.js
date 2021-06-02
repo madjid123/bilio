@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-
-const issueSchema = new mongoose.Schema({
-    issueType: String,
-    issueStatus: String,
+const Copy = require("./copy")
+const pretSchema = new mongoose.Schema({
+    pretType: String,
+    pretStatus: String,
     document_info: {
         doc_id: {
             type: mongoose.Schema.Types.ObjectId,
@@ -12,7 +12,7 @@ const issueSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Copy'
         },
-        issueDate: { type: Date, default: Date.now() },
+        pretDate: { type: Date, default: Date.now() },
         //Date.now() + 7 * 24 * 60 * 60 * 1000 
         returnDate: {
             type: Date, default: Date.now() + 7 * 24 * 60 * 60 * 1000
@@ -38,4 +38,17 @@ const issueSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model("Issue", issueSchema);
+pretSchema.post(['remove', 'delete', 'deleteOne'], async (doc) => {
+    await Copy.findByIdAndUpdate(doc.document_info.copy_id, { $set: { isAvailable: true } })
+})
+const schedule = require('node-schedule');
+let i = 0
+// une fonction executer chaque jour a 00:00:00 pour mettre la base a jour
+const j = schedule.scheduleJob("* * 0-4 * * *", function () {
+    console.log(new Date());
+});
+pretSchema.post(['find', 'findById'], async (doc) => {
+    console.log(doc)
+
+})
+module.exports = mongoose.model("pret", pretSchema);

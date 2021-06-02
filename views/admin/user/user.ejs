@@ -21,9 +21,9 @@
                         </li>
                         <li class="list-group-item">Email : <%=user.email%>
                         </li>
-                        <li class="list-group-item">Issued documents :
-                            <% issues.forEach(issue=> { %>
-                                <%=issue.document_info.titre + ", " %>
+                        <li class="list-group-item">pretd documents :
+                            <% prets.forEach(pret=> { %>
+                                <%=pret.document_info.titre + ", " %>
                                     <% }) %>
                         </li>
                         <li class="list-group-item">Address : <%=user.address%>
@@ -43,9 +43,9 @@
                         <ul class="list-group list-group-flush">
                             <% for(var i=0; i < activities.length; i++) { %>
                                 <%if(i> 5) break; %>
-                                    <% if(activities[i].categorie=="Issue" ) { %>
+                                    <% if(activities[i].categorie=="pret" ) { %>
                                         <li class="list-group-item">
-                                            <%=user.username%> issued <%=activities[i].info.titre%> at
+                                            <%=user.username%> pretd <%=activities[i].info.titre%> at
                                                     <%=activities[i].entryTime.toDateString()%>
                                         </li>
                                         <% } else if(activities[i].categorie=="Return" ) { %>
@@ -106,8 +106,8 @@
 
                                                                                     <%if(activities.length> 6) { %>
                                                                                         <a href="/admin/users/activities/<%=user._id%>"
-                                                                                            class="btn btn-primary btn-block">See
-                                                                                            all..../../a>
+                                                                                            class=" btn rounded-pill  btn-primary btn-block">See
+                                                                                            all....
                                                                                             <% } %>
                         </ul>
                     </div>

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose"),
   passportLocalMongoose = require("passport-local-mongoose");
-
+const Suspension = require("./suspension");
 const userSchema = new mongoose.Schema({
   numero: String,
   type: {
@@ -33,12 +33,12 @@ const userSchema = new mongoose.Schema({
   addresse: String,
   password: String,
   dateDadhesion: { type: Date, default: Date.now() },
-  copyIssueInfo: [
+  copypretInfo: [
     {
       document_info: {
         id: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Issue",
+          ref: "pret",
         },
       },
       copy_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Copy' }
@@ -50,10 +50,61 @@ const userSchema = new mongoose.Schema({
   },
   violationFlag: { type: Boolean, default: false },
   fines: { type: Number, default: 0 },
-  isAdmin: { type: Boolean, default: false },
-  estInscrit: { type: Boolean, default: false }
+  estAdmin: { type: Boolean, default: false },
+  estInscrit: { type: Boolean, default: false },
+  suspension_id: { type: mongoose.Schema.Types.ObjectId, ref: "Suspension" }
 });
 
 userSchema.plugin(passportLocalMongoose);
+//, 'findOneAndDelete', 'findOneAndRemove', 'findOneAndUpdate'
+userSchema.post(['find', 'findOne'], async function (doc, next) {
+  if (doc && doc.length) {
+    const docs = doc
+    docs.map(async (doc) => {
+      let exist = await Suspension.exists({ _id: doc.suspension_id })
+      if (exist) {
+        if (doc.violationFlag === false) {
+          doc.violationFlag = true;
+          await doc.save()
+        }
+      }
+      else {
+        if (doc.violationFlag === true) {
+          doc.violationFlag = false;
+          doc.suspension_id = undefined;
+          await doc.save()
+        }
+      }
+
+    })
+  } else {
+    if (doc && doc.suspension_id) {
+      let exist = await Suspension.exists({ _id: doc.suspension_id })
+      if (exist) {
+        if (doc.violationFlag === false) {
+          doc.violationFlag = true;
+          await doc.save()
+        }
+      }
+      else {
+        if (doc.violationFlag === true) {
+          doc.violationFlag = false;
+          doc.suspension_id = undefined;
+          await doc.save()
+        }
+      }
+    }
+  }
+  next()
+
+  //console.log(i)
+
+}
+)
+userSchema.pre('save', async function () {
+  if (this.suspension_id) {
+
+  }
+})
 
 module.exports = mongoose.model("User", userSchema);

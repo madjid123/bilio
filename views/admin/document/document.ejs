@@ -34,11 +34,11 @@
                     <div class="row  g-0 justify-content-center">
                       <div class="col pr-4">
                         <div class="form-group">
-                          <label class="form-control-label">Type de
+                          <label class="form-label">Type de
                             document </label>
 
-                          <select name="document[type]" class="form-control obl" size="1" value='<%= document.type %>'
-                            selected='<%= document.type %>'>
+                          <select name="document[type]" class="form-control rounded-pill   obl" size="1"
+                            value='<%= document.type %>' selected='<%= document.type %>'>
                             <option value="" selected="">--</option>
                             <option value="Livre">Livre</option>
                             <option value="Thèse">Thèse</option>
@@ -53,34 +53,34 @@
                       </div>
                       <div class="col">
                         <div class=" form-group">
-                          <label class="form-control-label">langue de
+                          <label class="form-label">langue de
                             publication</label>
                           <input type="text" name="document[lang]" placeholder="langue de publication"
-                            class="form-control obl" value='<%= document.lang%>'>
+                            class="form-control rounded-pill   obl" value='<%= document.lang%>'>
                         </div>
                       </div>
 
                       <div class="form-group">
-                        <label class="form-control-label">Titre propre</label>
+                        <label class="form-label">Titre propre</label>
                         <input type="text" name="document[titre]" placeholder="Titre du document"
-                          class="form-control obl" value='<%= document.titre%>' required>
+                          class="form-control rounded-pill   obl" value='<%= document.titre%>' required>
                       </div>
                       <div class="form-group">
-                        <label class="form-control-label">Complément du Titre
+                        <label class="form-label">Complément du Titre
                         </label>
                         <input type="text" name="document[compTitre]" placeholder="Complément du Titre "
-                          class="form-control" value='<%= document.compTitre%>'>
+                          class="form-control rounded-pill  " value='<%= document.compTitre%>'>
                       </div>
 
                       <div class="form-group">
-                        <label class="form-control-label">Auteurs</label>
+                        <label class="form-label">Auteurs</label>
                         <input type="text" name="document[auteur]" placeholder="les noms des auteurs"
-                          class="form-control obl" value='<%= document.auteur%>' required>
+                          class="form-control rounded-pill   obl" value='<%= document.auteur%>' required>
                       </div>
                       <div class="form-group">
-                        <label class="form-control-label">ISBN</label>
+                        <label class="form-label">ISBN</label>
                         <input type="text" name="document[ISBN]" placeholder="ISBN" value='<%= document.ISBN %>'
-                          class="form-control obl" required>
+                          class="form-control rounded-pill   obl" required>
                       </div>
 
 
@@ -92,25 +92,25 @@
                 <div class="steps">
                   <div class="row">
                     <div class="form-group">
-                      <label class="form-control-label">Editeur</label>
-                      <input type="text" name="document[editeur]" placeholder="Editeur" class="form-control"
-                        value='<%= document.editeur%>' required>
+                      <label class="form-label">Editeur</label>
+                      <input type="text" name="document[editeur]" placeholder="Editeur"
+                        class="form-control rounded-pill  " value='<%= document.editeur%>' required>
                     </div>
                     <div class="col form-group">
-                      <label class="form-control-label">Année d' édition/de Soutenance</label>
+                      <label class="form-label">Année d' édition/de Soutenance</label>
                       <input type="number" name="document[annee]" placeholder="Année d'édition ou de soutenance"
-                        class="form-control obl" value='<%= document.editeur%>' required>
+                        class="form-control rounded-pill   obl" value='<%= document.editeur%>' required>
                     </div>
 
                     <div class="col form-group">
-                      <label class="form-control-label">Categorie</label>
+                      <label class="form-label">Categorie</label>
                       <input type="text" name="document[categorie]" value='<%= document.categorie%>'
-                        placeholder="Categorie" class="form-control obl" required>
+                        placeholder="Categorie" class="form-control rounded-pill   obl" required>
                     </div>
                     <div class="form-group">
-                      <label class="form-control-label">Vedettes</label>
+                      <label class="form-label">Vedettes</label>
                       <input type="text" name="document[vedettes]" value='<%= document.vedettes%>'
-                        placeholder="Vedettes" class="form-control" required>
+                        placeholder="Vedettes" class="form-control rounded-pill  " required>
                     </div>
                   </div>
 
@@ -125,14 +125,14 @@
                 <div class="row gx-0 justify-content-center">
                   <div class="col">
                     <div class="form-group">
-                      <label class="form-control-label">Note générale</label>
-                      <textarea name="document[notegen]" cols="40" rows="5" class="form-control"
+                      <label class="form-label">Note générale</label>
+                      <textarea name="document[notegen]" cols="40" rows="5" class="form-control rounded-pill  "
                         value=''><%= document.notegen%></textarea>
                     </div>
                     <div class="form-group">
-                      <label class="form-control-label">Resumé</label>
+                      <label class="form-label">Resumé</label>
                       <textarea name="document[resume]" value='' cols="40" rows="5"
-                        class="form-control obl"><%= document.resume%></textarea>
+                        class="form-control rounded-pill   obl"><%= document.resume%></textarea>
                     </div>
                   </div>
                 </div>
@@ -144,9 +144,9 @@
           </div>
           <div class="gx-0 bttns">
 
-            <button type="button" class="btnPrev btn btn-outline-success">Prev</button>
+            <button type="button" class="btnPrev  px-5 btn rounded-pill  btn-outline-success">Prev</button>
 
-            <button type="button" class="btnNext btn btn-outline-success">Next</button>
+            <button type="button" class="btnNext  btn rounded-pill px-5  btn-outline-success">Next</button>
           </div>
       </div>
 

@@ -15,10 +15,10 @@ const activitySchema = new mongoose.Schema({
     time: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Issue",
+            ref: "pret",
         },
         returnDate: Date,
-        issueDate: Date,
+        pretDate: Date,
     },
 
     user_id: {

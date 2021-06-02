@@ -6,7 +6,7 @@ const client = Mongoclient.connect(process.env.DB_URL, { useUnifiedTopology: tru
 // importing models
 const User = require('../../models/user');
 const Activity = require('../../models/activity');
-const Issue = require('../../models/issue');
+const pret = require('../../models/pret');
 const Comment = require('../../models/comment');
 const Suspension = require('../../models/suspension');
 // importing utilities
@@ -101,9 +101,11 @@ exports.postFlagUser = async (req, res, next) => {
             tday.setDate(tday.getDate() + duree)
 
             console.log(tday)
-            suspension.expireAt = (req.body.duree !== undefined) ? tday : undefined;
+            suspension.expireAt = (req.body.duree !== undefined) ? new Date() : undefined;
 
             await suspension.save()
+            user.suspension_id = suspension._id
+
             await user.save();
             //            await Suspension.updateOne({ _id: suspension._id }, { created_at: { index: { expires: "10s" } } })
 
@@ -121,15 +123,14 @@ exports.postFlagUser = async (req, res, next) => {
 exports.getUserProfile = async (req, res, next) => {
     try {
         const user_id = req.params.user_id;
-
         const user = await User.findById(user_id);
-        const issues = await Issue.find({ "user_id.id": user_id });
+        const prets = await pret.find({ "user_id.id": user_id });
         const comments = await Comment.find({ "auteur.id": user_id });
         const activities = await Activity.find({ "user_id.id": user_id }).sort('-entryTime');
 
         res.render("admin/user/user", {
             user: user,
-            issues: issues,
+            prets: prets,
             activities: activities,
             comments: comments,
         });
@@ -182,7 +183,7 @@ exports.getDeleteUser = async (req, res, next) => {
             deleteImage(imagePath);
         }
 
-        await Issue.deleteMany({ "user_id.id": user_id });
+        await pret.deleteMany({ "user_id.id": user_id });
         await Comment.deleteMany({ "auteur.id": user_id });
         await Activity.deleteMany({ "user_id.id": user_id });
 
@@ -194,7 +195,7 @@ exports.getDeleteUser = async (req, res, next) => {
 }
 exports.getAddPrivUser = async (req, res, next) => {
     try {
-        res.render('signup', { isAdmin: true })
+        res.render('signup', { estAdmin: true })
     } catch (err) {
         console.error(err)
         res.redirect('back')
@@ -208,7 +209,7 @@ exports.postAddPrivUser = async (req, res, next) => {
                 username: req.body.username,
                 email: req.body.email,
                 type: req.body.type,
-                isAdmin: (req.body.type === 'admin') ? true : false,
+                estAdmin: (req.body.type === 'admin') ? true : false,
             });
 
             const user = await User.register(newAdmin, req.body.password);
@@ -227,7 +228,7 @@ exports.postAddPrivUser = async (req, res, next) => {
             "Given info matches someone registered as User. Please provide different info for registering as Admin"
         ); console.error(err)
 
-        return res.render("signup", { isAdmin: true });
+        return res.render("signup", { estAdmin: true });
     }
 
 }

@@ -80,7 +80,7 @@ Whole app is divided into three modules.
 - Login
 - Logout
 - Track own activities
-- Issue documents
+- pret documents
 - Renew documents
 - Return documents
 - Pay fines (not ready yet, will be added asap)

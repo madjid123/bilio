@@ -4,13 +4,10 @@
   <% include ../partials/adminNav %>
 
     <!--DASHBOARD SECTION-->
-    <header id="main-header" class="py-2 bg-primary text-white">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <h1><i class="fa fa-gear"></i> Dashboard</h1>
-          </div>
-        </div>
+    <header id="main-header" class="py-2  text-center justify-content-center">
+      <div class="container justify-content-center">
+        <h1><i class="fa fa-gear"></i>Tableau de bord</h1>
+        <hr>
       </div>
     </header>
 
@@ -22,10 +19,10 @@
 
             <form action="/admin" method="POST">
               <div class="input-group">
-                <input name="searchUser" type="text" class="form-control"
+                <input name="searchUser" type="text" class="form-control rounded-pill  "
                   placeholder="Find activities by username, categorie">
                 <span class="input-group-btn">
-                  <button class="btn btn-primary">Search</button>
+                  <button class=" btn rounded-pill  btn-primary">Search</button>
                 </span>
               </div>
             </form>
@@ -49,7 +46,7 @@
                   <thead class="thead-inverse">
                     <tr>
                       <th>Info</th>
-                      <th>Category</th>
+                      <th>Categorie</th>
                       <th>Date Posted</th>
                     </tr>
                   </thead>
@@ -58,13 +55,13 @@
                     <%for(let i=0; i < activities.length; i++) { %>
 
                       <tr>
-                        <% if(activities[i].categorie=="Issue" ) { %>
+                        <% if(activities[i].categorie=="pret" ) { %>
                           <td>
                             <a href="/admin/users/profile/<%=activities[i].user_id.id%>" titre="Visit profile">
                               <%=activities[i].user_id.username || 'This user' %>
-                            </a> issued <%=activities[i].info.titre%>
+                            </a> pretd <%=activities[i].info.titre%>
                           </td>
-                          <td>Issue</td>
+                          <td>pret</td>
                           <td>
                             <%=activities[i].entryTime.toDateString()%>
                           </td>
@@ -212,7 +209,7 @@
                   <h1 class="display-4"><i class="fa fa-pencil"></i>
                     <%=documents_count%>
                   </h1>
-                  <a href="/admin/documentInventory/all/all/1" class="btn btn-outline-light">View</a>
+                  <a href="/admin/documentInventory/all/all/1" class=" btn rounded-pill  btn-outline-light">View</a>
                 </div>
               </div>
 
@@ -222,7 +219,7 @@
                   <h1 class="display-4"><i class="fa fa-users"></i>
                     <%=users_count%>
                   </h1>
-                  <a href="/admin/users/1" class="btn btn-outline-light">Users</a>
+                  <a href="/admin/users/1" class=" btn rounded-pill  btn-outline-light">Users</a>
                 </div>
               </div>
             </div>

@@ -5,9 +5,9 @@
     <div class="container">
       <% if(!currentUser) { %>
         <a class="navbar-brand" href="/">Home</a>
-        <% } else if(!currentUser.isAdmin) { %>
+        <% } else if(!currentUser.type==='lecteur' ) { %>
           <a class="navbar-brand" href="/user/1">Home</a>
-          <% } else if(currentUser.isAdmin) { %>
+          <% } else { %>
             <a class="navbar-brand" href="/admin">Home</a>
             <% } %>
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -18,7 +18,7 @@
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                   <li class="nav-item active  px-2">
-                    <a class="nav-link" href="/documents/all/all/1">Browse Documents</a></a>
+                    <a class="nav-link" href="/documents/all/all/1">Parcourir les documents</a></a>
                   </li>
                 </ul>
 
@@ -33,10 +33,10 @@
 
                         <li class="nav-item dropdown mr-3">
                           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-user"></i> Welcome <%=user.username%>
+                            <i class="fa fa-user"></i> Welcome <%=currentUser.username%>
                           </a>
                           <div class="dropdown-menu">
-                            <%if(!currentUser.isAdmin) { %>
+                            <%if(!currentUser.estAdmin) { %>
                               <a href="/user/1/profile" class="dropdown-item">
                                 <i class="fa fa-user-circle"></i> Profile
                               </a>
@@ -61,7 +61,7 @@
                         </li>
                   </ul>
                   <% } else { %>
-                    <a href="/signUp" class="btn btn-primary btn-sm ml-auto">Sign up</a>
+                    <a href="/signUp" class=" btn rounded-pill  btn-primary btn-sm ml-auto">Sign up</a>
                     <% } %>
               </div>
     </div>
@@ -73,21 +73,21 @@
       <form action="/documents/all/all/1" method="POST">
         <div class="row">
           <div class="col-md-5 p-1">
-            <select name="filter" class="form-control">
+            <select name="filter" class="form-control rounded-pill  ">
               <option selected disabled>Select Filter...</option>
-              <option name="titre">Title</option>
-              <option name="auteur">Author</option>
-              <option name="categorie">Category</option>
+              <option name="titre">Titre</option>
+              <option name="auteur">Auteur</option>
+              <option name="categorie">Categorie</option>
               <option name="ISBN">ISBN</option>
             </select>
           </div>
 
           <div class="col-md-5 p-1">
-            <input name="searchName" type="text" class="form-control" placeholder="Search Documents">
+            <input name="searchName" type="text" class="form-control rounded-pill  " placeholder="Search Documents">
           </div>
 
           <div class="col-md-2 p-1">
-            <input type="submit" class="btn btn-outline-primary btn-block" value="Search">
+            <input type="submit" class=" btn rounded-pill  btn-outline-primary btn-block" value="Search">
           </div>
         </div>
       </form>
@@ -100,48 +100,50 @@
     <section id="browse_documents" class="mt-5">
       <div class="container">
 
-        <div class="row">
+        <div class="row justify-content-center">
           <% for(var i=0; i < documents.length; i++) { %>
-            <div class="card col-md-3 text-center">
+            <div class="card col-md-3 m-3 text-center">
               <div class="card-body">
                 <h5 class="card-titre">
                   <%=documents[i].titre%>
                 </h5>
                 <p class="text-muted">
-                  <small class="text-muted">Author : <%=documents[i].auteur%></small>
+                  <small class="text-muted">Auteur : <%=documents[i].auteur%></small>
                 </p>
                 <p class="text-muted">
-                  <small class="text-muted">Category : <%=documents[i].categorie%></small>
+                  <small class="text-muted">Categorie : <%=documents[i].categorie%></small>
                 </p>
                 <p class="text-muted">
-                  <small class="text-muted">In stock : <%=documents[i].stock%></small>
+                  <small class="text-muted">Nombre d'exemplaire : <%=documents[i].stock%></small>
                 </p>
 
 
                 <% if(currentUser && documents[i].stock> 0 ) { var match = false%>
-                  <% user.copyIssueInfo.forEach(document_info=> { %>
+                  <% user.copypretInfo.forEach(document_info=> { %>
                     <% if(document_info._id.equals(documents[i]._id)) { %>
-                      <a href="#" class="btn btn-xs btn-warning disabled" role="button" aria-disabled="true">Issued!</a>
-                      <a href="/documents/return-renew" class="btn btn-xs btn-success" role="button">Return/Renew</a>
+                      <a href="#" class=" btn rounded-pill  btn-xs btn-warning disabled" role="button"
+                        aria-disabled="true">pretd!</a>
+                      <a href="/documents/return-renew" class=" btn rounded-pill  btn-xs btn-success"
+                        role="button">Return/Renew</a>
                       <% match=true; } %>
                         <% }) %>
 
-                          <% if(!match && documents[i].availableCopies> 0) {%>
-                            <form action="/documents/<%=documents[i]._id%>/issue/<%=currentUser._id%>" method="POST"
+                          <% if(!match && documents[i].availableCopies> 0 && currentUser.type ==='lecteur') {%>
+                            <form action="/documents/<%=documents[i]._id%>/pret/<%=currentUser._id%>" method="POST"
                               class="d-inline">
-                              <input class="btn btn-xs btn-success" type="submit" value="Reserve">
+                              <input class=" btn rounded-pill  btn-xs btn-success" type="submit" value="Reserve">
                             </form>
                             <% } %>
                               <% } %>
                                 <a href="/documents/details/<%=documents[i]._id%>"
-                                  class="btn btn-xs btn-primary">Details</a>
+                                  class=" btn rounded-pill  btn-xs btn-primary">Details</a>
               </div>
             </div>
             <% } %>
         </div>
         <% if (pages> 0) { %>
-          <nav class="ml-3 mb-2">
-            <ul class="pagination offset-md-3">
+          <nav class="m-auto  ">
+            <ul class="pagination  mb-2 justify-content-center">
 
               <% if (current==1) { %>
                 <li class="page-item disabled"><a class="page-link">First</a></li>

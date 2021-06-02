@@ -17,17 +17,17 @@
       <div class="container">
         <div class="row">
           <div class="col-md-3 mr-auto">
-            <a href="/admin" class="btn btn-light btn-block">
+            <a href="/admin" class=" btn rounded-pill  btn-light btn-block">
               <i class="fa fa-arrow-left"></i> Back To Dashboard
             </a>
           </div>
           <div class="col-md-6">
             <form action="/admin/users/activities/<%=activities[0].user_id.id%>" method="POST">
               <div class="input-group">
-                <input name="categorie" type="text" class="form-control"
+                <input name="categorie" type="text" class="form-control rounded-pill  "
                   placeholder="Search activities by categorie...">
                 <span class="input-group-btn">
-                  <button class="btn btn-primary">Search</button>
+                  <button class=" btn rounded-pill  btn-primary">Search</button>
                 </span>
               </div>
             </form>
@@ -50,7 +50,7 @@
                 <thead class="thead-inverse">
                   <tr>
                     <th>Info</th>
-                    <th>Category</th>
+                    <th>Categorie</th>
                     <th>Date Posted</th>
                   </tr>
                 </thead>
@@ -58,11 +58,11 @@
                   <%for(let i=0; i < activities.length; i++) { %>
 
                     <tr>
-                      <% if(activities[i].categorie=="Issue" ) { %>
+                      <% if(activities[i].categorie=="pret" ) { %>
                         <td>
-                          <%=activities[i].user_id.username || 'This user' %> issued <%=activities[i].info.titre%>
+                          <%=activities[i].user_id.username || 'This user' %> pretd <%=activities[i].info.titre%>
                         </td>
-                        <td>Issue</td>
+                        <td>pret</td>
                         <td>
                           <%=activities[i].entryTime.toDateString()%>
                         </td>

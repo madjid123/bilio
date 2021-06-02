@@ -19,26 +19,28 @@
       <div class="container">
         <div class="row">
           <div class="col-md-3 mr-auto">
-            <a href="/user/1" class="btn btn-light btn-block">
+            <a href="/user/1" class=" btn rounded-pill  btn-light btn-block">
               <i class="fa fa-arrow-left"></i> Back To Dashboard
             </a>
           </div>
 
           <div class="col-md-3">
-            <a href="" class="btn btn-primary btn-block" data-toggle="modal" data-target="#changePasswordModal">
+            <a href="" class=" btn rounded-pill  btn-primary btn-block" data-toggle="modal"
+              data-target="#changePasswordModal">
               <i class="fa fa-key"></i> Change Password
             </a>
           </div>
 
           <div class="col-md-3">
-            <a href="" class="btn btn-warning btn-block" data-toggle="modal" data-target="#updateProfileModal">
+            <a href="" class=" btn rounded-pill  btn-warning btn-block" data-toggle="modal"
+              data-target="#updateProfileModal">
               <i class="fa fa-refresh"></i> Update Profile
             </a>
           </div>
 
-          <% if(currentUser.copyIssueInfo.length> 0) { %>
+          <% if(currentUser.copypretInfo.length> 0) { %>
             <div class="col-md-3">
-              <a class="btn btn-danger btn-block" disabled
+              <a class=" btn rounded-pill  btn-danger btn-block" disabled
                 titre="You have to return all borrowed/renewed documents first">
                 <i class="fa fa-remove"></i> Delete Profile
               </a>
@@ -46,7 +48,8 @@
             <% } else { %>
 
               <div class="col-md-3">
-                <a href="" class="btn btn-danger btn-block" data-toggle="modal" data-target="#deleteProfileModal">
+                <a href="" class=" btn rounded-pill  btn-danger btn-block" data-toggle="modal"
+                  data-target="#deleteProfileModal">
                   <i class="fa fa-remove"></i> Delete Profile
                 </a>
               </div>
@@ -62,7 +65,7 @@
         <div class="container">
           <div class="row">
             <div class="col-md-3">
-              <img src="/images/<%=currentUser.image || " profile.png"%>" class="card-img-top rounded-circle">
+              <img src="/images/<%=currentUser.image ||'profile.png'%>" class="card-img-top rounded-circle">
               <a href="" class="text-muted ml-5" data-toggle="modal" data-target="#changePhotoModal"><i
                   class="fa fa-camera"></i> Change Photo</a>
             </div>
@@ -108,7 +111,7 @@
           <div class="modal-content">
             <div class="modal-header bg-danger text-white">
               <h5 class="modal-titre" id="deleteProfileModalLabel">
-                Once you press yes, all of your issues, comments and activities will be deleted permanently. Are you
+                Once you press yes, all of your prets, comments and activities will be deleted permanently. Are you
                 sure?
               </h5>
               <button class="close" data-dismiss="modal"><span>&times;</span></button>
@@ -116,10 +119,10 @@
             <div class="modal-body">
               <form action="/user/1/delete-profile?_method=DELETE" method="POST">
 
-                <input type="submit" value="Yes" class="btn btn-danger btn-block m-1">
+                <input type="submit" value="Yes" class=" btn rounded-pill  btn-danger btn-block m-1">
 
               </form>
-              <input type="button" value="No" data-dismiss="modal" class="btn btn-success btn-block m-1">
+              <input type="button" value="No" data-dismiss="modal" class=" btn rounded-pill  btn-success btn-block m-1">
             </div>
           </div>
         </div>
@@ -139,20 +142,21 @@
             <div class="modal-body">
               <form action="/user/1/update-password?_method=PUT" method="POST">
                 <div class="form-group">
-                  <label for="password" class="form-control-label">Old Password</label>
-                  <input type="password" name="oldPassword" class="form-control">
+                  <label for="password" class="form-label">Old Password</label>
+                  <input type="password" name="oldPassword" class="form-control rounded-pill  ">
                 </div>
                 <div class="form-group">
-                  <label for="password" class="form-control-label">New Password</label>
-                  <input id="password" type="password" name="password" class="form-control">
+                  <label for="password" class="form-label">New Password</label>
+                  <input id="password" type="password" name="password" class="form-control rounded-pill  ">
                 </div>
 
                 <div class="form-group">
-                  <label for="password" class="form-control-label">Confirm Password</label>
-                  <input id="confirmPassword" type="password" name="confirmPassword" class="form-control">
+                  <label for="password" class="form-label">Confirm Password</label>
+                  <input id="confirmPassword" type="password" name="confirmPassword"
+                    class="form-control rounded-pill  ">
                   <span id='message'></span>
                 </div>
-                <button id="button" class="btn btn-primary btn-block">Submit</button>
+                <button id="button" class=" btn rounded-pill  btn-primary btn-block">Submit</button>
               </form>
             </div>
           </div>
@@ -172,27 +176,28 @@
             <div class="modal-body">
               <form action="/user/1/update-profile?_method=PUT" method="POST">
                 <div class="form-group">
-                  <label for="prenom" class="form-control-label">Edit First Name</label>
-                  <input type="text" name="prenom" class="form-control" value="<%=currentUser.prenom%>">
+                  <label for="prenom" class="form-label">Edit First Name</label>
+                  <input type="text" name="prenom" class="form-control rounded-pill  " value="<%=currentUser.prenom%>">
                 </div>
                 <div class="form-group">
-                  <label for="nom" class="form-control-label">Edit Last Name</label>
-                  <input type="text" name="nom" class="form-control" value="<%=currentUser.nom%>">
+                  <label for="nom" class="form-label">Edit Last Name</label>
+                  <input type="text" name="nom" class="form-control rounded-pill  " value="<%=currentUser.nom%>">
                 </div>
 
                 <div class="form-group">
-                  <label for="email" class="form-control-label">Change Email</label>
-                  <input type="email" name="email" class="form-control" value="<%=currentUser.email%>">
+                  <label for="email" class="form-label">Change Email</label>
+                  <input type="email" name="email" class="form-control rounded-pill  " value="<%=currentUser.email%>">
                 </div>
 
 
 
                 <div class="form-group">
-                  <label for="address" class="form-control-label">Address</label>
-                  <input type="text" name="address" class="form-control" value="<%=currentUser.address%>">
+                  <label for="address" class="form-label">Address</label>
+                  <input type="text" name="address" class="form-control rounded-pill  "
+                    value="<%=currentUser.address%>">
                 </div>
 
-                <button class="btn btn-warning btn-block">Submit</button>
+                <button class=" btn rounded-pill  btn-warning btn-block">Submit</button>
               </form>
             </div>
           </div>
@@ -212,10 +217,10 @@
             <div class="modal-body">
               <form method="POST" action="/user/1/image" enctype="multipart/form-data">
                 <div class="form-group">
-                  <label for="photo" class="form-control-label">Change Photo</label>
-                  <input type="file" name="image" class="form-control">
+                  <label for="photo" class="form-label">Change Photo</label>
+                  <input type="file" name="image" class="form-control rounded-pill  ">
                 </div>
-                <input type="submit" class="btn btn-sm btn-primary m-2" value="Submit">
+                <input type="submit" class=" btn rounded-pill  btn-sm btn-primary m-2" value="Submit">
               </form>
             </div>
           </div>

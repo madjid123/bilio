@@ -55,7 +55,7 @@ exports.getAdminDocumentInventory = async (req, res, next) => {
 exports.postAdminDocumentInventory = async (req, res, next) => {
     try {
         let page = req.params.page || 1;
-        const filter = req.body.filter.toLowerCase();
+        const filter = req.body.filter;
         const value = req.body.searchName;
 
         if (value == "") {
@@ -64,7 +64,7 @@ exports.postAdminDocumentInventory = async (req, res, next) => {
         }
         const searchObj = {};
         searchObj[filter] = value;
-
+        console.log(searchObj);
         // get the documents count
         const documents_count = await Document.find(searchObj).countDocuments();
 

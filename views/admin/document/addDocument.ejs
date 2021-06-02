@@ -15,28 +15,30 @@
               <div class="card-block">
                 <form class="p-3" action="/admin/documents/add" method="POST">
                   <div class="form-group">
-                    <label class="form-control-label">Title</label>
-                    <input type="text" name="document[titre]" placeholder="Document Title" class="form-control"
+                    <label class="form-label">Titre</label>
+                    <input type="text" name="document[titre]" placeholder="Document Titre"
+                      class="form-control rounded-pill  " required>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label">Auteur Name</label>
+                    <input type="text" name="document[auteur]" placeholder="Auteur Name"
+                      class="form-control rounded-pill  " required>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label">ISBN</label>
+                    <input type="text" name="document[ISBN]" placeholder="ISBN" class="form-control rounded-pill  "
                       required>
                   </div>
 
                   <div class="form-group">
-                    <label class="form-control-label">Author Name</label>
-                    <input type="text" name="document[auteur]" placeholder="Author Name" class="form-control" required>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="form-control-label">ISBN</label>
-                    <input type="text" name="document[ISBN]" placeholder="ISBN" class="form-control" required>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="form-control-label">Category</label>
-                    <input type="text" name="document[categorie]" placeholder="Document Category" class="form-control"
-                      required>
+                    <label class="form-label">Categorie</label>
+                    <input type="text" name="document[categorie]" placeholder="Document Categorie"
+                      class="form-control rounded-pill  " required>
                   </div>
                   <div class="form-group">
-                    <label class="form-control-label">Type</label>
+                    <label class="form-label">Type</label>
 
                     <select name="document[type]" size="1">
                       <option value="0" selected=""> </option>
@@ -49,17 +51,19 @@
                       <option value="Ressource électronique">Ressource électronique</option>
                       <option value="Autre">Autre</option>
                     </select>
-                    <!-- <input type="text" name="document[type]" placeholder="type" class="form-control" required> -->
+                    <!-- <input type="text" name="document[type]" placeholder="type" class="form-control rounded-pill  " required> -->
 
 
                   </div>
 
 
                   <div class="form-group">
-                    <label class="form-control-label">Document Description</label>
-                    <textarea name="document[resume]" cols="30" rows="10" class="form-control"></textarea>
+                    <label class="form-label">Document Description</label>
+                    <textarea name="document[resume]" cols="30" rows="10"
+                      class="form-control rounded-pill  "></textarea>
                   </div>
-                  <button type="submit" class="btn btn-primary btn-block">Add Document</button>
+                  <button type="submit" class=" btn rounded-pill  btn-primary btn-block">Add
+                    Document</button>
                 </form>
               </div>
             </div>

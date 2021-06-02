@@ -27,25 +27,25 @@
             <table class="table table-striped">
               <thead class="thead-inverse">
                 <tr>
-                  <th>Title</th>
-                  <th>Author</th>
-                  <th>Issue date</th>
+                  <th>Titre</th>
+                  <th>Auteur</th>
+                  <th>pret date</th>
                   <th>Return date</th>
-                  <th>Category</th>
+                  <th>Categorie</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 <% user.forEach(document=> { %>
                   <tr>
-                    <td>You have issued <%=document.document_info.titre%>
+                    <td>You have pretd <%=document.document_info.titre%>
                     </td>
                     </td>
                     <td>
                       <%=document.document_info.auteur%>
                     </td>
                     <td>
-                      <%=document.document_info.issueDate.toDateString()%>
+                      <%=document.document_info.pretDate.toDateString()%>
                     </td>
                     <td>
                       <%=document.document_info.returnDate.toDateString()%>
@@ -56,21 +56,21 @@
                     <td>
 
                       <% if(document.document_info.isRenewed) { %>
-                        <a href="#" class="btn btn-xs btn-warning disabled" role="button"
+                        <a href="#" class=" btn rounded-pill  btn-xs btn-warning disabled" role="button"
                           aria-disabled="true">Renewed!</a>
                         <% } else if(currentUser.violationFlag && document.document_info.returnDate < Date.now()) { %>
-                          <a class="btn btn-xs btn-warning"
+                          <a class=" btn rounded-pill  btn-xs btn-warning"
                             titre="You can't renew document when you are flagged">Renew</a>
                           <% } else { %>
                             <form action="/documents/<%=document.document_info.doc_id%>/renew" method="POST"
                               class="d-inline">
-                              <input class="btn btn-xs btn-warning" type="submit" value="Renew">
+                              <input class=" btn rounded-pill  btn-xs btn-warning" type="submit" value="Renew">
                             </form>
                             <% } %>
 
                               <form action="/documents/<%=document.document_info.doc_id%>/return" method="POST"
                                 class="d-inline">
-                                <input class="btn btn-xs btn-info" type="submit" value="Return">
+                                <input class=" btn rounded-pill  btn-xs btn-info" type="submit" value="Return">
                               </form>
 
                     </td>

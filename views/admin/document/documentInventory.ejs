@@ -20,7 +20,7 @@
         <form action="/admin/documentInventory/all/all/1" method="POST">
           <div class="row">
             <div class="col-md-5 p-1">
-              <select name="filter" class="form-control">
+              <select name="filter" class="form-control rounded-pill  ">
                 <option selected disabled>Selectionne une option </option>
                 <option name="titre">Titre</option>
                 <option name="auteur">Auteur</option>
@@ -30,11 +30,12 @@
             </div>
 
             <div class="col-md-5 p-1">
-              <input name="searchName" type="text" class="form-control" placeholder="Recherche les documents">
+              <input name="searchName" type="text" class="form-control rounded-pill  "
+                placeholder="Recherche les documents">
             </div>
 
             <div class="col-md-2 p-1">
-              <input type="submit" class="btn btn-outline-primary btn-block" value="Recherche">
+              <input type="submit" class=" btn rounded-pill  btn-outline-primary btn-block" value="Recherche">
             </div>
           </div>
         </form>
@@ -52,11 +53,11 @@
                 <table class="table table-striped">
                   <thead class="thead-inverse">
                     <tr>
-                      <th>Title</th>
-                      <th>Author</th>
+                      <th>Titre</th>
+                      <th>Auteur</th>
                       <th>ISBN</th>
                       <th>Catergory</th>
-                      <th>In Stock</th>
+                      <th>Exemplaires</th>
                       <th>Edit</th>
                     </tr>
                   </thead>
@@ -83,12 +84,13 @@
                         <td>
                           <span class='text-white justify-content-center text-center'>
                             <a href="/admin/document/update/<%=document._id%>"
-                              class="btn btn-primary btn-sm m-1">Update</a>
-                            <a href="/admin/document/<%=document._id%>/copies/" class="btn btn-sm btn-primary m-1">
+                              class=" btn rounded-pill  btn-primary btn-sm m-1">Update</a>
+                            <a href="/admin/document/<%=document._id%>/copies/"
+                              class=" btn rounded-pill  btn-sm btn-primary m-1">
                               Exemplaires
                             </a>
                             <a href="/admin/document/delete/<%=document._id%>"
-                              class="btn btn-sm btn-danger m-1">Delete</a>
+                              class=" btn rounded-pill  btn-sm btn-danger m-1">Delete</a>
                           </span>
                         </td>
                       </tr>
@@ -98,8 +100,8 @@
                 </table>
 
                 <% if (pages> 0) { %>
-                  <nav class="ml-3 mb-2">
-                    <ul class="pagination offset-md-3">
+                  <nav class="m-auto  ">
+                    <ul class="pagination  mb-2 justify-content-center">
 
                       <% if (current==1) { %>
                         <li class="page-item disabled"><a class="page-link">First</a></li>
@@ -110,7 +112,7 @@
 
                             <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %>
                               <% if (i !==1) { %>
-                                <li class="page-item disabled"><a class="page-link">..../../a></li>
+                                <li class="page-item disabled"><a class="page-link">...</a></li>
                                 <% } %>
                                   <% for (; i <=(Number(current) + 4) && i <=pages; i++) { %>
                                     <% if (i==current) { %>
@@ -119,19 +121,19 @@
                                         </a></li>
                                       <% } else { %>
                                         <li class="page-item"><a class="page-link"
-                                            href="/admin/documentInventory/<%=filter%>/<%=value%>/<%=i%>">
-                                            <%=i%>
-                                          </a> </li>
+                                            href="/admin/documentInventory/<%=filter%>/<%=value%>/<%= i %>">
+                                            <%= i %>
+                                          </a></li>
                                         <% } %>
                                           <% if (i==Number(current) + 4 && i < pages) { %>
-                                            <li class="page-item disabled"><a class="page-link">..../../a></li>
+                                            <li class="page-item disabled"><a class="page-link">...</a></li>
                                             <% } %>
                                               <% } %>
                                                 <% if (current==pages) { %>
                                                   <li class="page-item disabled"><a class="page-link">Last</a></li>
                                                   <% } else { %>
                                                     <li class="page-item"><a
-                                                        href="/admin/documentInventory/<%=filter%>/<%=value%>/<%=pages%>"
+                                                        href="/admin/documentInventory/<%=filter%>/<%=value%>/<%= pages %>"
                                                         class="page-link">Last</a></li>
                                                     <% } %>
                     </ul>
