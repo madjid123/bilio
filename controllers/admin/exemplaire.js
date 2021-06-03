@@ -1,13 +1,13 @@
 // importing models
 const Document = require('../../models/document');
-const exemplaire = require('../../models/exemplaire');
+const Exemplaire = require('../../models/exemplaire');
 
 
 //add new exemplaire
 
 exports.getAddexemplaireDocument = async (req, res, next) => {
     var document = await Document.findById(req.params.doc_id)
-    res.render("admin/exemplaire/addexemplaire", { document: document })
+    res.render("admin/exemplaire/addExemplaire", { document: document })
 
 }
 exports.postAddexemplaireDocument = async (req, res, next) => {
@@ -16,21 +16,21 @@ exports.postAddexemplaireDocument = async (req, res, next) => {
             var Documentexemplaire = {
                 doc_id: req.params.doc_id,
                 cote: cote,
-                localization: localization,
-                status: status,
-                landtype: landtype,
-                material: material
+                localisation: localisation,
+                statut: statut,
+                typePret: typePret,
+                support: support
             };
 
         }
 
-        var exemplaire = await exemplaire(Documentexemplaire)
+        var exemplaire = new Exemplaire(Documentexemplaire)
 
         exemplaire.save()
-        await Document.findByIdAndUpdate(req.params.doc_id, { $inc: { "stock": 1, "availableCopies": 1 }, $addToSet: { copies: [exemplaire._id] } })
+        await Document.findByIdAndUpdate(req.params.doc_id, { $inc: { "stock": 1, "ExemplairesDisponible": 1 }, $addToSet: { exemplaires: [exemplaire._id] } })
 
 
-        res.redirect("back")
+        res.redirect("/admin/document/" + exemplaire.doc_id + "/exemplaire")
     } catch (err) {
         console.error(err)
         res.redirect('back')
@@ -39,7 +39,7 @@ exports.postAddexemplaireDocument = async (req, res, next) => {
 //  admin -> update document exemplaire
 exports.getUpdateexemplaireDocument = async (req, res, next) => {
     try {
-        var exemplaire = await exemplaire.findById(req.params.exemplaire_id)
+        var exemplaire = await Exemplaire.findById(req.params.exemplaire_id)
 
         res.render("admin/exemplaire/exemplaire", { exemplaire: exemplaire, doc_id: req.params.doc_id })
 
@@ -54,12 +54,12 @@ exports.postUpdateexemplaireDocument = async (req, res, next) => {
         with (req.body.document) {
             var documentexemplaire = {
                 cote: cote,
-                localization: localization,
-                status: status,
-                landtype: landtype
+                localisation: localisation,
+                statut: statut,
+                typePret: typePret
 
             }
-            var exemplaire = await exemplaire.findByIdAndUpdate(exemplaire_id, documentexemplaire)
+            var exemplaire = await Exemplaire.findByIdAndUpdate(exemplaire_id, documentexemplaire)
             res.redirect('/admin/document/update/' + exemplaire.doc_id)
         }
 
@@ -73,16 +73,16 @@ exports.postUpdateexemplaireDocument = async (req, res, next) => {
 //admin -> delete exemplaire
 exports.deleteexemplaireDocument = async (req, res, next) => {
     try {
-        var exemplaire = await exemplaire.findById(req.params.exemplaire_id)
+        var exemplaire = await Exemplaire.findById(req.params.exemplaire_id)
         var document = await Document.findById(exemplaire.doc_id)
         document.updateOne({ $inc: { "stock": -1 } }, (err, doc) => { if (err) console.error(err) })
-        document.availableCopies -= 1;
-        await document.copies.pull({ _id: req.params.exemplaire_id })
+        document.ExemplairesDisponible -= 1;
+        await document.exemplaires.pull({ _id: req.params.exemplaire_id })
         await document.save();
         var doc_id = exemplaire.doc_id
-        await exemplaire.remove();
+        await Exemplaire.remove();
         req.flash("success", `l'exemplaire  : "${exemplaire.cote}" du document [${document.titre}] a été supprimé`)
-        res.redirect('/admin/document/' + doc_id + '/copies')
+        res.redirect('/admin/document/' + doc_id + '/exemplaire')
     } catch (err) {
         console.error(err)
     }

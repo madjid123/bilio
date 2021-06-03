@@ -1,3 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+h1,h2,h3,h4,h5 {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: bold;
+
+}
+.rounded-card{
+  border-radius: 20%;
+}
+button {
+  font-weight: bold;
+}
 .btn-group-xs > .btn, .btn-xs {
   padding: .40rem .40rem;
   font-size: .8rem;

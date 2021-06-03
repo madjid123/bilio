@@ -10,7 +10,7 @@ const User = require("../models/user"),
     Document = require("../models/document"),
     pret = require("../models/pret"),
     Comment = require("../models/comment"),
-    exemplaire = require('../models/exemplaire'),
+    Exemplaire = require('../models/exemplaire'),
     Reservation = require("../models/reservation");
 
 // importing utilities
@@ -156,15 +156,15 @@ exports.postpretDocument = async (req, res, next) => {
     }
 
     try {
-        const document = await Document.findById(req.params.document_id).populate('copies');
+        const document = await Document.findById(req.params.document_id).populate('exemplaire');
         const user = await User.findById(req.params.user_id);
 
         // registering pret
         var exemplaire_id = null
-        document.copies.map(async (exemplaire) => {
-            if (exemplaire.isAvailable == true) {
+        document.exemplaires.map(async (exemplaire) => {
+            if (exemplaire.estDisponible == true) {
                 exemplaire_id = exemplaire._id
-                await exemplaire.findByIdAndUpdate(exemplaire._id, { isAvailable: false })
+                await Exemplaire.findByIdAndUpdate(exemplaire._id, { estDisponible: false })
                 return
             }
         })
@@ -193,7 +193,7 @@ exports.postpretDocument = async (req, res, next) => {
 
         });
 
-        await document.updateOne({ $inc: { "availableCopies": -1 } })
+        await document.updateOne({ $inc: { "ExemplairesDisponible": -1 } })
         // putting pret record on individual user document
         user.exemplairepretInfo.push(document._id);
 

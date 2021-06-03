@@ -49,7 +49,6 @@ const userSchema = new mongoose.Schema({
     default: "",
   },
   violationFlag: { type: Boolean, default: false },
-  fines: { type: Number, default: 0 },
   estAdmin: { type: Boolean, default: false },
   estInscrit: { type: Boolean, default: false },
   suspension_id: { type: mongoose.Schema.Types.ObjectId, ref: "Suspension" }

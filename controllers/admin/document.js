@@ -34,7 +34,7 @@ exports.getUpdateDocument = async (req, res, next) => {
 
     try {
         const document_id = req.params.document_id;
-        const document = await Document.findById(document_id).populate('copies');
+        const document = await Document.findById(document_id).populate('exemplaire');
 
 
         res.render('admin/document/document', {

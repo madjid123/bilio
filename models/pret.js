@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const exemplaire = require("./exemplaire")
+const Exemplaire = require("./exemplaire")
 const pretSchema = new mongoose.Schema({
     pretType: String,
     pretStatus: String,
@@ -39,14 +39,14 @@ const pretSchema = new mongoose.Schema({
 
 
 pretSchema.post(['remove', 'delete', 'deleteOne'], async (doc) => {
-    await exemplaire.findByIdAndUpdate(doc.document_info.exemplaire_id, { $set: { isAvailable: true } })
+    await Exemplaire.findByIdAndUpdate(doc.document_info.exemplaire_id, { $set: { estDisponible: true } })
 })
 const schedule = require('node-schedule');
 let i = 0
 // une fonction executer chaque jour a 00:00:00 pour mettre la base a jour
-const j = schedule.scheduleJob("* * 0-4 * * *", function () {
-    console.log(new Date());
-});
+// const j = schedule.scheduleJob("* * 0-4 * * *", function () {
+//     console.log(new Date());
+// });
 pretSchema.post(['find', 'findById'], async (doc) => {
     console.log(doc)
 

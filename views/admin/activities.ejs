@@ -46,8 +46,8 @@
               <div class="card-header text-center">
                 <h4>Recent Activities</h4>
               </div>
-              <table class="table table-striped">
-                <thead class="thead-inverse">
+              <table class="table table-light">
+                <thead class="thead-light">
                   <tr>
                     <th>Info</th>
                     <th>Categorie</th>
@@ -93,11 +93,11 @@
                                 <%=activities[i].entryTime.toDateString()%>
                               </td>
 
-                              <% } else if(activities[i].categorie=="Update Password" ) { %>
+                              <% } else if(activities[i].categorie=="Modifier le mot de passe" ) { %>
                                 <td>
                                   <%=activities[i].user_id.username || 'This user' %> updated password
                                 </td>
-                                <td>Update Password</td>
+                                <td>Modifier le mot de passe</td>
                                 <td>
                                   <%=activities[i].entryTime.toDateString()%>
                                 </td>

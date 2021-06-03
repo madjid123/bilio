@@ -8,7 +8,7 @@
         <div class="container mt-3 mb-3 rounded-pill">
             <div class="row justify-content-center mb-3">
                 <div class="col-md-10 mb-4">
-                    <div class="card ">
+                    <div class="card rounded-card ">
                         <div class="card-header">
                             <h4 class="text-center">
                                 <%= document.titre %>
@@ -55,7 +55,7 @@
                                     <h4>Exemplaires :</h4>
                                     <table class="table table">
 
-                                        <thead class="thead-inverse thead-dark">
+                                        <thead class="thead-light thead-dark">
                                             <tr>
                                                 <th>cote</th>
                                                 <th>localisation</th>
@@ -66,23 +66,23 @@
                                         </thead>
                                         <tbody>
 
-                                            <% document.copies.forEach(exemplaire=> { %>
+                                            <% document.exemplaires.forEach(exemplaire=> { %>
 
                                                 <tr>
                                                     <td>
                                                         <%= exemplaire.cote%>
                                                     </td>
                                                     <td>
-                                                        <%= exemplaire.localization%>
+                                                        <%= exemplaire.localisation%>
                                                     </td>
                                                     <td>
-                                                        <%= exemplaire.material%>
+                                                        <%= exemplaire.support%>
                                                     </td>
                                                     <td>
-                                                        <%= exemplaire.landtype%>
+                                                        <%= exemplaire.typePret%>
                                                     </td>
                                                     <td>
-                                                        <%= exemplaire.status%>
+                                                        <%= exemplaire.statut%>
                                                     </td>
                                                 </tr>
                                                 <% }); %>

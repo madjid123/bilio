@@ -42,8 +42,8 @@
                 <div class="card-header text-center">
                   <h4>Recent User Activities</h4>
                 </div>
-                <table class="table table-striped">
-                  <thead class="thead-inverse">
+                <table class="table table-light">
+                  <thead class="thead-light">
                     <tr>
                       <th>Info</th>
                       <th>Categorie</th>
@@ -97,13 +97,13 @@
                                   <%=activities[i].entryTime.toDateString()%>
                                 </td>
 
-                                <% } else if(activities[i].categorie=="Update Password" ) { %>
+                                <% } else if(activities[i].categorie=="Modifier le mot de passe" ) { %>
                                   <td>
                                     <a href="/admin/users/profile/<%=activities[i].user_id.id%>" titre="Visit profile">
                                       <%=activities[i].user_id.username || 'This user' %>
                                     </a> updated password
                                   </td>
-                                  <td>Update Password</td>
+                                  <td>Modifier le mot de passe</td>
                                   <td>
                                     <%=activities[i].entryTime.toDateString()%>
                                   </td>
@@ -203,7 +203,7 @@
             </div>
 
             <div class="col-md-3">
-              <div class="card text-center bg-primary text-white p-3 mb-3">
+              <div class="card rounded-card text-center bg-primary text-white p-3 mb-3">
                 <div class="card-block">
                   <h3>Documents</h3>
                   <h1 class="display-4"><i class="fa fa-pencil"></i>
@@ -213,7 +213,7 @@
                 </div>
               </div>
 
-              <div class="card text-center bg-success text-white p-3 mb-3">
+              <div class="card rounded-card text-center bg-success text-white p-3 mb-3">
                 <div class="card-block">
                   <h3>Users</h3>
                   <h1 class="display-4"><i class="fa fa-users"></i>

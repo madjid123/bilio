@@ -3,7 +3,7 @@
 const infogen = require('./dureepret')
 const Document = require('../../models/document');
 const User = require('../../models/user');
-const exemplaire = require('../../models/exemplaire');
+const Exemplaire = require('../../models/exemplaire');
 const Activity = require('../../models/activity');
 const pret = require('../../models/pret');
 const { Mongoose } = require('mongoose');
@@ -49,7 +49,7 @@ exports.postSearchprets = async (req, res, next) => {
 exports.postpretDocument = async (req, res, next) => {
     try {
         const user_num = req.body.user_num
-        const exemplaire_num = req.body.exemplaire_num
+        const Exemplaire_num = req.body.exemplaire_num
 
         const user = await User.findOne({ numero: user_num })
         if (!user) {
@@ -67,28 +67,28 @@ exports.postpretDocument = async (req, res, next) => {
             return res.redirect("back");
         }
 
-        const exemplaire = await exemplaire.findOne({ cote: exemplaire_num })
+        const Exemplaire = await Exemplaire.findOne({ cote: exemplaire_num })
 
         if (!exemplaire) {
             req.flash('error', "Ce exemplaire n'existe pas")
             return res.redirect("back");
         }
 
-        // document.copies.map(async (exemplaire) => {
-        //     if (exemplaire.isAvailable == true) {
+        // document.exemplaires.map(async (exemplaire) => {
+        //     if (exemplaire.estDisponible == true) {
         //         exemplaire_id = exemplaire._id
-        //         await exemplaire.findByIdAndUpdate(exemplaire._id, { isAvailable: false }) //         return
+        //         await Exemplaire.findByIdAndUpdate(exemplaire._id, { estDisponible: false }) //         return
         //     }
         // })
-        if (exemplaire.isAvailable === false) {
+        if (exemplaire.estDisponible === false) {
             req.flash('error', "Ce exemplaire n'est pas disponible pour le moment");
             return res.redirect('back');
         }
-        exemplaire.isAvailable = false
+        exemplaire.estDisponible = false
         const document = await Document.findById(exemplaire.doc_id)
 
         var dateDeRetourne;
-        if (exemplaire.landtype === 'consultation sur place') {
+        if (exemplaire.typePret === 'consultation sur place') {
             let tday = new Date()
             dateDeRetourne = tday.setHours(18, 0, 0)
         } else {
@@ -96,7 +96,7 @@ exports.postpretDocument = async (req, res, next) => {
         }
         const pret = new pret({
             pretStatus: "en cours",
-            pretType: exemplaire.landtype,
+            pretType: exemplaire.typePret,
             document_info: {
                 doc_id: exemplaire.doc_id,
                 exemplaire_id: exemplaire._id,
@@ -111,7 +111,7 @@ exports.postpretDocument = async (req, res, next) => {
                 username: req.user.username
             }
         })
-        await document.updateOne({ $inc: { "availableCopies": -1 } })
+        await document.updateOne({ $inc: { "ExemplairesDisponible": -1 } })
         // putting pret record on individual user document
         user.exemplairepretInfo.push(exemplaire._id);
 
@@ -136,7 +136,7 @@ exports.postpretDocument = async (req, res, next) => {
         await document.save()
         await pret.save()
         await activity.save()
-        await exemplaire.save()
+        await Exemplaire.save()
         res.redirect('/admin/prets/1')
     } catch (err) {
         console.error(err);
@@ -154,11 +154,11 @@ exports.ReturnDocument = async (req, res, next) => {
 
         // fetching document from db and increament
         const document = await Document.findById(document_id);
-        document.availableCopies += 1;
+        document.ExemplairesDisponible += 1;
         await document.save();
 
-        // updating availability status.
-        await exemplaire.findByIdAndUpdate(pret.document_info.exemplaire_id, { isAvailable: true })
+        // updating availability statut.
+        await Exemplaire.findByIdAndUpdate(pret.document_info.exemplaire_id, { estDisponible: true })
 
         // popping document pret info from user
         user.exemplairepretInfo.splice(pos, 1);

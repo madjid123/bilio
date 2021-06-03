@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const exemplaire = require("./exemplaire");
+const Exemplaire = require("./exemplaire");
 const documentSchema = new mongoose.Schema({
     titre: String,
     compTitre: String,
@@ -13,15 +13,15 @@ const documentSchema = new mongoose.Schema({
     annee: Number,
     note: String,
     vedettes: String,
-    copies: [{
+    exemplaires: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "exemplaire"
+        ref: "Exemplaire"
     }
     ],
-    availableCopies: { type: Number, default: 0 },
+    ExemplairesDisponible: { type: Number, default: 0 },
     stock: { type: Number, default: 0 }
 });
 documentSchema.post('remove', async (doc) => {
-    await exemplaire.deleteMany({ doc_id: doc._id })
+    await Exemplaire.deleteMany({ doc_id: doc._id })
 })
 module.exports = mongoose.model("Document", documentSchema);

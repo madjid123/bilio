@@ -91,8 +91,8 @@ exports.postAdminDocumentInventory = async (req, res, next) => {
 exports.getDocumentCopies = async (req, res, next) => {
     const doc_id = req.params.doc_id;
     try {
-        var document = await Document.findById(doc_id).populate('copies');
-        res.render('admin/exemplaire/Exemplaires', { copies: document.copies, doc_id: doc_id })
+        var document = await Document.findById(doc_id).populate('exemplaires');
+        res.render('admin/exemplaire/Exemplaires', { exemplaire: document.exemplaires, doc_id: doc_id })
     }
     catch (err) {
         console.error(err)

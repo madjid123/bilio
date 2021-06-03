@@ -20,10 +20,11 @@ exports.getUserList = async (req, res, next) => {
         const page = req.params.page || 1;
 
         const users = await User
-            .find()
+            .find({type : "lecteur"})
             .sort('-dateDadhesion')
             .skip((PER_PAGE * page) - PER_PAGE)
-            .limit(PER_PAGE);
+            .limit(PER_PAGE)
+            .populate("suspension_id");
 
         const users_count = await User.find().countDocuments();
 
@@ -45,7 +46,7 @@ exports.postShowSearchedUser = async (req, res, next) => {
         const page = req.params.page || 1;
         const search_value = req.body.searchUser;
 
-        const users = await User.find({
+        const users = await User.find({type : "lecteur",
             $or: [
                 { "prenom": { $regex: ".*" + search_value + ".*" } },
                 { "nom": { $regex: ".*" + search_value + ".*" } },
@@ -90,7 +91,6 @@ exports.postFlagUser = async (req, res, next) => {
                     id: user._id,
                     numero: user.numero
                 },
-                duree: req.body.duree,
                 motif: req.body.motif,
 
 
@@ -99,9 +99,9 @@ exports.postFlagUser = async (req, res, next) => {
             let duree = Number.parseInt(req.body.duree)
             let tday = new Date(Date.now())
             tday.setDate(tday.getDate() + duree)
-
-            console.log(tday)
-            suspension.expireAt = (req.body.duree !== undefined) ? new Date() : undefined;
+            
+            suspension.expireAt = (req.body.duree !== "") ? tday : undefined;
+            suspension.duree= duree;
 
             await suspension.save()
             user.suspension_id = suspension._id
@@ -217,7 +217,7 @@ exports.postAddPrivUser = async (req, res, next) => {
                 "success",
                 "utilisateur : " + user.username + "[" + user.type + "] a été enregistré !"
             );
-            res.redirect("back");
+            res.redirect("/admin/user/priv");
         } else {
             req.flash("error", "Secret code does not matching!");
             return res.redirect("back");
@@ -231,4 +231,44 @@ exports.postAddPrivUser = async (req, res, next) => {
         return res.render("signup", { estAdmin: true });
     }
 
+}
+
+exports.getPrivUser = async (req, res, next) => {
+    const users = await User.find(  {type : "bibliothecaire" })
+    res.render("admin/user/privUsers",{
+        users: users ,
+        pages : 0,
+    })
+}
+exports.deletePrivUser = async (req, res, next) => {
+    try{
+    await User.findByIdAndRemove(req.params.user_id);
+    req.flash("success","Utilisateur a été supprimé")
+    res.redirect('/admin/user/priv')
+    }catch {
+        console.error(err)
+        req.flash("error", "erreur lors la suppression de l'utilisateur.")
+        res.redirect('back')
+    }
+}
+exports.updatePrivUser = async (req, res, next) => {
+    try {
+        with (req.body.admin) {
+        const updateObj={
+            username : username ,
+            email: email
+
+        }
+const user = await User.findByIdAndUpdate(req.params.user_id, updateObj)
+    
+    
+    req.flash('success', "Modification de l'utilisateur :  " + user.username )     
+    res.redirect('/admin/user/priv')
+        }
+    }catch(err){
+        console.error(err)
+
+        req.flash("error", "erreur lors de la modification de l'utilisateur.")
+        res.redirect('back')
+    }
 }

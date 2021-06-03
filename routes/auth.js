@@ -44,9 +44,9 @@ router.post("/auth/user-login", passport.authenticate("local", {
 router.get("/auth/user-logout", authController.getUserLogout);
 
 //user sign up handler
-router.get("/auth/user-signUp", middleware.estAdmin, authController.getUserSignUp);
+router.get("/auth/user-signUp",  authController.getUserSignUp);
 
-router.post("/auth/user-signup", middleware.estAdmin, authController.postUserSignUp);
+router.post("/auth/user-signup",  authController.postUserSignUp);
 
 //admin -> profile
 module.exports = router;

@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const ReservationSchema = new mongoose.Schema({
     doc_info: {
-        exemplaire_id: { type: mongoose.Schema.Types.ObjectId, ref: "exemplaire" },
+        exemplaire_id: { type: mongoose.Schema.Types.ObjectId, ref: "Exemplaire" },
         reservationDate: { type: mongoose.Schema.Types.Date, default: Date.now() }
 
     },

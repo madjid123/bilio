@@ -23,8 +23,8 @@ router.post("/admin", middleware.estAdmin, adminController.dashboard.postDashboa
 
 //admin document inventory
 router.get("/admin/documentInventory/:filter/:value/:page", middleware.estAdmin, adminController.documents.getAdminDocumentInventory);
-//admin -> show document copies
-router.get("/admin/document/:doc_id/copies", middleware.estAdmin, adminController.documents.getDocumentCopies)
+//admin -> show document exemplaire
+router.get("/admin/document/:doc_id/exemplaire", middleware.estAdmin, adminController.documents.getDocumentCopies)
 // admin -> show searched documents
 router.post("/admin/documentInventory/:filter/:value/:page", middleware.estAdmin, adminController.documents.postAdminDocumentInventory);
 
@@ -44,7 +44,7 @@ router.get("/admin/users/:page", middleware.estAdmin, adminController.users.getU
 router.post("/admin/users/:page", middleware.estAdmin, adminController.users.postShowSearchedUser);
 
 //admin -> flag/unflag user
-router.post("/admin/users/flagged/:user_id", middleware.estAdmin, adminController.users.postFlagUser);
+router.post("/admin/users/suspendre/:user_id", middleware.estAdmin, adminController.users.postFlagUser);
 
 //admin -> show one user
 router.get("/admin/users/profile/:user_id", middleware.estAdmin, adminController.users.getUserProfile);
@@ -64,13 +64,13 @@ router.post("/admin/documents/add", middleware.estAdmin, adminController.documen
 
 router.post("/admin/documents/add", middleware.estAdmin, adminController.document.postAddNewDocument);
 //admin -> add new exemplaire
-router.get("/admin/document/:doc_id/copies/add", middleware.estAdmin, adminController.exemplaire.getAddexemplaireDocument);
-router.post("/admin/document/:doc_id/copies/add", middleware.estAdmin, adminController.exemplaire.postAddexemplaireDocument);
+router.get("/admin/document/:doc_id/exemplaire/add", middleware.estAdmin, adminController.exemplaire.getAddexemplaireDocument);
+router.post("/admin/document/:doc_id/exemplaire/add", middleware.estAdmin, adminController.exemplaire.postAddexemplaireDocument);
 //admin -> update document exemplaire
-router.get("/admin/document/:doc_id/copies/update/:exemplaire_id", middleware.estAdmin, adminController.exemplaire.getUpdateexemplaireDocument)
-router.post("/admin/document/:doc_id/copies/update/:exemplaire_id", middleware.estAdmin, adminController.exemplaire.postUpdateexemplaireDocument)
+router.get("/admin/document/:doc_id/exemplaire/update/:exemplaire_id", middleware.estAdmin, adminController.exemplaire.getUpdateexemplaireDocument)
+router.post("/admin/document/:doc_id/exemplaire/update/:exemplaire_id", middleware.estAdmin, adminController.exemplaire.postUpdateexemplaireDocument)
 //admin -> delete document exemplaire 
-router.get('/admin/document/:doc_id/copies/delete/:exemplaire_id', middleware.estAdmin, adminController.exemplaire.deleteexemplaireDocument)
+router.get('/admin/document/:doc_id/exemplaire/delete/:exemplaire_id', middleware.estAdmin, adminController.exemplaire.deleteexemplaireDocument)
 
 
 //admin -> delete profile
@@ -89,9 +89,14 @@ router.post('/admin/prets/:page', middleware.estAdmin, adminController.pret.post
 router.post('/admin/pret/add', middleware.estAdmin, adminController.pret.postpretDocument)
 router.get('/admin/pret/return/:pret_id', middleware.estAdmin, adminController.pret.ReturnDocument)
 
-router.get('/admin/suspensions/:page', [middleware.estAdmin, middleware.estBibliothecaire], adminController.suspensions.getSuspensions)
+router.get('/admin/suspensions/:page', middleware.estAdmin , adminController.suspensions.getSuspensions)
 
 router.get('/admin/add', middleware.estAdmin, adminController.users.getAddPrivUser)
 router.post('/admin/add', middleware.estAdmin, adminController.users.postAddPrivUser)
 
+router.get('/admin/user/priv', middleware.estSuperAdmin , adminController.users.getPrivUser)
+
+router.post('/admin/user/priv/:user_id/update', middleware.estSuperAdmin , adminController.users.updatePrivUser)
+
+router.get('/admin/user/priv/:user_id/delete', middleware.estSuperAdmin , adminController.users.deletePrivUser)
 module.exports = router;

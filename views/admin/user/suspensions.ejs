@@ -54,8 +54,8 @@
                                 <div class="card-header">
                                     <h4>Users</h4>
                                 </div>
-                                <table class="table table-striped" style="overflow: auto">
-                                    <thead class="thead-inverse text-center justify-content-center">
+                                <table class="table table-light" style="overflow: auto">
+                                    <thead class="thead-light text-center justify-content-center">
                                         <tr class="justify-content-center">
                                             <th class='py-3'>Name</th>
                                             <th class='py-3'>User name</th>
@@ -115,7 +115,7 @@
 
                                                                         <% if(user.violationFlag) { %>
                                                                             <form
-                                                                                action='/admin/users/flagged/<%=user._id%>'
+                                                                                action='/admin/users/suspendre/<%=user._id%>'
                                                                                 method='post'>
                                                                                 <button type='submit'
                                                                                     titre=" Lift the flag"
@@ -144,7 +144,7 @@
                                                                                             </div>
                                                                                             <div class="modal-body">
                                                                                                 <form
-                                                                                                    action="/admin/users/flagged/<%=user._id%>"
+                                                                                                    action="/admin/users/suspendre/<%=user._id%>"
                                                                                                     method="POST">
                                                                                                     <div
                                                                                                         class="form-group">
@@ -188,7 +188,7 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                                <a href="/admin/users/flagged/<%=user._id%>"
+                                                                                <a href="/admin/users/suspendre/<%=user._id%>"
                                                                                     titre="Warn user"
                                                                                     class=" btn rounded-pill  btn-sm btn-success mx-1"
                                                                                     data-toggle="modal"

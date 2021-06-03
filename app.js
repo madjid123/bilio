@@ -20,8 +20,8 @@ const express = require("express"),
 
 
 // uncomment below line for first time to seed database;
-// const Seed = require('./seed');
-// Seed(1000);
+ //const Seed = require('./seed');
+ //Seed(100);
 app.use(cors({
   origin: ['http://localhost:3000'],
   methods: ['GET', 'POST'],
@@ -33,6 +33,8 @@ if (process.env.NODE_ENV !== "production") require("dotenv").config();
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
 app.use(express.static(__dirname + "/public"));
+
+app.use(express.static(__dirname + "/images"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(bodyParser.urlencoded({ extended: true }));

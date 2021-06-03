@@ -9,7 +9,7 @@ const penaliteSchema = new mongoose.Schema({
     montant: Number,
     exemplaire_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "exemplaire"
+        ref: "Exemplaire"
     },
     date: {
         type: mongoose.Schema.Types.Date,

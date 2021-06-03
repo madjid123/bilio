@@ -19,36 +19,28 @@
     <section id="profile" class="py-4 mb-4 bg-faded">
       <div class="container-fluid">
         <div class="row">
-          <div class="col">
-            <a href="/admin" class=" btn rounded-pill  btn-secondary btn-block">
-              <i class="fa fa-arrow-left"></i> Back To Dashboard
-            </a>
-          </div>
+          
 
           <div class="col">
             <a href="" class=" btn rounded-pill  btn-primary btn-block" data-toggle="modal"
               data-target="#userNameModal">
-              <i class="fa fa-user"></i> Edit Profile
+              <i class="fa fa-user"></i> Modifier le profile
             </a>
           </div>
 
           <div class="col">
             <a href="" class=" btn rounded-pill  btn-warning btn-block" data-toggle="modal"
               data-target="#passwordModal">
-              <i class="fa fa-lock"></i> Update Password
+              <i class="fa fa-lock"></i> Modifier le mot de passe
             </a>
           </div>
 
-          <div class="col">
-            <a href="/admin/add" class=" btn rounded-pill  btn-success btn-block">
-              <i class="fa fa-plus"></i> Add New Admin
-            </a>
-          </div>
+          
 
           <div class="col">
             <a href="/admin/delete-profile" class=" btn rounded-pill  btn-danger btn-block" data-toggle="modal"
               data-target="#deleteProfileModal">
-              <i class="fa fa-close"></i> Delete Account
+              <i class="fa fa-close"></i> Supprimer ce compte
             </a>
           </div>
 
@@ -62,7 +54,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-7 mx-auto">
-            <div class="card p-3">
+            <div class="card rounded-card p-3">
               <div class="card-header">
                 <h4>Admin Info</h4>
               </div>
@@ -90,20 +82,20 @@
           <div class="modal-body">
             <form action="/admin/update-password?_method=PUT" method="POST">
               <div class="form-group">
-                <label for="password" class="form-label">Old Password</label>
+                <label for="password" class="form-label">Ancien Mot de passe</label>
                 <input type="password" name="oldPassword" class="form-control rounded-pill  ">
               </div>
               <div class="form-group">
-                <label for="password" class="form-label">New Password</label>
+                <label for="password" class="form-label">Nouveau Mot de passe</label>
                 <input id="password" type="password" name="password" class="form-control rounded-pill  ">
               </div>
 
               <div class="form-group">
-                <label for="password" class="form-label">Confirm Password</label>
+                <label for="password" class="form-label">Confirmer le Mot de passe</label>
                 <input id="confirmPassword" type="password" name="confirmPassword" class="form-control rounded-pill  ">
                 <span id='message'></span>
               </div>
-              <button id="button" class=" btn rounded-pill  btn-warning btn-block">Submit</button>
+              <button id="button" class=" btn rounded-pill  btn-warning btn-block">Confimer</button>
             </form>
           </div>
         </div>
@@ -116,24 +108,24 @@
         <div class="modal-content">
           <div class="modal-header bg-primary text-white">
             <h5 class="modal-titre" id="passwordModalLabel">
-              Edit Profile
+              Modifier le profile
             </h5>
             <button class="close" data-dismiss="modal"><span>&times;</span></button>
           </div>
           <div class="modal-body">
             <form action="/admin/profile" method="POST">
               <div class="form-group">
-                <label for="admin[username]" class="form-label">Edit Username</label>
+                <label for="admin[username]" class="form-label">Modifier Username</label>
                 <input name="admin[username]" type="text" class="form-control rounded-pill  "
                   value="<%=currentUser.username%>">
               </div>
 
               <div class="form-group">
-                <label for="admin[email]" class="form-label">Edit Email</label>
+                <label for="admin[email]" class="form-label">Modifier Email</label>
                 <input name="admin[email]" type="email" class="form-control rounded-pill  "
                   value="<%=currentUser.email%>">
               </div>
-              <button class=" btn rounded-pill  btn-primary btn-block">Update!</button>
+              <button class=" btn rounded-pill  btn-primary btn-block">Modifier!</button>
             </form>
           </div>
         </div>
@@ -146,17 +138,17 @@
         <div class="modal-content">
           <div class="modal-header bg-danger text-white">
             <h5 class="modal-titre" id="deleteProfileModalLabel">
-              Once you press yes, you will lose the admin facility permanently. Are you sure?
+              Le temps que vous clicker sur oui, Vous perdrez tout les privileges de l'administrateur
             </h5>
             <button class="close" data-dismiss="modal"><span>&times;</span></button>
           </div>
           <div class="modal-body">
             <form action="/admin/delete-profile?_method=DELETE" method="POST">
 
-              <input type="submit" value="Yes" class=" btn rounded-pill  btn-danger btn-block m-1">
+              <input type="submit" value="Oui" class=" btn rounded-pill  btn-danger btn-block m-1">
 
             </form>
-            <input type="button" value="No" data-dismiss="modal" class=" btn rounded-pill  btn-success btn-block m-1">
+            <input type="button" value="Non" data-dismiss="modal" class=" btn rounded-pill  btn-success btn-block m-1">
           </div>
         </div>
       </div>

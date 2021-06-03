@@ -54,19 +54,15 @@
                           </div>
                         </li>
 
-                        <li class="nav-item">
-                          <a href="/user/1/notification" class="nav-link">
-                            <i class="fa fa-bell"></i><span class="badge badge-danger badge-pill">2</span>
-                          </a>
-                        </li>
+                        
                   </ul>
                   <% } else { %>
-                    <a href="/signUp" class=" btn rounded-pill  btn-primary btn-sm ml-auto">Sign up</a>
+                    <a href="/auth/user-Login" class=" btn rounded-pill  btn-primary btn-sm ml-auto">Sign up</a>
                     <% } %>
               </div>
     </div>
   </nav>
-
+<% include partials/alerts %>
   <!--SEARCH BAR-->
   <section id="search_bar" class="my-3 py-4 bg-light">
     <div class="container">
@@ -102,7 +98,7 @@
 
         <div class="row justify-content-center">
           <% for(var i=0; i < documents.length; i++) { %>
-            <div class="card col-md-3 m-3 text-center">
+            <div class="card rounded-card col-md-3 m-3 text-center">
               <div class="card-body">
                 <h5 class="card-titre">
                   <%=documents[i].titre%>
@@ -128,7 +124,7 @@
                       <% match=true; } %>
                         <% }) %>
 
-                          <% if(!match && documents[i].availableCopies> 0 && currentUser.type ==='lecteur') {%>
+                          <% if(!match && documents[i].ExemplairesDisponible> 0 && currentUser.type ==='lecteur') {%>
                             <form action="/documents/<%=documents[i]._id%>/pret/<%=currentUser._id%>" method="POST"
                               class="d-inline">
                               <input class=" btn rounded-pill  btn-xs btn-success" type="submit" value="Reserve">
