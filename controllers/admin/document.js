@@ -15,13 +15,13 @@ exports.postAddNewDocument = async (req, res, next) => {
         const isDuplicate = await Document.find(document_info);
 
         if (isDuplicate.length > 0) {
-            req.flash("error", "This document is already registered in inventory");
+            req.flash("error", "Ce document existe déja");
             return res.redirect('back');
         }
 
         const new_document = new Document(document_info);
         await new_document.save();
-        req.flash("success", `A new document named ${new_document.titre} is added to the inventory`);
+        req.flash("success", `Un nouveau document : '${new_document.titre}' a été ajouté au catalogue`);
         res.redirect("/admin/documentInventory/all/all/1");
     } catch (err) {
         console.error(err);

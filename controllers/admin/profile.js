@@ -27,7 +27,7 @@ exports.postUpdateAdminProfile = async (req, res, next) => {
 
         await User.findByIdAndUpdate(user_id, update_info);
 
-        res.redirect("admin/profile");
+        res.redirect("/admin/profile");
 
     } catch (err) {
         console.error(err);

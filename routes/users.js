@@ -30,8 +30,6 @@ router.post("/documents/:document_id/pret/:user_id", middleware.estConnecte, use
 //user -> show return-renew page
 router.get("/documents/return-renew", middleware.estConnecte, userController.getShowRenewReturn);
 
-//user -> renew document
-router.post("/documents/:document_id/renew", middleware.estConnecte, middleware.estConnecte, userController.postRenewDocument);
 
 // user -> delete user account
 router.delete("/user/1/delete-profile", middleware.estConnecte, userController.deleteUserAccount);

@@ -13,17 +13,17 @@
       <div class="container">
         <div class="row">
           <div class="col-md-3 mr-auto">
-            <a href="/admin" class=" btn rounded-pill  btn-light btn-block">
-              <i class="fa fa-arrow-left"></i> Retourner au tableau de bord
+            <a href="/back" class=" btn rounded-pill  btn-light btn-block">
+              <i class="fa fa-arrow-left"></i> Retourner
             </a>
           </div>
           <div class="col-md-6">
             <form action="/admin/users/1" method="POST">
               <div class="input-group">
                 <input name="searchUser" type="text" class="form-control rounded-pill  "
-                  placeholder="Search User by First Name, Last Name, username, E-mail">
+                  placeholder="Rechercher par  nom, prenom, username, E-mail">
                 <span class="input-group-btn">
-                  <button class=" btn rounded-pill  btn-primary">Recherche</button>
+                  <button class=" btn rounded-pill  btn-primary px-4 mx-4">Recherche</button>
                 </span>
               </div>
             </form>
@@ -57,8 +57,9 @@
                       <th class='py-3'>Date d'adhéstion</th>
                       <th>
 
-                        <a href='/auth/user-signup/' class=" btn rounded-pill  btn-primary gx-0 text-white"><i
+                        <a href='/auth/user-signup/' class=" btn rounded-pill px-4  btn-primary gx-0 text-white"><i
                             class='bi bi-plus-circle'></i> Lecteur</a>
+                        <a href='/admin/users/inscrire/supprimer/tous' class=" btn rounded-pill px-2  btn-danger gx-0 text-white"> désinscrire Tout</a>
 
                       </th>
                     </tr>
@@ -173,14 +174,21 @@
                                             </div>
                                           </div>
                                         </div>
-                                        <a href="/admin/users/suspendre/<%=user._id%>" titre="Warn user"
+                                        <a href="/admin/users/suspendre/<%=user._id%>" titre="Suspendre un user"
                                           class=" btn rounded-pill  btn-sm btn-success mx-1" data-toggle="modal"
                                           data-target="#supendlect<%=user._id%>">
 
                                           <i class="fa fa-flag"></i>
                                         </a>
+                                        
                                         <% } %>
+<a href="/admin/users/inscrire/<%=user._id%>" titre="incrit un lecteur"
+                                          class=" btn rounded-pill  btn-sm <%=(user.estInscrit) ?`btn-success` :`btn-outline-success`%> mx-1" 
+                                          >
+                                          inscrire
+                                        </a>
                             </div>
+
                           </td>
                         </tr>
                         <% }); %>

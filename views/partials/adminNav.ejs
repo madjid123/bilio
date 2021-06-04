@@ -8,6 +8,7 @@
 </div>
 
 </nav>
+<% include ./userNav %> 
 <div class="row flex-nowrap p-0 m-0">
 
   <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
@@ -82,7 +83,7 @@
       <div class="dropdown pb-4">
         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1"
           data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="<%= (currentUser.image)?`${currentUser.image}` : `/images/profile.png`%>" width="30"
+          <img src="<%= (currentUser.image)?`/images/${currentUser.image}` : `/images/profile.png`%>" width="30"
             height="30" class="rounded-circle">
           <span class="d-none d-sm-inline mx-1">
             <%= currentUser.username%>
@@ -97,5 +98,6 @@
         </ul>
       </div>
     </div>
-  </div>
-  <div class="col  p-0 ">
+  </div> 
+  <div class="col m-0  p-0 ">
+   

@@ -32,78 +32,97 @@ const userSchema = new mongoose.Schema({
   },
   addresse: String,
   password: String,
-  dateDadhesion: { type: Date, default: Date.now() },
-  exemplairepretInfo: [
-    {
-      document_info: {
-        id: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "pret",
-        },
+  dateDadhesion: {
+    type: Date,
+    default: Date.now()
+  },
+  exemplairepretInfo: [{
+    document_info: {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "pret",
       },
-      exemplaire_id: { type: mongoose.Schema.Types.ObjectId, ref: 'exemplaire' }
     },
-  ],
+    exemplaire_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'exemplaire'
+    }
+  }, ],
   image: {
     type: String,
     default: "",
   },
-  violationFlag: { type: Boolean, default: false },
-  estAdmin: { type: Boolean, default: false },
-  estInscrit: { type: Boolean, default: false },
-  suspension_id: { type: mongoose.Schema.Types.ObjectId, ref: "Suspension" }
+  violationFlag: {
+    type: Boolean,
+    default: false
+  },
+  estAdmin: {
+    type: Boolean,
+    default: false
+  },
+  estInscrit: {
+    type: Boolean,
+    default: false
+  },
+  suspension_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Suspension"
+  },
+  avertissment : {
+    type : Number, 
+    default : 0
+  }
 });
 
 userSchema.plugin(passportLocalMongoose);
-//, 'findOneAndDelete', 'findOneAndRemove', 'findOneAndUpdate'
-userSchema.post(['find', 'findOne'], async function (doc, next) {
-  if (doc && doc.length) {
-    const docs = doc
-    docs.map(async (doc) => {
-      let exist = await Suspension.exists({ _id: doc.suspension_id })
-      if (exist) {
-        if (doc.violationFlag === false) {
-          doc.violationFlag = true;
-          await doc.save()
-        }
-      }
-      else {
-        if (doc.violationFlag === true) {
-          doc.violationFlag = false;
-          doc.suspension_id = undefined;
-          await doc.save()
-        }
-      }
 
+userSchema.post('find' ,async function (docs, next) {
+
+        docs.map(async (doc) => {
+          let exist = await Suspension.exists({
+            _id: doc.suspension_id
+          })
+          if (exist) {
+            if (doc.violationFlag === false) {
+              doc.violationFlag = true;
+              await doc.save()
+            } } 
+            else {
+                doc.violationFlag = false;
+                doc.suspension_id = undefined;
+                await doc.save()
+            }
+          }
+
+         
+
+        )
+        
+ next()
+      })//'
+userSchema.post('findOne','findById' ,async function (doc ) {
+
+  if (doc ) {
+    let exist = await Suspension.exists({
+      _id: doc.suspension_id
     })
-  } else {
-    if (doc && doc.suspension_id) {
-      let exist = await Suspension.exists({ _id: doc.suspension_id })
-      if (exist) {
-        if (doc.violationFlag === false) {
-          doc.violationFlag = true;
-          await doc.save()
-        }
+
+    if (exist) {
+      if (doc.violationFlag === false) {
+        doc.violationFlag = true;
+        await doc.save()
       }
-      else {
-        if (doc.violationFlag === true) {
-          doc.violationFlag = false;
-          doc.suspension_id = undefined;
-          await doc.save()
-        }
+    } else {
+      if (doc.violationFlag === true) {
+        doc.violationFlag = false;
+        doc.suspension_id = undefined;
+        await doc.save()
       }
     }
   }
-  next()
 
-  //console.log(i)
-
-}
-)
-userSchema.pre('save', async function () {
-  if (this.suspension_id) {
-
-  }
 })
 
-module.exports = mongoose.model("User", userSchema);
+
+
+        module.exports = mongoose.model("User", userSchema);

@@ -12,7 +12,19 @@ exports.getDocuments = async (req, res, next) => {
    // constructing search object
    if (filter != 'all' && value != 'all') {
       // fetch documents by search value and filter
-      searchObj[filter] = value;
+      switch(filter){
+            case "titre":
+                case "categorie" :
+                case "resume" :
+                case "auteur" : {
+
+                    searchObj = {filter : {$regex : `.*${value}.*`}};
+                 }break;
+                 default : {
+                    searchObj[filter] = value;
+                 }
+                 
+        }
    }
 
    try {

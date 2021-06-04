@@ -8,10 +8,10 @@ const fs = require('fs');
 const User = require("../models/user"),
     Activity = require("../models/activity"),
     Document = require("../models/document"),
-    pret = require("../models/pret"),
+    Pret = require("../models/pret"),
     Comment = require("../models/comment"),
     Exemplaire = require('../models/exemplaire'),
-    Reservation = require("../models/reservation");
+    infogen = require('../global/dureepret');
 
 // importing utilities
 const deleteImage = require('../utils/delete_image');
@@ -30,7 +30,7 @@ exports.getUserDashboard = async (req, res, next) => {
         const user = await User.findById(user_id);
 
         if (user.exemplairepretInfo.length > 0) {
-            const prets = await pret.find({ "user_id.id": user._id });
+            const prets = await Pret.find({ "user_id.id": user._id });
 
             for (let pret of prets) {
                 if (pret.document_info.returnDate < Date.now()) {
@@ -146,29 +146,30 @@ exports.getNotification = async (req, res, next) => {
 //user -> pret a document
 exports.postpretDocument = async (req, res, next) => {
     if (req.user.violationFlag) {
-        req.flash("error", "You are flagged for violating rules/delay on returning documents/paying fines. Untill the flag is lifted, You can't pret any documents");
+        req.flash("error", "Vous êtes suspendu ,Vous ne pouvez pas prêt un document");
         return res.redirect("back");
     }
 
-    if (req.user.exemplairepretInfo.length >= 5) {
-        req.flash("warning", "You can't pret more than 5 documents at a time");
+    if (req.user.exemplairepretInfo.length >= 3) {
+        req.flash("warning", "Vous ne pouvez pas prêter plus que 3 document en même temps");
         return res.redirect("back");
     }
 
     try {
-        const document = await Document.findById(req.params.document_id).populate('exemplaire');
+        const document = await Document.findById(req.params.document_id).populate('exemplaires');
         const user = await User.findById(req.params.user_id);
 
         // registering pret
         var exemplaire_id = null
         document.exemplaires.map(async (exemplaire) => {
-            if (exemplaire.estDisponible == true) {
+            if (exemplaire.estDisponible === true) {
                 exemplaire_id = exemplaire._id
                 await Exemplaire.findByIdAndUpdate(exemplaire._id, { estDisponible: false })
                 return
             }
         })
-        const pret = new pret({
+        let tday = new Date()
+        const pret = new Pret({
             pretStatus: "reserver",
             document_info: {
                 doc_id: document._id,
@@ -178,21 +179,12 @@ exports.postpretDocument = async (req, res, next) => {
                 id: user._id,
                 username: user.username,
             },
-            admin_id: {
-                id: await User.findOne({ "username": req.session.passport.user }),
-                username: req.session.passport.user
-            }
+            
+             
         });
-        const reservation = new Reservation({
-            doc_info: {
-                exemplaire_id: exemplaire_id
-            },
-            user_info: {
-                id: user._id,
-            },
-
-        });
-
+        pret.createdAt = tday
+        
+        pret.document_info.returnDate = (new Date()).setDate(tday.getDate() + infogen.dureePret[user.categorie]) 
         await document.updateOne({ $inc: { "ExemplairesDisponible": -1 } })
         // putting pret record on individual user document
         user.exemplairepretInfo.push(document._id);
@@ -203,7 +195,6 @@ exports.postpretDocument = async (req, res, next) => {
         await pret.save();
         await user.save();
         await document.save();
-        await reservation.save();
         res.redirect("/documents/all/all/1");
     } catch (err) {
         console.error(err);
@@ -215,7 +206,7 @@ exports.postpretDocument = async (req, res, next) => {
 exports.getShowRenewReturn = async (req, res, next) => {
     const user_id = req.user._id;
     try {
-        const pret = await pret.find({ "user_id.id": user_id });
+        const pret = await Pret.find({ "user_id.id": user_id });
         res.render("user/return-renew", { user: pret });
     } catch (err) {
         console.error(err);
@@ -238,7 +229,7 @@ exports.postRenewDocument = async (req, res, next) => {
             "user_id.id": req.user._id,
             "document_info.doc_id": req.params.document_id,
         }
-        const pret = await pret.findOne(searchObj);
+        const pret = await Pret.findOne(searchObj);
         // adding extra 7 days to that pret
         let time = pret.document_info.returnDate.getTime();
         pret.document_info.returnDate = time + 7 * 24 * 60 * 60 * 1000;

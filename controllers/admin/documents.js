@@ -63,7 +63,19 @@ exports.postAdminDocumentInventory = async (req, res, next) => {
             return res.redirect('back');
         }
         const searchObj = {};
-        searchObj[filter] = value;
+        switch(filter){
+            case "titre":
+                case "categorie" :
+                case "resume" :
+                case "auteur" : {
+
+                    searchObj = {filter : {$regex : `.*${value}.*`}};
+                 }break;
+                 default : {
+                    searchObj[filter] = value;
+                 }
+                 
+        }
         console.log(searchObj);
         // get the documents count
         const documents_count = await Document.find(searchObj).countDocuments();

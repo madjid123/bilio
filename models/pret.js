@@ -1,21 +1,25 @@
 const mongoose = require("mongoose");
 const Exemplaire = require("./exemplaire")
+Exemplaire
 const pretSchema = new mongoose.Schema({
     pretType: String,
     pretStatus: String,
     document_info: {
         doc_id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Document',
+            ref: 'Document'
         },
         exemplaire_id: {
+            id :{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'exemplaire'
+            ref: 'Exemplaire'},
+            cote : String
+
         },
         pretDate: { type: Date, default: Date.now() },
         //Date.now() + 7 * 24 * 60 * 60 * 1000 
         returnDate: {
-            type: Date, default: Date.now() + 7 * 24 * 60 * 60 * 1000
+            type: Date
         },
         isRenewed: { type: Boolean, default: false },
     },
@@ -25,7 +29,7 @@ const pretSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
         },
-
+        numero : String,
         username: String,
     },
     admin_id: {
@@ -37,9 +41,8 @@ const pretSchema = new mongoose.Schema({
     }
 });
 
-
 pretSchema.post(['remove', 'delete', 'deleteOne'], async (doc) => {
-    await Exemplaire.findByIdAndUpdate(doc.document_info.exemplaire_id, { $set: { estDisponible: true } })
+    await Exemplaire.findByIdAndUpdate(doc.document_info.exemplaire_id.id, { $set: { estDisponible: true } })
 })
 const schedule = require('node-schedule');
 let i = 0
@@ -48,7 +51,6 @@ let i = 0
 //     console.log(new Date());
 // });
 pretSchema.post(['find', 'findById'], async (doc) => {
-    console.log(doc)
 
 })
-module.exports = mongoose.model("pret", pretSchema);
+module.exports = mongoose.model("Pret", pretSchema);

@@ -27,17 +27,21 @@ router.get("/auth/admin-logout", authController.getAdminLogout);
 
 
 // admin sign up handler
-router.get("/auth/admin-signup", authController.getAdminSignUp);
+router.get("/auth/admin-signup",middleware.estNonConnecte, authController.getAdminSignUp);
 
 router.post("/auth/admin-signup", authController.postAdminSignUp);
 
 //user login handler
-router.get("/auth/user-login", authController.getUserLoginPage);
+router.get("/auth/user-login", middleware.estNonConnecte, authController.getUserLoginPage);
 
-router.post("/auth/user-login", passport.authenticate("local", {
-    successRedirect: "/user/1",
-    failureRedirect: "/auth/user-login",
+router.post("/auth/user-login", passport.authenticate("local", 
+{
+    failureRedirect : "/auth/user-login",
+    failureFlash : "Username ou mot de passe non valide"
 }), (req, res) => {
+    
+     let url = (req.user.type ==='lecteur')? "/user/1": "/admin";
+     res.redirect(url)
 });
 
 //user -> user logout handler

@@ -9,6 +9,13 @@ middleware.estConnecte = function (req, res, next) {
     req.flash("error", "Vous devez être connecté pour y accéder");
     res.redirect("/");
 };
+middleware.estNonConnecte = function (req, res, next) {
+    if (!req.isAuthenticated()) {
+        return next();
+    }
+    req.flash("error", "Vous êtes déja connecté");
+    res.redirect("back");
+};
 
 middleware.estAdmin = function (req, res, next) {
     if (req.isAuthenticated() && (req.user.type === 'admin' || req.user.type === 'bibliothecaire')) {

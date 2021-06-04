@@ -46,6 +46,9 @@ router.post("/admin/users/:page", middleware.estAdmin, adminController.users.pos
 //admin -> flag/unflag user
 router.post("/admin/users/suspendre/:user_id", middleware.estAdmin, adminController.users.postFlagUser);
 
+router.get("/admin/users/inscrire/:user_id", middleware.estAdmin, adminController.users.getInscrireUser);
+
+router.get("/admin/users/inscrire/supprimer/tous", middleware.estAdmin, adminController.users.getSupprimerToutInscription)
 //admin -> show one user
 router.get("/admin/users/profile/:user_id", middleware.estAdmin, adminController.users.getUserProfile);
 
@@ -89,7 +92,6 @@ router.post('/admin/prets/:page', middleware.estAdmin, adminController.pret.post
 router.post('/admin/pret/add', middleware.estAdmin, adminController.pret.postpretDocument)
 router.get('/admin/pret/return/:pret_id', middleware.estAdmin, adminController.pret.ReturnDocument)
 
-router.get('/admin/suspensions/:page', middleware.estAdmin , adminController.suspensions.getSuspensions)
 
 router.get('/admin/add', middleware.estAdmin, adminController.users.getAddPrivUser)
 router.post('/admin/add', middleware.estAdmin, adminController.users.postAddPrivUser)
@@ -99,4 +101,8 @@ router.get('/admin/user/priv', middleware.estSuperAdmin , adminController.users.
 router.post('/admin/user/priv/:user_id/update', middleware.estSuperAdmin , adminController.users.updatePrivUser)
 
 router.get('/admin/user/priv/:user_id/delete', middleware.estSuperAdmin , adminController.users.deletePrivUser)
+
+router.get('/back',(req, res) =>{
+    res.redirect('back')
+})
 module.exports = router;

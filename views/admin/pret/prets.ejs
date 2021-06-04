@@ -16,14 +16,14 @@
         <!--ACTIONS-->
         <section id="search_bar" class="my-3 m-1 py-4 bg-light">
             <div class="container  text-white">
-                <form action="/admin/documentInventory/all/all/1" method="POST">
+                <form action="/admin/prets/1" method="POST">
                     <div class="row">
                         <div class="col-md-5 p-1">
                             <select name="filter" class="form-control rounded-pill  ">
                                 <option selected disabled>Select Option
                                 </option>
-                                <option name="titre">N° Exemplaire</option>
-                                <option name="auteur">N° Etudiant</option>
+                                <option name="titre" value="cote">N° Exemplaire</option>
+                                <option name="auteur" value="numero">N° Etudiant</option>
                             </select>
                         </div>
 
@@ -74,10 +74,10 @@
                     </div>
 
                 </div>
-                <div class="container mt-5 p-0">
-                    <div class="row p-2">
+                <div class="container mt-5  p-0">
+                    <div class="row mx-1 ">
                         <div class="col">
-                            <div class="col card rounded-card text-white">
+                            <div class="col card p-0  rounded-card text-white">
                                 <table class="table table-light">
                                     <thead class="thead-light">
                                         <tr>
@@ -98,7 +98,7 @@
                                                     <%= pret.document_info.doc_id.titre %>
                                                 </td>
                                                 <td>
-                                                    <%= pret.document_info.exemplaire_id.cote %>
+                                                    <%= pret.document_info.exemplaire_id.id.cote %>
                                                 </td>
                                                 <td>
                                                     <%= `${pret.user_id.id.nom} ${pret.user_id.id.prenom} ` %>

@@ -6,7 +6,7 @@ const client = Mongoclient.connect(process.env.DB_URL, { useUnifiedTopology: tru
 // importing models
 const User = require('../../models/user');
 const Activity = require('../../models/activity');
-const pret = require('../../models/pret');
+const Pret = require('../../models/pret');
 const Comment = require('../../models/comment');
 const Suspension = require('../../models/suspension');
 // importing utilities
@@ -96,11 +96,12 @@ exports.postFlagUser = async (req, res, next) => {
 
             }
             )
-            let duree = Number.parseInt(req.body.duree)
-            let tday = new Date(Date.now())
-            tday.setDate(tday.getDate() + duree)
+            let duree =  (!Number.isNaN(Number.parseInt(req.body.duree))) ? Number.parseInt(req.body.duree ): undefined;
+            let tday = new Date()
+            if(duree)
+                tday.setDate(tday.getDate() + duree)
             
-            suspension.expireAt = (req.body.duree !== "") ? tday : undefined;
+            suspension.expireAt = (duree) ? tday : undefined;
             suspension.duree= duree;
 
             await suspension.save()
@@ -112,19 +113,52 @@ exports.postFlagUser = async (req, res, next) => {
             req.flash("warning", `An user named ${user.prenom} ${user.nom} is just flagged!`);
         }
 
-        res.redirect("/admin/users/1");
+        res.redirect("back");
     } catch (err) {
         console.error(err);
         res.redirect('back');
     }
 };
 
+// admin : inscription d'un etudiant
+exports.getInscrireUser = async (req, res, next)  =>{
+    try {
+
+        const user_id = req.params.user_id
+        const user = await User.findById(user_id)
+        if(user.estInscrit){
+            user.estInscrit = false;
+            user.save()
+            req.flash("success","Utilisateur est non inscrit")
+            res.redirect('/admin/users/1')
+        }
+        await User.findByIdAndUpdate(user_id, {estInscrit : true})
+        req.flash('success', "Utilisateur est incrit!")
+        res.redirect('/admin/users/1')
+
+    }catch(err){
+        console.error(err)
+        req.flash("error", err.message)
+        res.redirect('back')
+    }
+}
+exports.getSupprimerToutInscription = async (req, res, next) => {
+    try {
+        await User.updateMany({estInscrit : true},{estInscrit : false} )
+        req.flash('success','Les inscriptions ont été supprimeés')
+        res.redirect('/admin/users/1')
+    }catch(err){
+        console.error(err)
+        req.flash("error", err.message)
+        res.redirect('back')
+    }
+}
 // admin -> show one user
 exports.getUserProfile = async (req, res, next) => {
     try {
         const user_id = req.params.user_id;
         const user = await User.findById(user_id);
-        const prets = await pret.find({ "user_id.id": user_id });
+        const prets = await Pret.find({ "user_id.id": user_id });
         const comments = await Comment.find({ "auteur.id": user_id });
         const activities = await Activity.find({ "user_id.id": user_id }).sort('-entryTime');
 
@@ -268,7 +302,7 @@ const user = await User.findByIdAndUpdate(req.params.user_id, updateObj)
     }catch(err){
         console.error(err)
 
-        req.flash("error", "erreur lors de la modification de l'utilisateur.")
+        req.flash("error", "erreur lors de la modification de l'utilisateur. \n " + err.message )
         res.redirect('back')
     }
 }

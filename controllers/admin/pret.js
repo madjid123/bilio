@@ -1,29 +1,28 @@
 
 // importing models
-const infogen = require('./dureepret')
+
 const Document = require('../../models/document');
 const User = require('../../models/user');
 const Exemplaire = require('../../models/exemplaire');
 const Activity = require('../../models/activity');
-const pret = require('../../models/pret');
-const { Mongoose } = require('mongoose');
+const Pret = require('../../models/pret');
+const infogen = require('../../global/dureepret')
 const PER_PAGE = 10
 exports.getprets = async (req, res, next) => {
     try {
         const page = req.params.page || 1;
 
-        const prets = await pret
+        const prets = await Pret
             .find()
             .sort('-document_info.pretDate')
             .skip((PER_PAGE * page) - PER_PAGE)
             .limit(PER_PAGE)
-            .populate("document_info.exemplaire_id")
+            .populate("document_info.exemplaire_id.id")
             .populate("document_info.doc_id")
             .populate("user_id.id")
             .populate("admin_id.id")
             ;
-
-        const prets_count = await pret.find().countDocuments();
+        const prets_count = await Pret.find().countDocuments();
 
         res.render('admin/pret/prets', {
             prets: prets,
@@ -38,10 +37,25 @@ exports.getprets = async (req, res, next) => {
 }
 exports.postSearchprets = async (req, res, next) => {
     try {
+       let SearchObj = {}
+       if(req.body.filter == "cote"){
+       SearchObj[`document_info.exemplaire_id.${req.body.filter}`] = req.body.searchName;
 
+       }else{
+
+       SearchObj[`user_id.${req.body.filter}`] = req.body.searchName;
+       }
+       const pret = await Pret.findOne(SearchObj)
+       .populate("document_info.doc_id")
+       .populate("document_info.exemplaire_id.id")
+       .populate("user_id.id")
+       res.render("admin/pret/prets" , {
+           prets : [pret] ,
+        pages: 0}
+           )
     } catch (err) {
         console.error(err)
-        console.error(err.message)
+        req.flash("error", err.message)
         res.redirect('back');
     }
 }
@@ -92,7 +106,7 @@ exports.postpretDocument = async (req, res, next) => {
             let tday = new Date()
             dateDeRetourne = tday.setHours(18, 0, 0)
         } else {
-            dateDeRetourne = Date.now() + infogen.duree[user.categorie] * 24 * 60 * 60 * 1000
+            dateDeRetourne = Date.now() + infogen.dureePret[user.categorie] * 24 * 60 * 60 * 1000
         }
         const pret = new pret({
             pretStatus: "en cours",
@@ -146,7 +160,7 @@ exports.postpretDocument = async (req, res, next) => {
 exports.ReturnDocument = async (req, res, next) => {
     try {
         // finding the position
-        const pret = await pret.findById(req.params.pret_id);
+        const pret = await Pret.findById(req.params.pret_id);
 
         const document_id = pret.document_info.doc_id;
         const user = await User.findById(pret.user_id.id)

@@ -19,10 +19,10 @@ const suspensionSchema = new mongoose.Schema({
 })
 suspensionSchema.index({ "expireAt": 1 }, { expireAfterSeconds: 0 })
 
-suspensionSchema.post(['remove', 'findOneAndRemove', 'deleteOne', 'deleteMany', 'findOneAndDelete'], async (doc, next) => {
-    await User.findByIdAndUpdate(doc.user.id, { $set: { violationFlag: false } })
-    next()
-})
+// suspensionSchema.post(['remove', 'findOneAndRemove', 'deleteOne', 'deleteMany', 'findOneAndDelete'], async (doc, next) => {
+//     await User.findByIdAndUpdate(doc.user.id, { $set: { violationFlag: false } })
+//     next()
+// })
 // suspensionSchema.post('save', async (doc, next) => {
 //     console.log(doc)
 //     await User.findOneAndUpdate({ _id: doc.user.id }, {

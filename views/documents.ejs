@@ -1,183 +1,149 @@
-<% include partials/header %>
-
-  <!--NAVIGATION BAR-->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-0 sticky-top">
-    <div class="container">
-      <% if(!currentUser) { %>
-        <a class="navbar-brand" href="/">Home</a>
-        <% } else if(!currentUser.type==='lecteur' ) { %>
-          <a class="navbar-brand" href="/user/1">Home</a>
-          <% } else { %>
-            <a class="navbar-brand" href="/admin">Home</a>
-            <% } %>
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav">
-                  <li class="nav-item active  px-2">
-                    <a class="nav-link" href="/documents/all/all/1">Parcourir les documents</a></a>
-                  </li>
-                </ul>
-
-                <% if(currentUser) { %>
-                  <ul class="navbar-nav ml-auto">
-
-                    <%if(currentUser.violationFlag) { %>
-                      <li class="nav-item align-self-center mr-2">
-                        <i class="fa fa-flag text-danger"></i>
-                      </li>
-                      <% } %>
-
-                        <li class="nav-item dropdown mr-3">
-                          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-user"></i> Welcome <%=currentUser.username%>
-                          </a>
-                          <div class="dropdown-menu">
-                            <%if(!currentUser.estAdmin) { %>
-                              <a href="/user/1/profile" class="dropdown-item">
-                                <i class="fa fa-user-circle"></i> Profile
-                              </a>
-                              <a href="/auth/user-logout" class="dropdown-item">
-                                <i class="fa fa-user-times"></i> Logout
-                              </a>
-                              <% } else { %>
-                                <a href="/admin/profile" class="dropdown-item">
-                                  <i class="fa fa-user-circle"></i> Profile
-                                </a>
-                                <a href="/auth/user-logout" class="dropdown-item">
-                                  <i class="fa fa-user-times"></i> Logout
-                                </a>
-                                <% } %>
-                          </div>
-                        </li>
-
-                        
-                  </ul>
-                  <% } else { %>
-                    <a href="/auth/user-Login" class=" btn rounded-pill  btn-primary btn-sm ml-auto">Sign up</a>
-                    <% } %>
-              </div>
-    </div>
-  </nav>
-<% include partials/alerts %>
-  <!--SEARCH BAR-->
-  <section id="search_bar" class="my-3 py-4 bg-light">
-    <div class="container">
-      <form action="/documents/all/all/1" method="POST">
-        <div class="row">
-          <div class="col-md-5 p-1">
-            <select name="filter" class="form-control rounded-pill  ">
-              <option selected disabled>Select Filter...</option>
-              <option name="titre">Titre</option>
-              <option name="auteur">Auteur</option>
-              <option name="categorie">Categorie</option>
-              <option name="ISBN">ISBN</option>
-            </select>
-          </div>
-
-          <div class="col-md-5 p-1">
-            <input name="searchName" type="text" class="form-control rounded-pill  " placeholder="Search Documents">
-          </div>
-
-          <div class="col-md-2 p-1">
-            <input type="submit" class=" btn rounded-pill  btn-outline-primary btn-block" value="Search">
-          </div>
+<% include partials/header %> <% if(currentUser && currentUser.type !==
+'lecteur') {%> <% include partials/adminNav%> <%} else {%> <% include
+partials/userNav %> <%}%>
+<!--SEARCH BAR-->
+<section id="search_bar" class="mb-3 py-4 bg-light">
+  <div class="container">
+    <form action="/documents/all/all/1" method="POST">
+      <div class="row">
+        <div class="col-md-5 p-1">
+          <select name="filter" class="form-control rounded-pill">
+            <option selected disabled>Filter de Recherche...</option>
+            <option name="titre">Titre</option>
+            <option name="auteur">Auteur</option>
+            <option name="categorie">Categorie</option>
+            <option name="ISBN">ISBN</option>
+          </select>
         </div>
-      </form>
-    </div>
-  </section>
 
-  <% include partials/alerts %>
-
-    <!--BOOKS-->
-    <section id="browse_documents" class="mt-5">
-      <div class="container">
-
-        <div class="row justify-content-center">
-          <% for(var i=0; i < documents.length; i++) { %>
-            <div class="card rounded-card col-md-3 m-3 text-center">
-              <div class="card-body">
-                <h5 class="card-titre">
-                  <%=documents[i].titre%>
-                </h5>
-                <p class="text-muted">
-                  <small class="text-muted">Auteur : <%=documents[i].auteur%></small>
-                </p>
-                <p class="text-muted">
-                  <small class="text-muted">Categorie : <%=documents[i].categorie%></small>
-                </p>
-                <p class="text-muted">
-                  <small class="text-muted">Nombre d'exemplaire : <%=documents[i].stock%></small>
-                </p>
-
-
-                <% if(currentUser && documents[i].stock> 0 ) { var match = false%>
-                  <% user.exemplairepretInfo.forEach(document_info=> { %>
-                    <% if(document_info._id.equals(documents[i]._id)) { %>
-                      <a href="#" class=" btn rounded-pill  btn-xs btn-warning disabled" role="button"
-                        aria-disabled="true">pretd!</a>
-                      <a href="/documents/return-renew" class=" btn rounded-pill  btn-xs btn-success"
-                        role="button">Return/Renew</a>
-                      <% match=true; } %>
-                        <% }) %>
-
-                          <% if(!match && documents[i].ExemplairesDisponible> 0 && currentUser.type ==='lecteur') {%>
-                            <form action="/documents/<%=documents[i]._id%>/pret/<%=currentUser._id%>" method="POST"
-                              class="d-inline">
-                              <input class=" btn rounded-pill  btn-xs btn-success" type="submit" value="Reserve">
-                            </form>
-                            <% } %>
-                              <% } %>
-                                <a href="/documents/details/<%=documents[i]._id%>"
-                                  class=" btn rounded-pill  btn-xs btn-primary">Details</a>
-              </div>
-            </div>
-            <% } %>
+        <div class="col-md-5 p-1">
+          <input
+            name="searchName"
+            type="text"
+            class="form-control rounded-pill"
+            placeholder="Recherche des documents"
+          />
         </div>
-        <% if (pages> 0) { %>
-          <nav class="m-auto  ">
-            <ul class="pagination  mb-2 justify-content-center">
 
-              <% if (current==1) { %>
-                <li class="page-item disabled"><a class="page-link">First</a></li>
-                <% } else { %>
-                  <li class="page-item"><a href="/documents/<%=filter%>/<%=value%>/1" class="page-link">First</a></li>
-                  <% } %>
-
-                    <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %>
-                      <% if (i !==1) { %>
-                        <li class="page-item disabled"><a class="page-link">...</a></li>
-                        <% } %>
-                          <% for (; i <=(Number(current) + 4) && i <=pages; i++) { %>
-                            <% if (i==current) { %>
-                              <li class="page-item active"><a class="page-link">
-                                  <%= i %>
-                                </a></li>
-                              <% } else { %>
-                                <li class="page-item"><a class="page-link"
-                                    href="/documents/<%=filter%>/<%=value%>/<%= i %>">
-                                    <%= i %>
-                                  </a></li>
-                                <% } %>
-                                  <% if (i==Number(current) + 4 && i < pages) { %>
-                                    <li class="page-item disabled"><a class="page-link">...</a></li>
-                                    <% } %>
-                                      <% } %>
-                                        <% if (current==pages) { %>
-                                          <li class="page-item disabled"><a class="page-link">Last</a></li>
-                                          <% } else { %>
-                                            <li class="page-item"><a
-                                                href="/documents/<%=filter%>/<%=value%>/<%= pages %>"
-                                                class="page-link">Last</a></li>
-                                            <% } %>
-            </ul>
-          </nav>
-          <% } %>
+        <div class="col-md-2 p-1">
+          <input
+            type="submit"
+            class="btn rounded-pill btn-outline-primary btn-block"
+            value="Recherche"
+          />
+        </div>
       </div>
-    </section>
+    </form>
+  </div>
+</section>
 
+<% include partials/alerts %>
 
-    <% include partials/footer %>
+<!--BOOKS-->
+<section id="browse_documents" class="mt-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <% for(var i=0; i < documents.length; i++) { %>
+      <div class="card rounded-card col-md-3 m-3 text-center">
+        <div class="card-body">
+          <h5 class="card-titre"><%=documents[i].titre%></h5>
+          <p class="text-muted">
+            <small class="text-muted">Auteur : <%=documents[i].auteur%></small>
+          </p>
+          <p class="text-muted">
+            <small class="text-muted"
+              >Categorie : <%=documents[i].categorie%></small
+            >
+          </p>
+          <p class="text-muted">
+            <small class="text-muted"
+              >Nombre d'exemplaire : <%=documents[i].stock%></small
+            >
+          </p>
+
+          <% if(currentUser && documents[i].stock> 0 ) { var match = false%> <%
+          user.exemplairepretInfo.forEach(document_info=> { %> <%
+          if(document_info._id.equals(documents[i]._id)) { %>
+          <a
+            href="#"
+            class="btn rounded-pill btn-xs btn-warning disabled"
+            role="button"
+            aria-disabled="true"
+            >pretd!</a
+          >
+          <a
+            href="/documents/return-renew"
+            class="btn rounded-pill btn-xs btn-success"
+            role="button"
+            >Return/Renew</a
+          >
+          <% match=true; } %> <% }) %> <% if(!match &&
+          documents[i].ExemplairesDisponible> 0 && currentUser.type
+          ==='lecteur') {%>
+          <form
+            action="/documents/<%=documents[i]._id%>/pret/<%=currentUser._id%>"
+            method="POST"
+            class="d-inline"
+          >
+            <input
+              class="btn rounded-pill btn-xs btn-success"
+              type="submit"
+              value="Reserve"
+            />
+          </form>
+          <% } %> <% } %>
+          <a
+            href="/documents/details/<%=documents[i]._id%>"
+            class="btn rounded-pill btn-xs btn-primary"
+            >Details</a
+          >
+        </div>
+      </div>
+      <% } %>
+    </div>
+    <% if (pages> 0) { %>
+    <nav class="m-auto">
+      <ul class="pagination mb-2 justify-content-center">
+        <% if (current==1) { %>
+        <li class="page-item disabled"><a class="page-link">First</a></li>
+        <% } else { %>
+        <li class="page-item">
+          <a href="/documents/<%=filter%>/<%=value%>/1" class="page-link"
+            >First</a
+          >
+        </li>
+        <% } %> <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %> <% if
+        (i !==1) { %>
+        <li class="page-item disabled"><a class="page-link">...</a></li>
+        <% } %> <% for (; i <=(Number(current) + 4) && i <=pages; i++) { %> <%
+        if (i==current) { %>
+        <li class="page-item active"><a class="page-link"> <%= i %> </a></li>
+        <% } else { %>
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="/documents/<%=filter%>/<%=value%>/<%= i %>"
+          >
+            <%= i %>
+          </a>
+        </li>
+        <% } %> <% if (i==Number(current) + 4 && i < pages) { %>
+        <li class="page-item disabled"><a class="page-link">...</a></li>
+        <% } %> <% } %> <% if (current==pages) { %>
+        <li class="page-item disabled"><a class="page-link">Last</a></li>
+        <% } else { %>
+        <li class="page-item">
+          <a
+            href="/documents/<%=filter%>/<%=value%>/<%= pages %>"
+            class="page-link"
+            >Last</a
+          >
+        </li>
+        <% } %>
+      </ul>
+    </nav>
+    <% } %>
+  </div>
+</section>
+
+<% include partials/footer %>
