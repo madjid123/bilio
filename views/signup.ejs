@@ -1,58 +1,80 @@
-<% include partials/header %>
+<% include partials/header %> <% include partials/alerts %>
 
+<section id="usersignUpForm">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="card">
+          <div class="rounded-card-header text-center">
+            <h4>Admin Sign Up</h4>
+          </div>
+          <div class="card-block">
+            <form class="p-3" action="<%" if(!estAdmin) {%>
+              "/auth/admin-signup" <%} else{%> "/admin/add" <%} %>
+              method="POST">
 
-  <% include partials/alerts %>
-
-    <section id="usersignUpForm">
-      <div class="container mt-5">
-        <div class="row">
-          <div class="col-md-6 offset-md-3">
-            <div class="card">
-              <div class="card-header text-center">
-                <h4>Admin Sign Up</h4>
+              <div class="form-group">
+                <label class="form-label">Entrez un Username</label>
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  class="form-control rounded-pill"
+                  required
+                />
               </div>
-              <div class="card-block">
-                <form class="p-3" action=<% if(!estAdmin) {%> "/auth/admin-signup" <%} else{%> "/admin/add" <%} %>
-                      method="POST">
 
-                      <div class="form-group">
-                        <label class="form-label">Entrez un Username</label>
-                        <input type="text" name="username" placeholder="Username" class="form-control rounded-pill  "
-                          required>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="form-label">Email</label>
-                        <input type="email" name="email" placeholder="Email" class="form-control rounded-pill  "
-                          required>
-                      </div>
-                      <div class="form-group">
-                        <label class="form-label">Type</label>
-                        <select class="form-control rounded-pill  " name='type'>
-                          <option value="admin">Administrateur</option>
-                          <option value="bibliothecaire">bibliothécaire</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label class="form-label">Mot de passe</label>
-                        <input type="password" name="password" placeholder="Mote de passe"
-                          class="form-control rounded-pill  " required>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="form-label">Code Secret</label>
-                        <input type="text" name="adminCode" placeholder="Entrez le code secret"
-                          class="form-control rounded-pill  " required>
-                      </div>
-
-                      <button type="submit" class=" btn rounded-pill  btn-primary btn-block">Créer</button>
-                </form>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  class="form-control rounded-pill"
+                  required
+                />
               </div>
-            </div>
+              <div class="form-group">
+                <label class="form-label">Type</label>
+                <select class="form-control rounded-pill" name="type">
+                  <option value="admin">Administrateur</option>
+                  <option value="bibliothecaire">bibliothécaire</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Mot de passe</label>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Mote de passe"
+                  class="form-control rounded-pill"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Code Secret</label>
+                <input
+                  type="text"
+                  name="adminCode"
+                  placeholder="Entrez le code secret"
+                  class="form-control rounded-pill"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                class="btn rounded-pill btn-primary btn-block"
+              >
+                Créer
+              </button>
+            </form>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-
-    <% include partials/footer %>
+<% include partials/footer %>

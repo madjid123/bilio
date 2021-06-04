@@ -3,8 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
         constructor(formId) {
             let myForm = document.querySelector(formId),
                 steps = myForm.querySelectorAll(".steps"),
-                btnPrev = myForm.querySelector(".btnPrev"),
-                btnNext = myForm.querySelector(".btnNext"),
+                btnPrev = document.querySelector(".btnPrev"),
+                btnNext = document.querySelector(".btnNext"),
                 indicators = myForm.querySelectorAll(".stepsdes"),
                 inputClasses = ".obl",
 

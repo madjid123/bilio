@@ -1,103 +1,104 @@
 <% include ../partials/header %>
 
-    <!--NAVIGATION BAR FOR USER-->
-    <% include ../partials/userNav %>
+<!--NAVIGATION BAR FOR USER-->
+<% include ../partials/userNav %>
 
-        <!--BOOK DETAILS-->
-
-        <div class="container mt-3 mb-3 rounded-pill">
-            <div class="row justify-content-center mb-3">
-                <div class="col-md-10 mb-4">
-                    <div class="card rounded-card ">
-                        <div class="card-header">
-                            <h4 class="text-center">
-                                <%= document.titre %>
-                            </h4>
-                        </div>
-                        <small class="px-3 py-2">
-                            <a class="font-weight-bold" font="bold">Auteurs :</a>
-                            <%= document.auteur %>
-                        </small>
-                        <small class="px-3 py-2"> <a class="font-weight-bold" font="bold">ISBN : </a>
-                            <%= document.ISBN %>
-                        </small>
-                        <small class="px-3 py-2"><a class="font-weight-bold" font="bold">Categorie : </a>
-                            <%= document.categorie %>
-                        </small>
-                        <small class="px-3 py-2"><a class="font-weight-bold" font="bold">Année
-                                <%=(document.type==='Livre' )? "d'edition" :"" %>:
-                            </a>
-                            <%= document.annee %>
-                        </small>
-                        <%if(document.edition !==undefined) {%>
-                            <small class="px-3 py-2"><a class="font-weight-bold" font="bold">Edition: </a>
-                                <%= document.edition%>
-                            </small>
-                            <%}%>
-                                <small class="px-3 py-2"><a class="font-weight-bold" font="bold">type de document:
-                                    </a>
-                                    <%= document.type%>
-                                </small>
-                                <small class="px-3 py-2"><a class="font-weight-bold" font="bold">Langue:
-                                    </a>
-                                    <%= document.lang%>
-                                </small>
-                                <small class="px-3 py-2"><a class="font-weight-bold" font="bold">Nombre d'exemplaire :
-                                    </a>
-                                    <%= document.stock %>
-                                </small>
-
-                                <div class="card-body">
-                                    <a class="font-weight-bold" font="bold">Résume: </a>
-                                    <p class="card-text">
-                                        <%- document.resume %>
-                                    </p>
-                                    <h4>Exemplaires :</h4>
-                                    <table class="table table">
-
-                                        <thead class="thead-light thead-dark">
-                                            <tr>
-                                                <th>cote</th>
-                                                <th>localisation</th>
-                                                <th>support</th>
-                                                <th>type de pret</th>
-                                                <th>statut</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            <% document.exemplaires.forEach(exemplaire=> { %>
-
-                                                <tr>
-                                                    <td>
-                                                        <%= exemplaire.cote%>
-                                                    </td>
-                                                    <td>
-                                                        <%= exemplaire.localisation%>
-                                                    </td>
-                                                    <td>
-                                                        <%= exemplaire.support%>
-                                                    </td>
-                                                    <td>
-                                                        <%= exemplaire.typePret%>
-                                                    </td>
-                                                    <td>
-                                                        <%= exemplaire.statut%>
-                                                    </td>
-                                                </tr>
-                                                <% }); %>
-
-                                        </tbody>
-                                    </table>
-
-                                </div>
-
-
-                    </div>
-                </div>
-            </div>
-
+<!--BOOK DETAILS-->
+<!-- <img src="/images/background.svg"></img> -->
+<div
+  class="container mt-3 mb-3 rounded-pill justify-content-center text-center"
+>
+  <div class="row justify-content-center mb-3">
+    <div class="col-md-10 mb-4 justify-content-center">
+      <div class="rounded-card rounded-card">
+        <div class="rounded-card-header">
+          <h4 class="text-center"><%= document.titre %></h4>
         </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-        <% include ../partials/footer %>
+        <small class="px-3 py-2">
+          <a class="font-weight-bold" font="bold">Auteurs :</a>
+          <%= document.auteur %>
+        </small>
+        <small class="px-3 py-2">
+          <a class="font-weight-bold" font="bold">ISBN : </a>
+          <%= document.ISBN %>
+        </small>
+        <small class="px-3 py-2"
+          ><a class="font-weight-bold" font="bold">Catégorie : </a>
+          <%= document.categorie %>
+        </small>
+        <small class="px-3 py-2"
+          ><a class="font-weight-bold" font="bold"
+            >Année <%=(document.type==='Livre' )? "d'edition" :"" %>:
+          </a>
+          <%= document.annee %>
+        </small>
+        <%if(document.edition !==undefined) {%>
+        <small class="px-3 py-2"
+          ><a class="font-weight-bold" font="bold">Edition: </a>
+          <%= document.edition%>
+        </small>
+        <%}%>
+        <small class="px-3 py-2"
+          ><a class="font-weight-bold" font="bold">Type de document: </a>
+          <%= document.type%>
+        </small>
+        <small class="px-3 py-2"
+          ><a class="font-weight-bold" font="bold">Langue: </a>
+          <%= document.lang%>
+        </small>
+        <small class="px-3 py-2"
+          ><a class="font-weight-bold" font="bold">Nombre d'exemplaire : </a>
+          <%= document.stock %>
+        </small>
+
+        <div class="card-body">
+          <a class="font-weight-bold" font="bold">Résume: </a>
+          <div class="rounded-card mx-5 my-2 py-2">
+            <p
+              class="card-text text-weight-bold"
+              font="bold"
+              style="font-family: serif"
+            >
+              <%- document.resume %>
+            </p>
+          </div>
+          <h4>Exemplaires :</h4>
+          <table mb-5 text-center class="table mb-5 text-center table">
+            <thead class="thead-light thead-dark">
+              <tr>
+                <th>Cote</th>
+                <th>Localisation</th>
+                <th>Support</th>
+                <th>Type de prêt</th>
+                <th>Statut</th>
+                <th>Disponible</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% document.exemplaires.forEach(exemplaire=> { %>
+
+              <tr>
+                <td><%= exemplaire.cote%></td>
+                <td><%= exemplaire.localisation%></td>
+                <td><%= exemplaire.support%></td>
+                <td><%= exemplaire.typePret%></td>
+                <td><%= exemplaire.statut%></td>
+                <% if(exemplaire.estDisponible){ %>
+                <td class="text-success">Oui</td>
+                <%} else {%>
+
+                <td class="text-danger">Non</td>
+                <%}%>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<% include ../partials/footer %>

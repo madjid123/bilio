@@ -1,11 +1,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 h1,h2,h3,h4,h5 {
   font-family: 'Source Sans Pro', sans-serif;
-  font-weight: bold;
+  font-weight:900;
 
 }
 .rounded-card{
-  border-radius: 20%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: rgb(255, 255, 255);
+  background-clip: border-box;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 2rem;
+}
+.rounded-card-header{
+  padding: .5rem 1rem;
+    margin-bottom: 0;
+    background-color: rgba(53, 53, 53, 0.021);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    border-radius: 2rem 2rem 0px 0px;
+}
+.rounded-table{
+border-radius: 2rem;
+
+}
+body{
+  background : url(../images/background.svg);
+  background-color: rgb(235, 235, 235) !important;
+  /* background-size : 50%; */
+  background-repeat : no-repeat;
+  /* background-position : center; */
 }
 button {
   font-weight: bold;
@@ -76,7 +102,8 @@ body {
   margin-top: 500%;
   display: flex;
   position:absolute;
-   bottom: 2rem; 
+   bottom: 0rem;
+   margin-bottom: 5px; 
   width : 90%
 }
 .bttns button {

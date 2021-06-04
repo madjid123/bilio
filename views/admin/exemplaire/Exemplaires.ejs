@@ -4,6 +4,7 @@
 <% include ../../partials/adminNav %>
 <header id="main-header" class="py-2 text-center">
   <h1><i class="fa fa-doc"></i> Gestion des exemplaires</h1>
+  <hr />
 </header>
 <% include ../../partials/alerts%>
 <div class="container my-4">
@@ -11,62 +12,72 @@
     <div class="col-md-12">
       <div class="row">
         <div class="col">
-          <div class="card rounded-card text-dar">
-            <div class="card-header text-center">
-              <h5>Exemplaires :</h5>
+          <div class="rounded-card rounded-rounded-card text-dar">
+            <div class="rounded-card-header text-center">
+              <h5>Exemplaires</h5>
             </div>
             <br />
+            <div class="card-body">
+              <div class="col justify-content-center text-center">
+                <a
+                  class="btn rounded-pill display-1 btn-primary text-bold"
+                  href="/admin/document/<%=doc_id%>/exemplaire/add"
+                  ><i class="bi bi-plus-circle pr-2" width="30"></i
+                  >Exemplaire</a
+                >
+              </div>
+              <div style="overflow-x: auto">
+                <table
+                  mb-5
+                  text-center
+                  class="table mb-5 text-center table-light"
+                >
+                  <% if(exemplaire.length !==0 ) {%>
+                  <br />
+                  <thead class="thead-light">
+                    <tr>
+                      <th>cote</th>
+                      <th>localisation</th>
+                      <th>support</th>
+                      <th>type de pret</th>
+                      <th>statut</th>
+                      <th>edit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% exemplaire.forEach(exemplaire=> { %>
 
-            <div class="col justify-content-center text-center">
-              <a
-                class="btn rounded-pill display-1 btn-primary text-bold"
-                href="/admin/document/<%=doc_id%>/exemplaire/add"
-                ><i class="bi bi-plus-circle pr-2" width="30"></i>Exemplaire</a
-              >
+                    <tr>
+                      <td><%= exemplaire.cote%></td>
+                      <td><%= exemplaire.localisation%></td>
+                      <td><%= exemplaire.support%></td>
+                      <td><%= exemplaire.typePret%></td>
+                      <td><%= exemplaire.statut%></td>
+                      <td>
+                        <a
+                          href="/admin/document/<%=exemplaire.doc_id%>/exemplaire/update/<%=exemplaire._id%>"
+                          class="btn rounded-pill btn-outline-primary btn-sm"
+                          >Update</a
+                        >
+                        <a
+                          href="/admin/document/<%=exemplaire.doc_id%>/exemplaire/delete/<%=exemplaire._id%>"
+                          class="btn rounded-pill btn-sm btn-danger"
+                          >Delete</a
+                        >
+                      </td>
+                    </tr>
+                    <% }); %> <% }else {%>
+                    <hr />
+                    <tr class="text-center">
+                      <span class="text-center text-danger"
+                        >Pas d'exemplaires</span
+                      >
+                    </tr>
+                    <% }%>
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <table class="table table-light">
-              <% if(exemplaire.length !==0 ) {%>
-              <br />
-              <thead class="thead-light">
-                <tr>
-                  <th>cote</th>
-                  <th>localisation</th>
-                  <th>support</th>
-                  <th>type de pret</th>
-                  <th>statut</th>
-                  <th>edit</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% exemplaire.forEach(exemplaire=> { %>
-
-                <tr>
-                  <td><%= exemplaire.cote%></td>
-                  <td><%= exemplaire.localisation%></td>
-                  <td><%= exemplaire.support%></td>
-                  <td><%= exemplaire.typePret%></td>
-                  <td><%= exemplaire.statut%></td>
-                  <td>
-                    <a
-                      href="/admin/document/<%=exemplaire.doc_id%>/exemplaire/update/<%=exemplaire._id%>"
-                      class="btn rounded-pill btn-outline-primary btn-sm"
-                      >Update</a
-                    >
-                    <a
-                      href="/admin/document/<%=exemplaire.doc_id%>/exemplaire/delete/<%=exemplaire._id%>"
-                      class="btn rounded-pill btn-sm btn-danger"
-                      >Delete</a
-                    >
-                  </td>
-                </tr>
-                <% }); %> <% }else {%>
-                <hr />
-                <tr class="text-center">
-                  <span class="text-center text-danger">Pas d'exemplaires</span>
-                </tr>
-                <% }%>
-              </tbody>
-            </table>
           </div>
         </div>
       </div>

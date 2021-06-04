@@ -99,7 +99,7 @@ exports.findDocuments = async (req, res, next) => {
 exports.getDocumentDetails = async (req, res, next) => {
    try {
       const document_id = req.params.document_id;
-      const document = await Document.findById(document_id).populate("comments").populate("exemplaire");
+      const document = await Document.findById(document_id).populate("exemplaires");
       res.render("user/documentDetails", { document: document });
    } catch (err) {
       console.error(err);

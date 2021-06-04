@@ -2,7 +2,7 @@ const Document = require('./models/document.js');
 const faker = require('faker');
 const category = ["Science", "Biologie", "Physique", "Chimie", "Economie" , "Philosophie", "Mathematique", "Programmation","Génie Civile","Electronique","Réseaux"];
 const Exemplaire = require('./models/exemplaire.js');
-const typePret = ['prêt externe', 'consultation sur place']
+const TypePret = ['prêt externe', 'consultation sur place']
 const typeDocument = ['Livre', 'Thèse','Article','Autre']
 const localisation = ['st', 'bc','se']
 const author = [];
@@ -36,16 +36,16 @@ async function seed(limit) {
             });
             await document.save();
             for (let j = 0; j < 6; j++) {
-                const Exemplaire = new Exemplaire({
+                const exemplaire = new Exemplaire({
                     cote: faker.lorem.words(),
                     doc_id: document._id,
                     statut: faker.lorem.word(),
                     localisation: localisation[index4],
-                    typePret: typePret[Math.floor(Math.random() * Math.floor(typePret))],
+                    typePret: TypePret[Math.floor(Math.random() * Math.floor(TypePret.length))],
                     support: faker.lorem.sentence()
                 })
-                await Exemplaire.save()
-                await document.updateOne({ $inc: { "ExemplairesDisponible": 1, "stock": 1 }, $addToSet: { exemplaire: [exemplaire._id] } })
+                await exemplaire.save()
+                await document.updateOne({ $inc: { "ExemplairesDisponible": 1, "stock": 1 }, $addToSet: { exemplaires: [exemplaire._id] } })
             }
         } catch (err) {
             console.error(err)
