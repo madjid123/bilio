@@ -89,9 +89,18 @@ router.put("/admin/update-password", middleware.estAdmin, adminController.profil
 router.get('/admin/prets/:page', middleware.estAdmin, adminController.pret.getprets)
 router.post('/admin/prets/:page', middleware.estAdmin, adminController.pret.postSearchprets)
 
+
+router.get('/admin/users/penalites/:page', middleware.estAdmin, adminController.penalites.getPenalites)
+router.post('/admin/users/penalites/:page', middleware.estAdmin, adminController.penalites.postRecherchPenalitees)
+
 router.post('/admin/pret/add', middleware.estAdmin, adminController.pret.postpretDocument)
 router.get('/admin/pret/return/:pret_id', middleware.estAdmin, adminController.pret.ReturnDocument)
 
+router.get('/admin/pret/confirmer/:pret_id',middleware.estAdmin, adminController.pret.getConfirmerPret)
+router.get('/admin/pret/prolonoger/:pret_id',middleware.estAdmin, adminController.pret.getProlonogerPret)
+
+router.post('/admin/users/penalite/ajouter/', middleware.estAdmin, adminController.penalites.postPenalite)
+router.get('/admin/users/penalite/enlever/:user_id', middleware.estAdmin, middleware.estAdmin, adminController.penalites.deletePenalite)
 
 router.get('/admin/add', middleware.estAdmin, adminController.users.getAddPrivUser)
 router.post('/admin/add', middleware.estAdmin, adminController.users.postAddPrivUser)

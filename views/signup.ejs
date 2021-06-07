@@ -4,15 +4,18 @@
   <div class="container mt-5">
     <div class="row">
       <div class="col-md-6 offset-md-3">
-        <div class="card">
+        <div class="rounded-card">
           <div class="rounded-card-header text-center">
             <h4>Admin Sign Up</h4>
           </div>
           <div class="card-block">
-            <form class="p-3" action="<%" if(!estAdmin) {%>
-              "/auth/admin-signup" <%} else{%> "/admin/add" <%} %>
-              method="POST">
-
+            <form
+              class="p-3"
+              action="<%=(!estAdmin)?
+              `/auth/admin-signup`: `/admin/add`
+              %>"
+              method="POST"
+            >
               <div class="form-group">
                 <label class="form-label">Entrez un Username</label>
                 <input

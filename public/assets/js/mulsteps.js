@@ -1,11 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
     class MultiStep {
         constructor(formId) {
-            let myForm = document.querySelector(formId),
-                steps = myForm.querySelectorAll(".steps"),
-                btnPrev = document.querySelector(".btnPrev"),
-                btnNext = document.querySelector(".btnNext"),
-                indicators = myForm.querySelectorAll(".stepsdes"),
+            var myForm = document.querySelector(formId),
+                steps = document.querySelectorAll(".steps"),
+                btnsPrev = document.querySelectorAll(".btnPrev"),
+                btnsNext = document.querySelectorAll(".btnNext"),
+                indicators = document.querySelectorAll(".stepsdes"),
+                btnPrev = btnsPrev[0],
+                btnNext = btnsNext[0],
                 inputClasses = ".obl",
 
                 currentTab = 0;
@@ -15,17 +17,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
             function showTab(n) {
                 steps[n].classList.add("active");
+                console.log(n)
                 if (n == 0) {
-                    btnPrev.classList.add("hidden");
-                    btnPrev.classList.remove("show");
+                    btnsPrev[n].classList.add("hidden");
+                    btnsPrev[n].classList.remove("show");
                 } else {
-                    btnPrev.classList.add("show");
-                    btnPrev.classList.remove("hidden");
+                    btnsPrev[n].classList.add("show");
+                    btnsPrev[n].classList.remove("hidden");
                 }
                 if (n == steps.length - 1) {
-                    btnNext.textContent = "Submit";
+                    btnsNext[n].textContent = "Submit";
                 } else {
-                    btnNext.textContent = "Next";
+                    btnsNext[n].textContent = "Next";
                 }
                 showIndicators(n);
             }
@@ -45,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     myForm.submit();
                     return false;
                 }
+                console.log(currentTab)
                 showTab(currentTab);
             }
             // Do whatever validation you want
@@ -66,12 +70,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 return valid;
             }
+            btnsPrev.forEach((btnPrev) =>{
             btnPrev.addEventListener("click", () => {
                 clickerBtn(-1);
-            });
+            })
+        });
+            btnsNext.forEach((btnNext) =>{
+
             btnNext.addEventListener("click", () => {
                 clickerBtn(1);
-            });
+            })});
         }
     }
     let MS = new MultiStep("#stepped"); let MS1 = new MultiStep("#stepped1");

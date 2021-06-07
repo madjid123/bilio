@@ -2,11 +2,14 @@
 'lecteur') {%> <% include partials/adminNav%> <%} else {%> <% include
 partials/userNav %> <%}%>
 <!--SEARCH BAR-->
-<section id="search_bar" class="mb-3 py-4 bg-light">
+<section
+  id="search_bar"
+  class="py-2 mx-1 bg-light text-secondary shadow text-center rounded-card"
+>
   <div class="container">
     <form action="/documents/all/all/1" method="POST">
-      <div class="row">
-        <div class="col-md-5 p-1">
+      <div class="row m-4">
+        <div class="col-md-3 col-sm-1 col-xs-1 m-1">
           <select name="filter" class="form-control rounded-pill">
             <option selected disabled>Filter de Recherche...</option>
             <option name="titre">Titre</option>
@@ -16,7 +19,7 @@ partials/userNav %> <%}%>
           </select>
         </div>
 
-        <div class="col-md-5 p-1">
+        <div class="col-md-5 col-sm-1 m-1">
           <input
             name="searchName"
             type="text"
@@ -25,7 +28,7 @@ partials/userNav %> <%}%>
           />
         </div>
 
-        <div class="col-md-2 p-1">
+        <div class="col-md-2 col-sm-1 m-1">
           <input
             type="submit"
             class="btn rounded-pill btn-outline-primary btn-block"
@@ -44,9 +47,7 @@ partials/userNav %> <%}%>
   <div class="container">
     <div class="row justify-content-center">
       <% for(var i=0; i < documents.length; i++) { %>
-      <div
-        class="card rounded-rounded-card rounded-card col-md-3 m-3 text-center"
-      >
+      <div class="rounded-card col-md-3 m-3 text-center">
         <div class="card-body">
           <h5 class="card-titre"><%=documents[i].titre%></h5>
           <p class="text-muted">
@@ -65,7 +66,8 @@ partials/userNav %> <%}%>
 
           <% if(currentUser && documents[i].stock> 0 ) { var match = false%> <%
           user.exemplairepretInfo.forEach(document_info=> { %> <%
-          if(document_info._id.equals(documents[i]._id)) { %>
+          documents[i].exemplaires.forEach(exemplaire_id =>{
+          if(document_info._id.equals(exemplaire_id) && !match) { %>
           <a
             href="#"
             class="btn rounded-pill btn-xs btn-warning disabled"
@@ -79,7 +81,7 @@ partials/userNav %> <%}%>
             role="button"
             >Return/Renew</a
           >
-          <% match=true; } %> <% }) %> <% if(!match &&
+          <% match=true; return null; } %> <% }) %> <%})%> <% if(!match &&
           documents[i].ExemplairesDisponible> 0 && currentUser.type ==='lecteur'
           && currentUser.estInscrit) {%>
           <form
@@ -104,7 +106,7 @@ partials/userNav %> <%}%>
       <% } %>
     </div>
     <% if (pages> 0) { %>
-    <nav class="m-auto">
+    <nav class="container p-0 m-0 gx-0">
       <ul class="pagination mb-2 justify-content-center">
         <% if (current==1) { %>
         <li class="page-item disabled"><a class="page-link">First</a></li>

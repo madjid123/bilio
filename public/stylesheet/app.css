@@ -1,8 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;800&family=Source+Sans+Pro:wght@900&display=swap');
 h1,h2,h3,h4,h5 {
-  font-family: 'Source Sans Pro', sans-serif;
-  font-weight:900;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold !important;
 
+}
+body{
+font-family: "Poppins" , sans-serif !important;
 }
 .rounded-card{
   position: relative;
@@ -11,24 +15,26 @@ h1,h2,h3,h4,h5 {
   min-width: 0;
   word-wrap: break-word;
   background-color: rgb(255, 255, 255);
-  background-clip: border-box;
-  border: 1px solid rgba(0,0,0,.125);
+  /* background-clip: border-box;
+  border: 1px solid rgba(0,0,0,.125); */
+  box-shadow: -1px -1px 5px 5px  rgba(0, 0, 0, 0.062);
   border-radius: 2rem;
 }
 .rounded-card-header{
   padding: .5rem 1rem;
     margin-bottom: 0;
-    background-color: rgba(53, 53, 53, 0.021);
+    background-color: rgb(91, 91, 104);
     border-bottom: 1px solid rgba(0,0,0,.125);
     border-radius: 2rem 2rem 0px 0px;
+    color:#fff
 }
 .rounded-table{
 border-radius: 2rem;
 
 }
 body{
-  background : url(../images/background.svg);
-  background-color: rgb(235, 235, 235) !important;
+  /* background : url(../images/background.svg); */
+  background-color: rgb(240, 240, 240) !important;
   /* background-size : 50%; */
   background-repeat : no-repeat;
   /* background-position : center; */
@@ -99,11 +105,9 @@ body {
   margin-top: 200px
 }
 .bttns{
-  margin-top: 500%;
   display: flex;
-  position:absolute;
    bottom: 0rem;
-   margin-bottom: 5px; 
+   margin-bottom: 10px; 
   width : 90%
 }
 .bttns button {

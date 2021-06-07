@@ -1,9 +1,13 @@
 const mongoose = require("mongoose");
 const Exemplaire = require("./exemplaire")
-Exemplaire
+const User = require("./user")
+const Document = require('./document');
 const pretSchema = new mongoose.Schema({
     pretType: String,
-    pretStatus: String,
+    pretStatut: {
+        type : String,
+        enum : ["retourner", "prolonoger", "en cours", "reserver","retard"]
+    },
     document_info: {
         doc_id: {
             type: mongoose.Schema.Types.ObjectId,
@@ -16,12 +20,12 @@ const pretSchema = new mongoose.Schema({
             cote : String
 
         },
-        pretDate: { type: Date, default: Date.now() },
+        dateDePret: { type: Date, default: Date.now() },
         //Date.now() + 7 * 24 * 60 * 60 * 1000 
-        returnDate: {
+        dateDeRetour: {
             type: Date
         },
-        isRenewed: { type: Boolean, default: false },
+        estProlonoger: { type: Boolean, default: false },
     },
 
     user_id: {
@@ -41,16 +45,57 @@ const pretSchema = new mongoose.Schema({
     }
 });
 
-pretSchema.post(['remove', 'delete', 'deleteOne'], async (doc) => {
-    await Exemplaire.findByIdAndUpdate(doc.document_info.exemplaire_id.id, { $set: { estDisponible: true } })
+pretSchema.post([ 'findOne', 'findById','findByIdAndUpdate'], async (doc,next) => {
+    if(!doc || !doc.document_info) return;
+    console.log(doc);
+    if( Date.now() > doc.document_info.dateDeRetour && doc.pretStatut === "en cours"){
+        doc.pretStatut == "retard"
+        doc.save()
+    }
+    next()
 })
-const schedule = require('node-schedule');
-let i = 0
-// une fonction executer chaque jour a 00:00:00 pour mettre la base a jour
-// const j = schedule.scheduleJob("* * 0-4 * * *", function () {
-//     console.log(new Date());
-// });
-pretSchema.post(['find', 'findById'], async (doc) => {
+pretSchema.post(['find'], async (docs) => {
+    if(docs) {
+        docs.forEach( async doc => {
+    if(doc.pretStatut === "retourner")
+    await Exemplaire.findByIdAndUpdate(doc.document_info.exemplaire_id.id, { $set: { estDisponible: true } })
+    if( Date.now() > doc.document_info.dateDeRetour && doc.pretStatut === "en cours"){
+        doc.pretStatut = "retard"
+        console.log("done")
+        doc.save()
+    }
+})
+}
+})
+pretSchema.pre(['save'],async function(doc, next){
+    if(doc.pretStatut === "retourner"){
+        const user = await User.findById(doc.user_id.id)
+         user.exemplairepretInfo.splice(pos, 1);
+         user.save()
+    }
+})
+
+pretSchema.post(['remove', 'delete'], async (doc, next) => {
+    console.log(doc)
+    if(doc && doc.pretStatut){
+    
+        await User.findByIdAndUpdate(doc.user_id.id, {
+            $pull : {
+                exemplairepretInfo :{
+                    _id : doc.document_info.exemplaire_id.id
+                }
+            }
+        } )
+        await Exemplaire.findByIdAndUpdate(doc.document_info.exemplaire_id.id,{ estDisponible: true })
+        await Document.findByIdAndUpdate(doc.document_info.doc_id, {
+            $set : { $inc : {"ExemplaireDisponible" : 1} },
+            $pull :{
+                exemplaires :{
+                     _id : doc.document_info.exemplaire_id.id
+                    }
+                } 
+            })
+    }
 
 })
 module.exports = mongoose.model("Pret", pretSchema);

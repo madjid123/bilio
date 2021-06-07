@@ -33,7 +33,7 @@ exports.getUserDashboard = async (req, res, next) => {
             const prets = await Pret.find({ "user_id.id": user._id });
 
             for (let pret of prets) {
-                if (pret.document_info.returnDate < Date.now()) {
+                if (pret.document_info.dateDeRetour < Date.now()) {
                     user.violatonFlag = true;
                     user.save();
                     req.flash("warning", "You are flagged for not returning " + pret.document_info.titre + " in time");
@@ -68,7 +68,7 @@ exports.putUpdatePassword = async (req, res, next) => {
         await user.changePassword(oldPassword, newPassword);
         await user.save();
 
-        req.flash("success", "Your password is recently updated. Please log in again to confirm");
+        req.flash("success", "Votre mot de passe a été changer.");
         res.redirect("/auth/user-login");
     } catch (err) {
         console.error(err);
@@ -83,7 +83,7 @@ exports.putUpdateUserProfile = async (req, res, next) => {
             "prenom": req.body.prenom,
             "nom": req.body.nom,
             "email": req.body.email,
-            "address": req.body.address,
+            "addresse": req.body.addresse,
         }
         await User.findByIdAndUpdate(req.user._id, userUpdateInfo);
 
@@ -160,38 +160,38 @@ exports.postpretDocument = async (req, res, next) => {
         const user = await User.findById(req.params.user_id);
 
         // registering pret
-        var exemplaire_id = null
-        document.exemplaires.map(async (exemplaire) => {
-            if (exemplaire.estDisponible === true) {
-                exemplaire_id = exemplaire._id
-                await Exemplaire.findByIdAndUpdate(exemplaire._id, { estDisponible: false })
-                return
-            }
-        })
+        var exemplaire_id = null, cote;
+        const exemplaire = await Exemplaire.findOne({"estDisponible" : true})
+
+        
         let tday = new Date()
         const pret = new Pret({
-            pretStatus: "reserver",
+            pretStatut: "reserver",
             document_info: {
                 doc_id: document._id,
-                exemplaire_id: exemplaire_id
+                exemplaire_id: { id :exemplaire._id ,cote :  exemplaire.cote}
             },
             user_id: {
                 id: user._id,
                 username: user.username,
+                numero : user.numero
             },
             
              
         });
+        exemplaire.estDisponible= false
+        
         pret.createdAt = tday
         
-        pret.document_info.returnDate = (new Date()).setDate(tday.getDate() + infogen.dureePret[user.categorie]) 
+        pret.document_info.dateDeRetour = (new Date()).setDate(tday.getDate() + infogen.dureePret[user.categorie]) 
         await document.updateOne({ $inc: { "ExemplairesDisponible": -1 } })
         // putting pret record on individual user document
-        user.exemplairepretInfo.push(document._id);
+        user.exemplairepretInfo.push(exemplaire._id);
 
 
 
         // await ensure to synchronously save all database alteration
+        await exemplaire.save();
         await pret.save();
         await user.save();
         await document.save();
@@ -218,7 +218,7 @@ exports.getShowRenewReturn = async (req, res, next) => {
 /*
     1. construct the search object
     2. fetch prets based on search object
-    3. increament return date by 7 days set isRenewed = true
+    3. increament return date by 7 days set estProlonoger = true
     4. Log the activity
     5. save all db alteration
     6. redirect to /documents/return-renew
@@ -231,9 +231,9 @@ exports.postRenewDocument = async (req, res, next) => {
         }
         const pret = await Pret.findOne(searchObj);
         // adding extra 7 days to that pret
-        let time = pret.document_info.returnDate.getTime();
-        pret.document_info.returnDate = time + 7 * 24 * 60 * 60 * 1000;
-        pret.document_info.isRenewed = true;
+        let time = pret.document_info.dateDeRetour.getTime();
+        pret.document_info.dateDeRetour = time + 7 * 24 * 60 * 60 * 1000;
+        pret.document_info.estProlonoger = true;
 
         // logging the activity
 

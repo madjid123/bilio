@@ -4,10 +4,12 @@
 <% include ../partials/adminNav %>
 
 <!--DASHBOARD SECTION-->
-<header id="main-header" class="py-2 text-center justify-content-center">
+<header
+  id="main-header"
+  class="py-2 text-center bg-light text-secondary justify-content-center shadow"
+>
   <div class="container justify-content-center">
     <h1><i class="fa fa-gear"></i>Tableau de bord</h1>
-    <hr />
   </div>
 </header>
 
@@ -22,10 +24,12 @@
               name="searchUser"
               type="text"
               class="form-control rounded-pill"
-              placeholder="Find activities by username, categorie"
+              placeholder="Trouverz des activities par pseudo , categorie"
             />
             <span class="input-group-btn">
-              <button class="btn rounded-pill btn-primary">Search</button>
+              <button class="btn px-2 ml-2 rounded-pill btn-primary">
+                Recherche
+              </button>
             </span>
           </div>
         </form>
@@ -41,7 +45,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-9">
-        <div class="card">
+        <div class="rounded-card">
           <div class="rounded-card-header text-center">
             <h4>Recent User Activities</h4>
           </div>
@@ -216,10 +220,9 @@
       <div class="col-md-3">
         <div
           class="
-            card
-            rounded-rounded-card rounded-card
+            rounded-card rounded-rounded-card rounded-card
             text-center
-            bg-primary
+            bg-info
             text-white
             p-3
             mb-3
@@ -234,15 +237,14 @@
             <a
               href="/admin/documentInventory/all/all/1"
               class="btn rounded-pill btn-outline-light"
-              >View</a
+              >Voir</a
             >
           </div>
         </div>
 
         <div
           class="
-            card
-            rounded-rounded-card rounded-card
+            rounded-card rounded-rounded-card rounded-card
             text-center
             bg-success
             text-white
@@ -257,7 +259,7 @@
               <%=users_count%>
             </h1>
             <a href="/admin/users/1" class="btn rounded-pill btn-outline-light"
-              >Users</a
+              >Utilisateurs</a
             >
           </div>
         </div>

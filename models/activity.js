@@ -17,8 +17,8 @@ const activitySchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "pret",
         },
-        returnDate: Date,
-        pretDate: Date,
+        dateDeRetour: Date,
+        dateDePret: Date,
     },
 
     user_id: {

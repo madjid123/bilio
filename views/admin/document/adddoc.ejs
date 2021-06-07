@@ -2,7 +2,7 @@
 
 <!--NAVIGATION BAR FOR ADMIN-->
 <% include ../../partials/adminNav %> <% include ../../partials/alerts %>
-<div class="my-4 add-doc">
+<div class="my">
   <form id="stepped" action="/admin/documents/add" method="post">
     <div class="container" style="min-height: 100%">
       <div class="row m-0 p-0 justify-content-center">
@@ -73,7 +73,7 @@
           <div class="position-relative">
             <div class="steps">
               <div class="row mb-12 g-0 justify-content-center">
-                <div class="col pr-4">
+                <div class="col">
                   <div class="form-group">
                     <label class="form-label">Type de document </label>
 
@@ -91,7 +91,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="col">
+                <div class="col px-1">
                   <div class="form-group">
                     <label class="form-label">langue de publication</label>
                     <input
@@ -144,6 +144,28 @@
                   />
                 </div>
               </div>
+<div class="form-group gx-0 bttns justify-content-center">
+            <button
+              type="button"
+              class="md-3 btnPrev px-5 btn rounded-pill btn-outline-success"
+            >
+              Prev
+            </button>
+
+            <button
+              type="button"
+              class="
+                -md-3
+                btnNext
+                px-5
+                btn
+                rounded-pill
+                px-2
+                btn-outline-success
+              "
+            >
+              Next
+            </button>
             </div>
           </div>
           <div class="steps">
@@ -190,6 +212,28 @@
                 />
               </div>
             </div>
+<div class="gx-0 bttns justify-content-center">
+            <button
+              type="button"
+              class="md-3 btnPrev px-5 btn rounded-pill btn-outline-success"
+            >
+              Prev
+            </button>
+
+            <button
+              type="button"
+              class="
+                -md-3
+                btnNext
+                px-5
+                btn
+                rounded-pill
+                px-2
+                btn-outline-success
+              "
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>
@@ -217,24 +261,33 @@
               </div>
             </div>
           </div>
+          <div class="gx-0 bttns justify-content-center">
+            <button
+              type="button"
+              class="md-3 btnPrev px-5 btn rounded-pill btn-outline-success"
+            >
+              Prev
+            </button>
+
+            <button
+              type="button"
+              class="
+                -md-3
+                btnNext
+                px-5
+                btn
+                rounded-pill
+                px-2
+                btn-outline-success
+              "
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </form>
 </div>
-<div class="gx-0 bttns justify-content-center" style="">
-  <button
-    type="button"
-    class="md-3 btnPrev px-5 btn rounded-pill btn-outline-success"
-  >
-    Prev
-  </button>
 
-  <button
-    type="button"
-    class="-md-3 btnNext px-5 btn rounded-pill px-2 btn-outline-success"
-  >
-    Next
-  </button>
-</div>
 <% include ../../partials/footer %>

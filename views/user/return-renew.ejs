@@ -45,20 +45,20 @@
                       <%=document.document_info.auteur%>
                     </td>
                     <td>
-                      <%=document.document_info.pretDate.toDateString()%>
+                      <%=document.document_info.dateDePret.toDateString()%>
                     </td>
                     <td>
-                      <%=document.document_info.returnDate.toDateString()%>
+                      <%=document.document_info.dateDeRetour.toDateString()%>
                     </td>
                     <td>
                       <%=document.document_info.categorie%>
                     </td>
                     <td>
 
-                      <% if(document.document_info.isRenewed) { %>
+                      <% if(document.document_info.estProlonoger) { %>
                         <a href="#" class=" btn rounded-pill  btn-xs btn-warning disabled" role="button"
                           aria-disabled="true">Renewed!</a>
-                        <% } else if(currentUser.violationFlag && document.document_info.returnDate < Date.now()) { %>
+                        <% } else if(currentUser.violationFlag && document.document_info.dateDeRetour < Date.now()) { %>
                           <a class=" btn rounded-pill  btn-xs btn-warning"
                             titre="You can't renew document when you are flagged">Renew</a>
                           <% } else { %>

@@ -17,11 +17,12 @@ const express = require("express"),
   documentRoutes = require("./routes/documents"),
   authRoutes = require("./routes/auth"),
   cors = require("cors");
+  require("./utils/cron_job");
 
 
 // uncomment below line for first time to seed database;
- const Seed = require('./seed');
- Seed(100);
+// const Seed = require('./seed');
+ //Seed(100);
 app.use(cors({
   origin: ['http://localhost:3000'],
   methods: ['GET', 'POST'],

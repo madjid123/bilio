@@ -3,14 +3,14 @@
 <!--NAVIGATION BAR FOR ADMIN-->
 <% include ../../partials/adminNav %>
 
-<header id="main-header" class="py-3 text-center">
+<header id="main-header" class="py-4 mb-4 bg-light text-secondary shadow text-center">
   <div class="container">
     <h1><i class="fa fa-pencil"></i> Document Inventory</h1>
   </div>
 </header>
 
 <!--ACTIONS-->
-<section id="search_bar" class="my-3 m-4 py-4 bg-light">
+<section id="search_bar" class="my-4 m-4 py-4 rounded-card">
   <div class="container text-white">
     <form action="/admin/documentInventory/all/all/1" method="POST">
       <div class="row">
@@ -52,98 +52,112 @@
 <section id="documentInventory" class="mt-5">
   <div class="container">
     <div class="row">
-      <div class="col">
-        <div class="rounded-card rounded-rounded-card text-white">
-          <table mb-5 text-center class="table mb-5 text-center table-light">
-            <thead class="thead-light">
-              <tr>
-                <th>Titre</th>
-                <th>Auteur</th>
-                <th>ISBN</th>
-                <th>Catergory</th>
-                <th>Exemplaires</th>
-                <th>Edit</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% documents.forEach(document=> { %>
+      <div class="col text-center">
+        <div class="rounded-card">
+          <div class="rounded-card-header">
+            <h4>Documents</h4>
+          </div>
+          <div class="card-body">
+            <table mb-5 text-center class="table mb-5 text-center table-light">
+              <thead class="thead-light">
+                <tr>
+                  <th>Titre</th>
+                  <th>Auteur</th>
+                  <th>ISBN</th>
+                  <th>Catergory</th>
+                  <th>Exemplaires</th>
+                  <th>Modifier les documents</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% documents.forEach(document=> { %>
 
-              <tr>
-                <td><%= document.titre %></td>
-                <td><%= document.auteur %></td>
-                <td><%= document.ISBN %></td>
-                <td><%= document.categorie %></td>
-                <td><%= document.stock %></td>
-                <td>
-                  <span class="text-white justify-content-center text-center">
-                    <a
-                      href="/admin/document/update/<%=document._id%>"
-                      class="btn rounded-pill btn-primary btn-sm m-1"
-                      >Update</a
+                <tr>
+                  <td><%= document.titre %></td>
+                  <td><%= document.auteur %></td>
+                  <td><%= document.ISBN %></td>
+                  <td><%= document.categorie %></td>
+                  <td><%= document.stock %></td>
+                  <td>
+                    <div
+                      style="display: flex; justify-content: center"
+                      class=""
                     >
-                    <a
-                      href="/admin/document/<%=document._id%>/exemplaire/"
-                      class="btn rounded-pill btn-sm btn-primary m-1"
-                    >
-                      Exemplaires
-                    </a>
-                    <a
-                      href="/admin/document/delete/<%=document._id%>"
-                      class="btn rounded-pill btn-sm btn-danger m-1"
-                      >Delete</a
-                    >
-                  </span>
-                </td>
-              </tr>
-              <% }); %>
-            </tbody>
-          </table>
+                        <a
+                          href="/admin/document/update/<%=document._id%>"
+                          class="btn rounded-pill btn-primary btn-sm m-1"
+                          >Update</a
+                        >
+                        <a
+                          href="/admin/document/<%=document._id%>/exemplaire/"
+                          class="btn rounded-pill btn-sm btn-primary m-1"
+                        >
+                          Exemplaires
+                        </a>
+                        <a
+                          href="/admin/document/delete/<%=document._id%>"
+                          class="btn rounded-pill btn-sm btn-danger m-1"
+                          >Delete</a
+                        >
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
 
-          <% if (pages> 0) { %>
-          <nav class="m-auto">
-            <ul class="pagination mb-2 justify-content-center">
-              <% if (current==1) { %>
-              <li class="page-item disabled"><a class="page-link">First</a></li>
-              <% } else { %>
-              <li class="page-item">
-                <a
-                  href="/admin/documentInventory/<%=filter%>/<%=value%>/1"
-                  class="page-link"
-                  >First</a
-                >
-              </li>
-              <% } %> <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %>
-              <% if (i !==1) { %>
-              <li class="page-item disabled"><a class="page-link">...</a></li>
-              <% } %> <% for (; i <=(Number(current) + 4) && i <=pages; i++) {
-              %> <% if (i==current) { %>
-              <li class="page-item active">
-                <a class="page-link"> <%= i %> </a>
-              </li>
-              <% } else { %>
-              <li class="page-item">
-                <a
-                  class="page-link"
-                  href="/admin/documentInventory/<%=filter%>/<%=value%>/<%= i %>"
-                >
-                  <%= i %>
-                </a>
-              </li>
-              <% } %> <% if (i==Number(current) + 4 && i < pages) { %>
-              <li class="page-item disabled"><a class="page-link">...</a></li>
-              <% } %> <% } %> <% if (current==pages) { %>
-              <li class="page-item disabled"><a class="page-link">Last</a></li>
-              <% } else { %>
-              <li class="page-item">
-                <a
-                  href="/admin/documentInventory/<%=filter%>/<%=value%>/<%= pages %>"
-                  class="page-link"
-                  >Last</a
-                >
-              </li>
-              <% } %>
-            </ul>
-          </nav>
+            <% if (pages> 0) { %>
+
+            <nav class="m-auto">
+              <ul class="pagination mb-2 justify-content-center">
+                <% if (current==1) { %>
+                <li class="page-item disabled">
+                  <a class="page-link">First</a>
+                </li>
+                <% } else { %>
+                <li class="page-item">
+                  <a
+                    href="/admin/documentInventory/<%=filter%>/<%=value%>/1"
+                    class="page-link"
+                    >First</a
+                  >
+                </li>
+                <% } %> <% var i=(Number(current)> 5 ? Number(current) - 4 : 1)
+                %> <% if (i !==1) { %>
+                <li class="page-item disabled"><a class="page-link">...</a></li>
+                <% } %> <% for (; i <=(Number(current) + 4) && i <=pages; i++) {
+                %> <% if (i==current) { %>
+                <li class="page-item active">
+                  <a class="page-link"> <%= i %> </a>
+                </li>
+                <% } else { %>
+                <li class="page-item">
+                  <a
+                    class="page-link"
+                    href="/admin/documentInventory/<%=filter%>/<%=value%>/<%= i %>"
+                  >
+                    <%= i %>
+                  </a>
+                </li>
+                <% } %> <% if (i==Number(current) + 4 && i < pages) { %>
+                <li class="page-item disabled"><a class="page-link">...</a></li>
+                <% } %> <% } %> <% if (current==pages) { %>
+                <li class="page-item disabled">
+                  <a class="page-link">Last</a>
+                </li>
+                <% } else { %>
+                <li class="page-item">
+                  <a
+                    href="/admin/documentInventory/<%=filter%>/<%=value%>/<%= pages %>"
+                    class="page-link"
+                    >Last</a
+                  >
+                </li>
+                <% } %>
+              </ul>
+            </nav>
+          </div>
           <% } %>
         </div>
       </div>

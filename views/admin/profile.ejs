@@ -5,13 +5,9 @@
   <% include ../partials/adminNav %>
 
 
-    <header id="main-header" class="py-2 bg-primary text-white">
+    <header id="main-header" class="py-2 bg-light text-secondary shadow text-center">
       <div class="container">
-        <div class="row">
-          <div class="col-md-6">
             <h1><i class="fa fa-user"></i> Profile</h1>
-          </div>
-        </div>
       </div>
     </header>
 
@@ -38,7 +34,7 @@
           
 
           <div class="col">
-            <a href="/admin/delete-profile" class=" btn rounded-pill  btn-danger btn-block" data-toggle="modal"
+            <a href="/admin/delete-profile" class=" btn rounded-pill shadow  btn-danger btn-block" data-toggle="modal"
               data-target="#deleteProfileModal">
               <i class="fa fa-close"></i> Supprimer ce compte
             </a>
@@ -54,11 +50,11 @@
       <div class="container">
         <div class="row">
           <div class="col-md-7 mx-auto">
-            <div class="rounded-card  rounded-card  rounded-card p-3">
+            <div class="rounded-card  rounded-card  rounded-card text-center">
               <div class="rounded-card-header ">
                 <h4>Admin Info</h4>
               </div>
-              <div class="card-block">
+              <div class="card-body">
                 <p>User name : <%=currentUser.username%>
                 </p>
                 <p>Email : <%=currentUser.email%>

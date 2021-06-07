@@ -1,237 +1,320 @@
 <% include ../partials/header %>
 
-  <!--NAVIGATION BAR FOR USER-->
-  <% include ../partials/userNav %>
+<!--NAVIGATION BAR FOR USER-->
+<% include ../partials/userNav %>
 
-    <!--DASHBOARD SECTION-->
-    <header id="main-header" class="py-2 bg-info text-white">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <h1><i class="fa fa-user"></i> Profile</h1>
+<!--DASHBOARD SECTION-->
+<header id="main-header" class="py-4 mb-3 bg-info bg-light shadow">
+  <div class="container text-center text-secondary">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h1><i class="fa fa-user"></i> Profile</h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!--ACTIONS-->
+<section id="actions" class="py-4 mb-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 mr-auto">
+        <a href="/user/1" class="btn shadow rounded-pill btn-light btn-block">
+          <i class="fa fa-arrow-left"></i> Retour
+        </a>
+      </div>
+
+      <div class="col-md-3">
+        <a
+          href=""
+          class="btn shadow rounded-pill btn-primary btn-block"
+          data-toggle="modal"
+          data-target="#changePasswordModal"
+        >
+          <i class="fa fa-key"></i> Changer le Mot de passe
+        </a>
+      </div>
+
+      <div class="col-md-3">
+        <a
+          href=""
+          class="btn shadow rounded-pill btn-warning btn-block"
+          data-toggle="modal"
+          data-target="#updateProfileModal"
+        >
+          <i class="fa fa-refresh"></i> Modifier Profile
+        </a>
+      </div>
+
+      <% if(currentUser.exemplairepretInfo.length> 0) { %>
+      <div class="col-md-3">
+        <a
+          class="btn shadow rounded-pill btn-danger btn-block"
+          disabled
+          titre="Veuillez retourner tous les documents prêter"
+        >
+          <i class="fa fa-remove"></i> Supprimer Profile
+        </a>
+      </div>
+      <% } else { %>
+
+      <div class="col-md-3">
+        <a
+          href=""
+          class="btn rounded-pill btn-danger btn-block shadow"
+          data-toggle="modal"
+          data-target="#deleteProfileModal"
+        >
+          <i class="fa fa-remove"></i> Supprimer Profile
+        </a>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<% include ../partials/alerts %>
+
+<!--PROFILE-->
+<section class="mt-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 text-center">
+        <h4 class="text-center pb-3">Phote de profile</h4>
+        <div class="rounded-card">
+          <div class="card-body">
+            <img
+              src="/images/<%=currentUser.image ||'profile.png'%>"
+              class="card-img-top rounded-circle shadow"
+            />
+            <br />
+            <br />
+            <a
+              href=""
+              class="text-muted my-4"
+              data-toggle="modal"
+              data-target="#changePhotoModal"
+              ><i class="fa fa-camera"></i> Changer la photo</a
+            >
           </div>
         </div>
       </div>
-    </header>
+      <div class="col-md-6">
+        <h4 class="text-center pb-3">Informations Personelles</h4>
+        <div class="rounded-card">
+          <ul class="list-group list-group-flu p-4">
+            <li class="list-group-item">Numéro : <%=currentUser.numero%></li>
 
-    <!--ACTIONS-->
-    <section id="actions" class="py-4 mb-4">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-3 mr-auto">
-            <a href="/user/1" class=" btn rounded-pill  btn-light btn-block">
-              <i class="fa fa-arrow-left"></i> Back To Dashboard
-            </a>
-          </div>
-
-          <div class="col-md-3">
-            <a href="" class=" btn rounded-pill  btn-primary btn-block" data-toggle="modal"
-              data-target="#changePasswordModal">
-              <i class="fa fa-key"></i> Change Password
-            </a>
-          </div>
-
-          <div class="col-md-3">
-            <a href="" class=" btn rounded-pill  btn-warning btn-block" data-toggle="modal"
-              data-target="#updateProfileModal">
-              <i class="fa fa-refresh"></i> Update Profile
-            </a>
-          </div>
-
-          <% if(currentUser.exemplairepretInfo.length> 0) { %>
-            <div class="col-md-3">
-              <a class=" btn rounded-pill  btn-danger btn-block" disabled
-                titre="You have to return all borrowed/renewed documents first">
-                <i class="fa fa-remove"></i> Delete Profile
-              </a>
-            </div>
-            <% } else { %>
-
-              <div class="col-md-3">
-                <a href="" class=" btn rounded-pill  btn-danger btn-block" data-toggle="modal"
-                  data-target="#deleteProfileModal">
-                  <i class="fa fa-remove"></i> Delete Profile
-                </a>
-              </div>
-              <% } %>
-        </div>
-      </div>
-    </section>
-
-    <% include ../partials/alerts %>
-
-      <!--PROFILE-->
-      <section class="mt-4">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-3">
-              <img src="/images/<%=currentUser.image ||'profile.png'%>" class="card-img-top rounded-circle">
-              <a href="" class="text-muted ml-5" data-toggle="modal" data-target="#changePhotoModal"><i
-                  class="fa fa-camera"></i> Change Photo</a>
-            </div>
-            <div class="col-md-6">
-              <h4 class="text-center pb-3">Personal Informations</h4>
-
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">First Name : <%=currentUser.prenom%>
-                </li>
-                <li class="list-group-item">Last Name : <%=currentUser.nom%>
-                </li>
-                <li class="list-group-item">Username : <%=currentUser.username%>
-                </li>
-                <li class="list-group-item">Joined : <%=currentUser.dateDadhesion.toDateString()%>
-                </li>
-                <li class="list-group-item">Email : <%=currentUser.email%>
-                </li>
-                <li class="list-group-item">Address : <%=currentUser.address%>
-                </li>
-                <li class="list-group-item text-danger font-weight-bold">Violation Flag : <%=currentUser.violationFlag%>
-                </li>
-                <li class="list-group-item">Due Fines : $<%=currentUser.fines%>
-                </li>
-              </ul>
-            </div>
-
-            <div class="col-md-3" style="">
-              <h4 class="text-center pb-3">Termes & Conditions</h4>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!--Delete Profile Modal-->
-      <div class="modal fade" id="deleteProfileModal">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-              <h5 class="modal-titre" id="deleteProfileModalLabel">
-               Vous voulez supprimer ce compte ? 
-              </h5>
-              <button class="close" data-dismiss="modal"><span>&times;</span></button>
-            </div>
-            <div class="modal-body">
-              <form action="/user/1/delete-profile?_method=DELETE" method="POST">
-
-                <input type="submit" value="Yes" class=" btn rounded-pill  btn-danger btn-block m-1">
-
-              </form>
-              <input type="button" value="No" data-dismiss="modal" class=" btn rounded-pill  btn-success btn-block m-1">
-            </div>
-          </div>
+            <li class="list-group-item">Prenom : <%=currentUser.prenom%></li>
+            <li class="list-group-item">Nom : <%=currentUser.nom%></li>
+            <li class="list-group-item">Pseudo: <%=currentUser.username%></li>
+            <li class="list-group-item">
+              Catégorie : <%=currentUser.categorie%>
+            </li>
+            <li class="list-group-item">
+              <%var t = currentUser.dateDadhesion%> Créer le : <%=
+              t.getDate()+'/'+(t.getMonth()+1)+'/'+t.getFullYear()%>
+            </li>
+            <li class="list-group-item">Email : <%=currentUser.email%></li>
+            <li class="list-group-item">
+              Addresse : <%=currentUser.addresse%>
+            </li>
+            <li class="list-group-item">
+              <%var t = currentUser.dateDeNaissance%> Né(e) le : <%=
+              t.getDate()+'/'+(t.getMonth()+1)+'/'+t.getFullYear()%>
+            </li>
+            <li class="list-group-item text-danger font-weight-bold">
+              Est Suspendu : <%=(currentUser.violationFlag)?"Oui":"Non" %>
+            </li>
+          </ul>
         </div>
       </div>
 
-
-      <!--Change Password Modal-->
-      <div class="modal fade" id="changePasswordModal">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-              <h5 class="modal-titre" id="passwordModalLabel">
-                Modifier le Mot de passe
-              </h5>
-              <button class="close" data-dismiss="modal"><span>&times;</span></button>
-            </div>
-            <div class="modal-body">
-              <form action="/user/1/update-password?_method=PUT" method="POST">
-                <div class="form-group">
-                  <label for="password" class="form-label">Old Password</label>
-                  <input type="password" name="oldPassword" class="form-control rounded-pill  ">
-                </div>
-                <div class="form-group">
-                  <label for="password" class="form-label">New Password</label>
-                  <input id="password" type="password" name="password" class="form-control rounded-pill  ">
-                </div>
-
-                <div class="form-group">
-                  <label for="password" class="form-label">Confirm Password</label>
-                  <input id="confirmPassword" type="password" name="confirmPassword"
-                    class="form-control rounded-pill  ">
-                  <span id='message'></span>
-                </div>
-                <button id="button" class=" btn rounded-pill  btn-primary btn-block">Submit</button>
-              </form>
-            </div>
-          </div>
-        </div>
+      <div class="col-md-3" style="">
+        <h4 class="text-center pb-3">Termes & Conditions</h4>
       </div>
+    </div>
+  </div>
+</section>
 
-      <!--Update Profile Modal-->
-      <div class="modal fade" id="updateProfileModal">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header bg-warning text-white">
-              <h5 class="modal-titre" id="updateProfileModalLabel">
-                Modifier le profile
-              </h5>
-              <button class="close" data-dismiss="modal"><span>&times;</span></button>
-            </div>
-            <div class="modal-body">
-              <form action="/user/1/update-profile?_method=PUT" method="POST">
-                <div class="form-group">
-                  <label for="prenom" class="form-label">Edit First Name</label>
-                  <input type="text" name="prenom" class="form-control rounded-pill  " value="<%=currentUser.prenom%>">
-                </div>
-                <div class="form-group">
-                  <label for="nom" class="form-label">Edit Last Name</label>
-                  <input type="text" name="nom" class="form-control rounded-pill  " value="<%=currentUser.nom%>">
-                </div>
-
-                <div class="form-group">
-                  <label for="email" class="form-label">Change Email</label>
-                  <input type="email" name="email" class="form-control rounded-pill  " value="<%=currentUser.email%>">
-                </div>
-
-
-
-                <div class="form-group">
-                  <label for="address" class="form-label">Address</label>
-                  <input type="text" name="address" class="form-control rounded-pill  "
-                    value="<%=currentUser.address%>">
-                </div>
-
-                <button class=" btn rounded-pill  btn-warning btn-block">Submit</button>
-              </form>
-            </div>
-          </div>
-        </div>
+<!--Delete Profile Modal-->
+<div class="modal fade" id="deleteProfileModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-titre" id="deleteProfileModalLabel">
+          Vous voulez supprimer ce compte ?
+        </h5>
+        <button class="close" data-dismiss="modal"><span>&times;</span></button>
       </div>
-
-      <!--Change Photo Modal-->
-      <div class="modal fade" id="changePhotoModal">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-              <h5 class="modal-titre" id="passwordModalLabel">
-                Change Photo
-              </h5>
-              <button class="close" data-dismiss="modal"><span>&times;</span></button>
-            </div>
-            <div class="modal-body">
-              <form method="POST" action="/user/1/image" enctype="multipart/form-data">
-                <div class="form-group">
-                  <label for="photo" class="form-label">Change Photo</label>
-                  <input type="file" name="image" class="form-control rounded-pill  ">
-                </div>
-                <input type="submit" class=" btn rounded-pill  btn-sm btn-primary m-2" value="Submit">
-              </form>
-            </div>
-          </div>
-        </div>
+      <div class="modal-body">
+        <form action="/user/1/delete-profile?_method=DELETE" method="POST">
+          <input
+            type="submit"
+            value="Yes"
+            class="btn rounded-pill btn-danger btn-block m-1"
+          />
+        </form>
+        <input
+          type="button"
+          value="No"
+          data-dismiss="modal"
+          class="btn rounded-pill btn-success btn-block m-1"
+        />
       </div>
+    </div>
+  </div>
+</div>
 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script>
-        $('#confirmPassword').on('keyup', function () {
-          if ($(this).val() == $('#password').val()) {
-            $('#message').html('Matched').css('color', 'green');
-            $('#button').removeClass("d-none")
-          }
-          else {
-            $('#message').html('Not matched!').css('color', 'red');
-            $('#button').addClass("d-none");
-          }
-        });
-      </script>
+<!--Change Password Modal-->
+<div class="modal fade" id="changePasswordModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-titre" id="passwordModalLabel">
+          Modifier le Mot de passe
+        </h5>
+        <button class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form action="/user/1/update-password?_method=PUT" method="POST">
+          <div class="form-group">
+            <label for="password" class="form-label">Ancien Mot de passe</label>
+            <input
+              type="password"
+              name="oldPassword"
+              class="form-control rounded-pill"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password" class="form-label"
+              >Nouveau Mot de passe</label
+            >
+            <input
+              id="password"
+              type="password"
+              name="password"
+              class="form-control rounded-pill"
+            />
+          </div>
 
-      <% include ../partials/footer %>
+          <div class="form-group">
+            <label for="password" class="form-label">Confirm Password</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              name="confirmPassword"
+              class="form-control rounded-pill"
+            />
+            <span id="message"></span>
+          </div>
+          <button id="button" class="btn rounded-pill btn-primary btn-block">
+            Soumet
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Update Profile Modal-->
+<div class="modal fade" id="updateProfileModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-warning text-white">
+        <h5 class="modal-titre" id="updateProfileModalLabel">
+          Modifier le profile
+        </h5>
+        <button class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form action="/user/1/update-profile?_method=PUT" method="POST">
+          <div class="form-group">
+            <label for="prenom" class="form-label">Prénom</label>
+            <input
+              type="text"
+              name="prenom"
+              class="form-control rounded-pill"
+              value="<%=currentUser.prenom%>"
+            />
+          </div>
+          <div class="form-group">
+            <label for="nom" class="form-label">Nom</label>
+            <input
+              type="text"
+              name="nom"
+              class="form-control rounded-pill"
+              value="<%=currentUser.nom%>"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              name="email"
+              class="form-control rounded-pill"
+              value="<%=currentUser.email%>"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="addresse" class="form-label">Address</label>
+            <input
+              type="text"
+              name="addresse"
+              class="form-control rounded-pill"
+              value="<%=currentUser.addresse%>"
+            />
+          </div>
+
+          <button class="btn rounded-pill btn-warning btn-block">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Change Photo Modal-->
+<div class="modal fade" id="changePhotoModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-titre" id="passwordModalLabel">Change Photo</h5>
+        <button class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form
+          method="POST"
+          action="/user/1/image"
+          enctype="multipart/form-data"
+        >
+          <div class="form-group">
+            <label for="photo" class="form-label">Change Photo</label>
+            <input type="file" name="image" class="form-control rounded-pill" />
+          </div>
+          <input
+            type="submit"
+            class="btn rounded-pill btn-sm btn-primary m-2"
+            value="Submit"
+          />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+  $("#confirmPassword").on("keyup", function () {
+    if ($(this).val() == $("#password").val()) {
+      $("#message").html("Matched").css("color", "green");
+      $("#button").removeClass("d-none");
+    } else {
+      $("#message").html("Not matched!").css("color", "red");
+      $("#button").addClass("d-none");
+    }
+  });
+</script>
+
+<% include ../partials/footer %>

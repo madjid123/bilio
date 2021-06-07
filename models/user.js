@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now()
   },
-  exemplairepretInfo: [{
+  exemplairepretInfo: [ {
     document_info: {
       id: {
         type: mongoose.Schema.Types.ObjectId,

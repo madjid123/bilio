@@ -5,8 +5,9 @@ const exemplaire = require('./admin/exemplaire'),
     profile = require('./admin/profile'),
     documents = require('./admin/documents'),
     document = require('./admin/document'),
-    suspensions = require('./admin/suspensions')
+    suspensions = require('./admin/suspensions'),
+    penalites = require('./admin/penalites');
 module.exports = {
 
-    exemplaire, users, dashboard, pret, profile, documents, document, suspensions
+    penalites, exemplaire, users, dashboard, pret, profile, documents, document, suspensions
 }

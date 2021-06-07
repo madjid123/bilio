@@ -12,88 +12,92 @@
     <div class="col-md-10 mb-4 justify-content-center">
       <div class="rounded-card rounded-card">
         <div class="rounded-card-header">
-          <h4 class="text-center"><%= document.titre %></h4>
+          <h4 class="text-center" font="bold"><%= document.titre %></h4>
         </div>
 
-        <small class="px-3 py-2">
+        <h6 class="px-3 py-2">
           <a class="font-weight-bold" font="bold">Auteurs :</a>
           <%= document.auteur %>
-        </small>
-        <small class="px-3 py-2">
+        </h6>
+        <h6 class="px-3 py-2">
           <a class="font-weight-bold" font="bold">ISBN : </a>
           <%= document.ISBN %>
-        </small>
-        <small class="px-3 py-2"
-          ><a class="font-weight-bold" font="bold">Catégorie : </a>
+        </h6>
+        <h6 class="px-3 py-2">
+          <a class="font-weight-bold" font="bold">Catégorie : </a>
           <%= document.categorie %>
-        </small>
-        <small class="px-3 py-2"
-          ><a class="font-weight-bold" font="bold"
+        </h6>
+        <h6 class="px-3 py-2">
+          <a class="font-weight-bold" font="bold"
             >Année <%=(document.type==='Livre' )? "d'edition" :"" %>:
           </a>
           <%= document.annee %>
-        </small>
+        </h6>
         <%if(document.edition !==undefined) {%>
-        <small class="px-3 py-2"
-          ><a class="font-weight-bold" font="bold">Edition: </a>
+        <h6 class="px-3 py-2">
+          <a class="font-weight-bold" font="bold">Edition: </a>
           <%= document.edition%>
-        </small>
+        </h6>
         <%}%>
-        <small class="px-3 py-2"
-          ><a class="font-weight-bold" font="bold">Type de document: </a>
+        <h6 class="px-3 py-2">
+          <a class="font-weight-bold" font="bold">Type de document: </a>
           <%= document.type%>
-        </small>
-        <small class="px-3 py-2"
-          ><a class="font-weight-bold" font="bold">Langue: </a>
+        </h6>
+        <h6 class="px-3 py-2">
+          <a class="font-weight-bold" font="bold">Langue: </a>
           <%= document.lang%>
-        </small>
-        <small class="px-3 py-2"
-          ><a class="font-weight-bold" font="bold">Nombre d'exemplaire : </a>
+        </h6>
+        <h6 class="px-3 py-2">
+          <a class="font-weight-bold" font="bold">Nombre d'exemplaire : </a>
           <%= document.stock %>
-        </small>
+        </h6>
 
         <div class="card-body">
           <a class="font-weight-bold" font="bold">Résume: </a>
           <div class="rounded-card mx-5 my-2 py-2">
-            <p
-              class="card-text text-weight-bold"
-              font="bold"
-              style="font-family: serif"
-            >
-              <%- document.resume %>
-            </p>
+            <div class="card-body">
+              <p
+                class="card-text text-weight-bold"
+                font="bold"
+                style="font-family: serif"
+              >
+                <%- document.resume %>
+              </p>
+            </div>
           </div>
           <h4>Exemplaires :</h4>
-          <table mb-5 text-center class="table mb-5 text-center table">
-            <thead class="thead-light thead-dark">
-              <tr>
-                <th>Cote</th>
-                <th>Localisation</th>
-                <th>Support</th>
-                <th>Type de prêt</th>
-                <th>Statut</th>
-                <th>Disponible</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% document.exemplaires.forEach(exemplaire=> { %>
+          <div style="overflow-x: auto">
+            <table mb-5 text-center class="table mb-5 text-center table">
+              <thead class="thead-light thead-dark">
+                <tr>
+                  <th>Cote</th>
+                  <th>Localisation</th>
+                  <th>Support</th>
+                  <th>Type de prêt</th>
+                  <th>Statut</th>
+                  <th>Disponible</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% document.exemplaires.forEach(exemplaire=> { %>
 
-              <tr>
-                <td><%= exemplaire.cote%></td>
-                <td><%= exemplaire.localisation%></td>
-                <td><%= exemplaire.support%></td>
-                <td><%= exemplaire.typePret%></td>
-                <td><%= exemplaire.statut%></td>
-                <% if(exemplaire.estDisponible){ %>
-                <td class="text-success">Oui</td>
-                <%} else {%>
+                <tr>
+                  <td><%= exemplaire.cote%></td>
+                  <td><%= exemplaire.localisation%></td>
+                  <td><%= exemplaire.support%></td>
+                  <td><%= exemplaire.typePret%></td>
+                  <td><%= exemplaire.statut%></td>
+                  <% if(exemplaire.estDisponible){ %>
+                  <td class="text-success">Oui</td>
+                  <%} else {%>
 
-                <td class="text-danger">Non</td>
-                <%}%>
-              </tr>
-              <% }); %>
-            </tbody>
-          </table>
+                  <td class="text-danger">Non</td>
+                  <%}%>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

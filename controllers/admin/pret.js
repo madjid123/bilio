@@ -14,7 +14,7 @@ exports.getprets = async (req, res, next) => {
 
         const prets = await Pret
             .find()
-            .sort('-document_info.pretDate')
+            .sort('-document_info.dateDePret')
             .skip((PER_PAGE * page) - PER_PAGE)
             .limit(PER_PAGE)
             .populate("document_info.exemplaire_id.id")
@@ -38,19 +38,18 @@ exports.getprets = async (req, res, next) => {
 exports.postSearchprets = async (req, res, next) => {
     try {
        let SearchObj = {}
-       if(req.body.filter == "cote"){
-       SearchObj[`document_info.exemplaire_id.${req.body.filter}`] = req.body.searchName;
+       
+       SearchObj[`${req.body.filter}`] = req.body.searchName;
 
-       }else{
-
-       SearchObj[`user_id.${req.body.filter}`] = req.body.searchName;
-       }
-       const pret = await Pret.findOne(SearchObj)
+       
+    console.log(SearchObj)
+       const prets = await Pret.find(SearchObj)
+       .sort("-document_info.dateDePret")
        .populate("document_info.doc_id")
        .populate("document_info.exemplaire_id.id")
-       .populate("user_id.id")
+       .populate("user_id.id");
        res.render("admin/pret/prets" , {
-           prets : [pret] ,
+           prets : prets ,
         pages: 0}
            )
     } catch (err) {
@@ -63,7 +62,7 @@ exports.postSearchprets = async (req, res, next) => {
 exports.postpretDocument = async (req, res, next) => {
     try {
         const user_num = req.body.user_num
-        const Exemplaire_num = req.body.exemplaire_num
+        const exemplaire_num = req.body.exemplaire_num
 
         const user = await User.findOne({ numero: user_num })
         if (!user) {
@@ -81,7 +80,7 @@ exports.postpretDocument = async (req, res, next) => {
             return res.redirect("back");
         }
 
-        const Exemplaire = await Exemplaire.findOne({ cote: exemplaire_num })
+        const exemplaire = await Exemplaire.findOne({ cote: exemplaire_num })
 
         if (!exemplaire) {
             req.flash('error', "Ce exemplaire n'existe pas")
@@ -101,20 +100,20 @@ exports.postpretDocument = async (req, res, next) => {
         exemplaire.estDisponible = false
         const document = await Document.findById(exemplaire.doc_id)
 
-        var dateDeRetourne;
+        var dateDeRetour;
         if (exemplaire.typePret === 'consultation sur place') {
             let tday = new Date()
-            dateDeRetourne = tday.setHours(18, 0, 0)
+            dateDeRetour = tday.setHours(18, 0, 0)
         } else {
-            dateDeRetourne = Date.now() + infogen.dureePret[user.categorie] * 24 * 60 * 60 * 1000
+            dateDeRetour = Date.now() + infogen.dureePret[user.categorie] * 24 * 60 * 60 * 1000
         }
-        const pret = new pret({
-            pretStatus: "en cours",
+        const pret = new Pret({
+            pretStatut: "en cours",
             pretType: exemplaire.typePret,
             document_info: {
                 doc_id: exemplaire.doc_id,
-                exemplaire_id: exemplaire._id,
-                returnDate: dateDeRetourne
+                exemplaire_id:{ id : exemplaire._id, cote : exemplaire.cote},
+                dateDeRetour: dateDeRetour
             },
             user_id: {
                 id: user._id,
@@ -138,8 +137,8 @@ exports.postpretDocument = async (req, res, next) => {
             categorie: "pret",
             time: {
                 id: pret._id,
-                pretDate: pret.document_info.pretDate,
-                returnDate: pret.document_info.returnDate,
+                dateDePret: pret.document_info.dateDePret,
+                dateDeRetour: pret.document_info.dateDeRetour,
             },
             user_id: {
                 id: user._id,
@@ -161,10 +160,16 @@ exports.ReturnDocument = async (req, res, next) => {
     try {
         // finding the position
         const pret = await Pret.findById(req.params.pret_id);
-
+        if(pret.pretStatut !== "en cours" && pret.pretStatut !== "retard"){
+            req.flash('error',"Opération non autotisée")
+            console.error("skfjd")
+            res.redirect('back')
+            return;
+        }
+        const exemplaire_id= pret.document_info.exemplaire_id.id;
         const document_id = pret.document_info.doc_id;
         const user = await User.findById(pret.user_id.id)
-        const pos = user.exemplairepretInfo.indexOf(document_id);
+        const pos = user.exemplairepretInfo.indexOf(exemplaire_id);
 
         // fetching document from db and increament
         const document = await Document.findById(document_id);
@@ -172,12 +177,12 @@ exports.ReturnDocument = async (req, res, next) => {
         await document.save();
 
         // updating availability statut.
-        await Exemplaire.findByIdAndUpdate(pret.document_info.exemplaire_id, { estDisponible: true })
+        await Exemplaire.findByIdAndUpdate(pret.document_info.exemplaire_id.id, { estDisponible: true })
 
         // popping document pret info from user
         user.exemplairepretInfo.splice(pos, 1);
         await user.save();
-
+        pret.pretStatut = "retourner"
         // logging the activity
         const activity = new Activity({
             info: {
@@ -187,8 +192,8 @@ exports.ReturnDocument = async (req, res, next) => {
             categorie: "Return",
             time: {
                 id: pret._id,
-                pretDate: pret.document_info.pretDate,
-                returnDate: pret.document_info.returnDate,
+                dateDePret: pret.document_info.dateDePret,
+                dateDeRetour: pret.document_info.dateDeRetour,
             },
             user_id: {
                 id: user._id,
@@ -197,12 +202,62 @@ exports.ReturnDocument = async (req, res, next) => {
             admin: req.session.passport.user
         });
         await activity.save();
-        await pret.remove();
+        await pret.save();
 
 
         res.redirect("/admin/prets/1");
     } catch (err) {
         console.error(err);
         return res.redirect("back");
+    }
+}
+exports.getConfirmerPret = async (req, res, next) => {
+    try {
+        const pret_id = req.params.pret_id
+        
+        const pret = await Pret.findById(pret_id)
+        if(pret.pretStatut !== "reserver"){
+            req.flash("error","operation non permise")
+            res.redirect('back')
+            return;
+        }
+        pret.pretStatut = "en cours"
+        pret.admin_id = {id : req.user._id, username : req.user.username}
+        pret.save()
+        req.flash("success","Prêt est confimer")
+        res.redirect('back')
+    }catch (err) {
+        console.error(err)
+        req.flash("error",err.message)
+        res.redirect('back')
+    }
+}
+exports.getProlonogerPret = async (req, res, next) => {
+    try {
+        const pret_id = req.params.pret_id
+        const pret = await Pret.findById(pret_id )
+        const user = await User.findById( pret.user_id.id)
+         if(pret.pretStatut !== "en cours"){
+            req.flash("error","operation non permise")
+            res.redirect('back')
+            return;
+        }
+        if(pret.document_info.estProlonoger){
+            req.flash("error","Vous ne pouvez pas pronologer un pret plus qu'une fois")
+            res.redirect('back')
+            return;
+        }
+        let tday = new Date()
+        let pretDate = new Date(pret.document_info.dateDeRetour)
+        tday = tday.setDate(pretDate.getDate() + infogen.dureePret[user.categorie])
+        pret.document_info.dateDeRetour= tday
+        pret.document_info.estProlonoger = true
+        pret.save()
+        req.flash("success","Prêt a été pronologer")
+        res.redirect('back')
+    }catch (err) {
+        console.error(err)
+        req.flash("error",err.message)
+        res.redirect('back')
     }
 }

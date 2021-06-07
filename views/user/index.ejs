@@ -4,13 +4,9 @@
   <% include ../partials/userNav %>
 
     <!--DASHBOARD SECTION-->
-    <header id="main-header" class="py-2 bg-primary text-white">
+    <header id="main-header" class="py-2 bg-light text-secondary shadow text-center">
       <div class="container">
-        <div class="row">
-          <div class="col-md-6">
             <h1><i class="fa fa-gear"></i> Dashboard</h1>
-          </div>
-        </div>
       </div>
     </header>
 
@@ -42,7 +38,7 @@
         <div class="container">
           <div class="row justify-content-around">
             <div class="col-md-5">
-              <div class="card">
+              <div class="rounded-card">
                 <img src="/images/<%=user.image||'profile.png'%>" class="card-img- p-1 roundrd" alt="...">
                 <div class="card-body">
                   <p>Name : <%=user.prenom%>
