@@ -15,7 +15,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
+    "start": "SET NODE_ENV=dev && node app.js",
     "dev": "SET NODE_ENV=dev && nodemon app.js"
   },
   "author": "Azad Mamun",
@@ -49,5 +49,4 @@
     "faker": "^4.1.0",
     "nodemon": "^1.19.4"
   }
- 
 }
