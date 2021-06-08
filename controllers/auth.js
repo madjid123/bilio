@@ -31,6 +31,7 @@ exports.postAdminSignUp = async (req, res, next) => {
         email: req.body.email,
         type : req.body.type,
         estAdmin: (req.body.type === 'admin' )? true:false
+
       });
       const user = await User.register(newAdmin, req.body.password);
       await passport.authenticate("local")(req ,res, next, {
@@ -98,7 +99,8 @@ exports.postUserSignUp = async (req, res, next) => {
       else 
       passport.authenticate("local",{
         successRedirect : "/users/1", 
-        failureRedirect : "/auth/user-signUp"
+        failureRedirect : "/auth/user-signUp",
+
       },(req, res) =>{
 
       })

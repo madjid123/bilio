@@ -1,118 +1,100 @@
-<% include ../../partials/header %>
+<% include ../../partials/header %> <% include ../../partials/adminNav %>
 
-    <% include ../../partials/adminNav %>
+<div class="container-fluid mt-5 pt-2">
+  <div class="row">
+    <div class="col-md-3">
+      <img
+        src="/images/<%=user.image || 'profile.png'%>"
+        class="card-img-top"
+      />
+    </div>
+    <div class="rounded-card rounded-card rounded-card col-md-6">
+      <h4 class="text-center rounded-card-header m-0">Personal Informations</h4>
 
-        <div class="container-fluid mt-5 pt-2">
-            <div class="row">
-                <div class="col-md-3">
-                    <img src="/images/<%=user.image || 'profile.png'%>" class=" card-img-top">
-                </div>
-                <div class="rounded-card  rounded-card  rounded-card col-md-6">
-                    <h4 class="text-center rounded-card-header   m-0">Personal Informations</h4>
-
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">First Name : <%=user.prenom%>
-                        </li>
-                        <li class="list-group-item">Last Name : <%=user.nom%>
-                        </li>
-                        <li class="list-group-item">Username : <%=user.username%>
-                        </li>
-                        <li class="list-group-item">Joined : <%=user.dateDadhesion.toDateString()%>
-                        </li>
-                        <li class="list-group-item">Email : <%=user.email%>
-                        </li>
-                        <li class="list-group-item">pretd documents :
-                            <% prets.forEach(pret=> { %>
-                                <%=pret.document_info.titre + ", " %>
-                                    <% }) %>
-                        </li>
-                        <li class="list-group-item">Address : <%=user.address%>
-                        </li>
-                        <li class="list-group-item text-danger font-weight-bold">Violation Flag :
-                            <%=user.violationFlag%>
-                        </li>
-                        <li class="list-group-item">Due Fines : $<%=user.fines%>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-2">
-                    <div class="card" style="width: 18rem;">
-                        <div class="rounded-card-header   text-center">
-                            <strong>Recent activities</strong>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <% for(var i=0; i < activities.length; i++) { %>
-                                <%if(i> 5) break; %>
-                                    <% if(activities[i].categorie=="pret" ) { %>
-                                        <li class="list-group-item">
-                                            <%=user.username%> pretd <%=activities[i].info.titre%> at
-                                                    <%=activities[i].entryTime.toDateString()%>
-                                        </li>
-                                        <% } else if(activities[i].categorie=="Return" ) { %>
-                                            <li class="list-group-item">
-                                                <%=user.username%> returned <%=activities[i].info.titre%> at
-                                                        <%=activities[i].entryTime.toDateString()%>
-                                            </li>
-                                            <% } else if(activities[i].categorie=="Renew" ) { %>
-                                                <li class="list-group-item">
-                                                    <%=user.username%> renewed <%=activities[i].info.titre%> at
-                                                            <%=activities[i].entryTime.toDateString()%>
-                                                </li>
-                                                <% } else if(activities[i].categorie=="Update Profile" ) { %>
-                                                    <li class="list-group-item">
-                                                        <%=user.username%> updated profile at
-                                                            <%=activities[i].entryTime.toDateString()%>
-                                                    </li>
-                                                    <% } else if(activities[i].categorie=="Modifier le mot de passe" ) { %>
-                                                        <li class="list-group-item">
-                                                            <%=user.username%> updated password at
-                                                                <%=activities[i].entryTime.toDateString()%>
-                                                        </li>
-                                                        <% } else if(activities[i].categorie=="Upload Photo" ) { %>
-                                                            <li class="list-group-item">
-                                                                <%=user.username%> uploaded photo at
-                                                                    <%=activities[i].entryTime.toDateString()%>
-                                                            </li>
-                                                            <% } else if(activities[i].categorie=="Modifier le mot de passe" ) {
-                                                                %>
-                                                                <li class="list-group-item">
-                                                                    <%=user.username%> updated password at
-                                                                        <%=activities[i].entryTime.toDateString()%>
-                                                                </li>
-                                                                <% } else if(activities[i].categorie=="Comment" ) { %>
-                                                                    <li class="list-group-item">
-                                                                        <%=user.username%> commented on
-                                                                            <%=activities[i].info.titre%> at
-                                                                                <%=activities[i].entryTime.toDateString()%>
-                                                                    </li>
-                                                                    <% } else
-                                                                        if(activities[i].categorie=="Update Comment" ) {
-                                                                        %>
-                                                                        <li class="list-group-item">
-                                                                            <%=user.username%> updated comment on
-                                                                                <%=activities[i].info.titre%> at
-                                                                                    <%=activities[i].entryTime.toDateString()%>
-                                                                        </li>
-                                                                        <% } else
-                                                                            if(activities[i].categorie=="Delete Comment"
-                                                                            ) { %>
-                                                                            <li class="list-group-item">
-                                                                                <%=user.username%> deleteted comment on
-                                                                                    <%=activities[i].info.titre%> at
-                                                                                        <%=activities[i].entryTime.toDateString()%>
-                                                                            </li>
-                                                                            <% } %>
-                                                                                <% } %>
-
-                                                                                    <%if(activities.length> 6) { %>
-                                                                                        <a href="/admin/users/activities/<%=user._id%>"
-                                                                                            class=" btn rounded-pill  btn-primary btn-block">See
-                                                                                            all....
-                                                                                            <% } %>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">First Name : <%=user.prenom%></li>
+        <li class="list-group-item">Last Name : <%=user.nom%></li>
+        <li class="list-group-item">Username : <%=user.username%></li>
+        <li class="list-group-item">
+          Joined : <%=user.dateDadhesion.toDateString()%>
+        </li>
+        <li class="list-group-item">Email : <%=user.email%></li>
+        <li class="list-group-item">
+          pretd documents : <% prets.forEach(pret=> { %>
+          <%=pret.document_info.doc_id.titre + ", " %> <% }) %>
+        </li>
+        <li class="list-group-item">Address : <%=user.address%></li>
+        <li class="list-group-item text-danger font-weight-bold">
+          Violation Flag : <%=user.violationFlag%>
+        </li>
+        <li class="list-group-item">Due Fines : $<%=user.fines%></li>
+      </ul>
+    </div>
+    <div class="col-md-2">
+      <div class="card" style="width: 18rem">
+        <div class="rounded-card-header text-center">
+          <strong>Recent activities</strong>
         </div>
+        <ul class="list-group list-group-flush">
+          <% for(var i=0; i < activities.length; i++) { %> <%if(i> 5) break; %>
+          <% if(activities[i].categorie=="pret" ) { %>
+          <li class="list-group-item">
+            <%=user.username%> pretd <%=activities[i].info.titre%> at
+            <%=activities[i].entryTime.toDateString()%>
+          </li>
+          <% } else if(activities[i].categorie=="Return" ) { %>
+          <li class="list-group-item">
+            <%=user.username%> returned <%=activities[i].info.titre%> at
+            <%=activities[i].entryTime.toDateString()%>
+          </li>
+          <% } else if(activities[i].categorie=="Renew" ) { %>
+          <li class="list-group-item">
+            <%=user.username%> renewed <%=activities[i].info.titre%> at
+            <%=activities[i].entryTime.toDateString()%>
+          </li>
+          <% } else if(activities[i].categorie=="Update Profile" ) { %>
+          <li class="list-group-item">
+            <%=user.username%> updated profile at
+            <%=activities[i].entryTime.toDateString()%>
+          </li>
+          <% } else if(activities[i].categorie=="Modifier le mot de passe" ) {
+          %>
+          <li class="list-group-item">
+            <%=user.username%> updated password at
+            <%=activities[i].entryTime.toDateString()%>
+          </li>
+          <% } else if(activities[i].categorie=="Upload Photo" ) { %>
+          <li class="list-group-item">
+            <%=user.username%> uploaded photo at
+            <%=activities[i].entryTime.toDateString()%>
+          </li>
+          <% } else if(activities[i].categorie=="Modifier le mot de passe" ) {
+          %>
+          <li class="list-group-item">
+            <%=user.username%> updated password at
+            <%=activities[i].entryTime.toDateString()%>
+          </li>
+          <% } else if(activities[i].categorie=="Comment" ) { %>
+          <li class="list-group-item">
+            <%=user.username%> commented on <%=activities[i].info.titre%> at
+            <%=activities[i].entryTime.toDateString()%>
+          </li>
+          <% } else if(activities[i].categorie=="Update Comment" ) { %>
+          <li class="list-group-item">
+            <%=user.username%> updated comment on <%=activities[i].info.titre%>
+            at <%=activities[i].entryTime.toDateString()%>
+          </li>
+          <% } else if(activities[i].categorie=="Delete Comment" ) { %>
+          <li class="list-group-item">
+            <%=user.username%> deleteted comment on
+            <%=activities[i].info.titre%> at
+            <%=activities[i].entryTime.toDateString()%>
+          </li>
+          <% } %> <% } %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <% include ../../partials/footer %>
+<% include ../../partials/footer %>

@@ -2,6 +2,12 @@
 'lecteur') {%> <% include partials/adminNav%> <%} else {%> <% include
 partials/userNav %> <%}%>
 <!--SEARCH BAR-->
+<style>
+  body {
+    background: url(/images/background.svg) repeat;
+    background-position: center;
+  }
+</style>
 <section
   id="search_bar"
   class="py-2 mx-1 bg-light text-secondary shadow text-center rounded-card"
@@ -64,10 +70,12 @@ partials/userNav %> <%}%>
             >
           </p>
 
-          <% if(currentUser && documents[i].stock> 0 ) { var match = false%> <%
+          <% if(currentUser && documents[i].ExemplairesDisponible> 0 ) { var
+          match = false, pret = false;%> <%
           user.exemplairepretInfo.forEach(document_info=> { %> <%
-          documents[i].exemplaires.forEach(exemplaire_id =>{
-          if(document_info._id.equals(exemplaire_id) && !match) { %>
+          documents[i].exemplaires.forEach(exemplaire_id =>{ %> <%
+          if(document_info._id.equals(exemplaire_id._id) && !pret) { %>
+
           <a
             href="#"
             class="btn rounded-pill btn-xs btn-warning disabled"
@@ -75,13 +83,8 @@ partials/userNav %> <%}%>
             aria-disabled="true"
             >prêter</a
           >
-          <a
-            href="/documents/return-renew"
-            class="btn rounded-pill btn-xs btn-success"
-            role="button"
-            >Return/Renew</a
-          >
-          <% match=true; return null; } %> <% }) %> <%})%> <% if(!match &&
+
+          <% pret =true; match =true } %> <% }) %> <%})%> <% if(!match &&
           documents[i].ExemplairesDisponible> 0 && currentUser.type ==='lecteur'
           && currentUser.estInscrit) {%>
           <form
@@ -92,7 +95,7 @@ partials/userNav %> <%}%>
             <input
               class="btn rounded-pill btn-xs btn-success"
               type="submit"
-              value="Reserve"
+              value="Reserver"
             />
           </form>
           <% } %> <% } %>

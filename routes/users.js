@@ -27,8 +27,8 @@ router.get("/user/1/notification", middleware.estConnecte, userController.getNot
 //user -> pret a document
 router.post("/documents/:document_id/pret/:user_id", middleware.estConnecte, userController.postpretDocument);
 
-//user -> show return-renew page
-router.get("/documents/return-renew", middleware.estConnecte, userController.getShowRenewReturn);
+//user -> show MesPrets page
+router.get("/documents/MesPrets", middleware.estConnecte, userController.getShowRenewReturn);
 
 
 // user -> delete user account
