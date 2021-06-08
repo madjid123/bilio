@@ -29,14 +29,19 @@ exports.postAdminSignUp = async (req, res, next) => {
       const newAdmin = new User({
         username: req.body.username,
         email: req.body.email,
-        estAdmin: true,
+        type : req.body.type,
+        estAdmin: (req.body.type === 'admin' )? true:false
       });
       const user = await User.register(newAdmin, req.body.password);
-      await passport.authenticate("local")(req, res, () => {
+      await passport.authenticate("local")(req ,res, next, {
+        failureFlash : true
+      },
+        ( ) => {
         req.flash(
           "success",
           "Bonjour, " + user.username + " Bienvenue au tableau de bord"
         );
+        console.log(req.user)
         res.redirect("/admin");
       });
     } else {
@@ -44,11 +49,12 @@ exports.postAdminSignUp = async (req, res, next) => {
       return res.redirect("back");
     }
   } catch (err) {
+    console.error(err.message)
     req.flash(
       "error",
-      "Given info matches someone registered as User. Please provide different info for registering as Admin"
+      err.message
     );
-    return res.render("signup", { estAdmin: false });
+    return res.redirect("/auth/admin-signup");
   }
 };
 
@@ -79,7 +85,7 @@ exports.postUserSignUp = async (req, res, next) => {
         type: "lecteur",
         username: username,
         email: email,
-        address: address,
+        addresse: addresse,
         suspension_id: undefined
       });
 

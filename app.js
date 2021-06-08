@@ -21,8 +21,8 @@ const express = require("express"),
 
 
 // uncomment below line for first time to seed database;
- const Seed = require('./seed');
- Seed(1000);
+ //const Seed = require('./seed');
+ //Seed(1000);
 app.use(cors({
   origin: ['http://localhost:3000'],
   methods: ['GET', 'POST'],
