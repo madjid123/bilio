@@ -87,8 +87,6 @@ exports.putUpdateUserProfile = async (req, res, next) => {
         }
         await User.findByIdAndUpdate(req.user._id, userUpdateInfo);
 
-        
-
         res.redirect('back');
     } catch (err) {
         console.error(err);
@@ -148,6 +146,7 @@ exports.postpretDocument = async (req, res, next) => {
     if (req.user.violationFlag) {
         req.flash("error", "Vous êtes suspendu ,Vous ne pouvez pas prêt un document");
         return res.redirect("back");
+
     }
 
     if (req.user.exemplairepretInfo.length >= 3) {
@@ -158,11 +157,16 @@ exports.postpretDocument = async (req, res, next) => {
     try {
         const document = await Document.findById(req.params.document_id).populate('exemplaires');
         const user = await User.findById(req.params.user_id);
-
-        // registering pret
-        var exemplaire_id = null, cote;
-        const exemplaire = await Exemplaire.findOne({"estDisponible" : true})
-
+        
+        const existe = await Pret.exists({"user_id.id" : user._id, "document_info.doc_id" : document._id ,"pretStatut" : "en cours"})
+        if(existe){
+            req.flash("error","Vous ne pouvez pas prêt le meme document")
+            return res.redirect('back')
+        }
+        const exemplaire = await Exemplaire.findOne({"doc_id" :document._id ,"estDisponible" : true})
+        console.log("exemplaire :  ", exemplaire.cote, " id : ",exemplaire._id)
+        console.log("doc_id : ", req.params.document_id)
+        console.log("ex doc_id", exemplaire.doc_id)
         
         let tday = new Date()
         const pret = new Pret({
@@ -202,12 +206,14 @@ exports.postpretDocument = async (req, res, next) => {
     }
 }
 
-// user -> show return-renew page
+// user -> show MesPrets page
 exports.getShowRenewReturn = async (req, res, next) => {
     const user_id = req.user._id;
     try {
-        const pret = await Pret.find({ "user_id.id": user_id });
-        res.render("user/return-renew", { user: pret });
+        const pret = await Pret.find({ "user_id.id": user_id })
+        .populate('document_info.doc_id')
+        .populate('document_info.exemplaire_id');
+        res.render("user/MesPrets", { prets: pret });
     } catch (err) {
         console.error(err);
         return res.redirect("back");
@@ -221,7 +227,7 @@ exports.getShowRenewReturn = async (req, res, next) => {
     3. increament return date by 7 days set estProlonoger = true
     4. Log the activity
     5. save all db alteration
-    6. redirect to /documents/return-renew
+    6. redirect to /documents/MesPrets
 */
 exports.postRenewDocument = async (req, res, next) => {
     try {
@@ -240,7 +246,7 @@ exports.postRenewDocument = async (req, res, next) => {
 
         await pret.save();
 
-        res.redirect("/documents/return-renew");
+        res.redirect("/documents/MesPrets");
     } catch (err) {
         console.error(err);
         return res.redirect("back");

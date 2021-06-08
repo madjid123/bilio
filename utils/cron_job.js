@@ -11,15 +11,16 @@ let i = 0
     let tday = new Date()
     let reserveDate = new Date(pret.document_info.dateDePret)
     tday = Math.ceil(Math.abs((tday.getTime() - reserveDate.getTime() )  / (24 * 60 * 60 *1000)))
-    console.log(tday)
     if(tday > 3){
        const user = await User.findById(pret.user_id.id)
-       if(user.suspension_id)  return;
+       if(!user) return;
        user.avertissment += 1
        await user.save()
        if(user.avertissment >= 3){
            user.avertissment = 0;
            await user.save()
+            if(user.suspension_id)  return;
+
            const suspension = new Suspension({
                user :{
                    id: user._id,

@@ -29,6 +29,7 @@ exports.postAdminSignUp = async (req, res, next) => {
       const newAdmin = new User({
         username: req.body.username,
         email: req.body.email,
+        type : req.body.type,
         estAdmin: true,
       });
       const user = await User.register(newAdmin, req.body.password);
@@ -79,7 +80,7 @@ exports.postUserSignUp = async (req, res, next) => {
         type: "lecteur",
         username: username,
         email: email,
-        address: address,
+        addresse: addresse,
         suspension_id: undefined
       });
 
@@ -92,7 +93,8 @@ exports.postUserSignUp = async (req, res, next) => {
       else 
       passport.authenticate("local",{
         successRedirect : "/users/1", 
-        failureRedirect : "/auth/user-signUp"
+        failureRedirect : "/auth/user-signUp",
+
       },(req, res) =>{
 
       })

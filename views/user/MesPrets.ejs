@@ -1,0 +1,85 @@
+<% include ../partials/header %>
+
+<!--NAVIGATION BAR FOR USER-->
+<% include ../partials/userNav %>
+
+<!--DASHBOARD SECTION-->
+<header id="main-header" class="py-2 bg-info text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1><i class="fa fa-retweet"></i> Renew/Return</h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!--NOTIFICATIONS-->
+<section class="mt-4 py-3">
+  <div class="container">
+    <div class="col mx-auto">
+      <div class="rounded-card">
+        <div class="rounded-card-header text-center">
+          <h4>Mes Prêts</h4>
+        </div>
+        <div class="card-body">
+          <table text-center class="table text-center table-light">
+            <thead class="thead-light">
+              <tr>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Cote d'exemplaire</th>
+                <th>Date de prêt</th>
+                <th>Date de Retour</th>
+                <th>Categorie</th>
+                <th>Statut</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% prets.forEach(document=> { %>
+              <tr
+                class="
+                  <%=(document.pretStatut
+                  =='retard')?`table-danger`:((document.pretStatut
+                  =='retourner')?`table-success`:``)%>
+                "
+              >
+                <td>You have pretd <%=document.document_info.doc_id.titre%></td>
+                <td><%=document.document_info.doc_id.auteur%></td>
+                <td><%=document.document_info.exemplaire_id.cote%></td>
+                <td><%=document.document_info.dateDePret.toDateString()%></td>
+                <td><%=document.document_info.dateDeRetour.toDateString()%></td>
+                <td><%=document.document_info.doc_id.categorie%></td>
+                <td><%=document.pretStatut %></td>
+                <td>
+                  <% if(document.document_info.estProlonoger) { %>
+                  <a
+                    href="#"
+                    class="btn rounded-pill btn-xs btn-warning disabled"
+                    role="button"
+                    aria-disabled="true"
+                    >Prolonoger</a
+                  >
+                  <% } %> <% }) %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!--<nav class="ml-3">-->
+        <!--  <ul class="pagination offset-md-4">-->
+        <!--    <li class="page-item disabled"><a href="#" class="page-link"><i class="fa fa-angle-double-left"></i> Previous</a></li>-->
+        <!--    <li class="page-item active"><a href="#" class="page-link">1</a></li>-->
+        <!--    <li class="page-item"><a href="#" class="page-link">2</a></li>-->
+        <!--    <li class="page-item"><a href="#" class="page-link">3</a></li>-->
+        <!--    <li class="page-item"><a href="#" class="page-link">Next <i class="fa fa-angle-double-right"></i></a></li>-->
+        <!--  </ul>-->
+        <!--</nav>-->
+      </div>
+    </div>
+  </div>
+</section>
+
+<% include ../partials/footer %>

@@ -23,7 +23,7 @@
 
 
             <div class="col-md-4">
-              <a href="/documents/return-renew" class=" btn rounded-pill  btn-info btn-block">
+              <a href="/documents/MesPrets" class=" btn rounded-pill  btn-info btn-block">
                 <i class="fa fa-retweet"></i> Mes Prêts
               </a>
             </div>
@@ -37,9 +37,10 @@
       <section id="home" class="mt-4">
         <div class="container">
           <div class="row justify-content-around">
-            <div class="col-md-5">
+            <div class="col-md-3">  
               <div class="rounded-card">
-                <img src="/images/<%=user.image||'profile.png'%>" class="card-img- p-1 roundrd" alt="...">
+                <div class="card-body">
+                <img src="/images/<%=user.image||'profile.png'%>" class="card-img-top roundrd-circle" alt="...">
                 <div class="card-body">
                   <p>Name : <%=user.prenom%>
                       <%=user.nom%>
@@ -55,9 +56,10 @@
                   <p>Joined : <%=user.dateDadhesion.toDateString() %>
                   </p>
                 </div>
+             </div>
               </div>
             </div>
-
+<div class="col-md-5">  </div>
 
                     <!--<nav class="ml-3">-->
                     <!--  <ul class="pagination offset-md-4">-->

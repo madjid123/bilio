@@ -70,7 +70,10 @@
         <% } %>
         <li class="nav-item dropdown mr-3">
           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-user"></i> Welcome <%=currentUser.username%>
+            <!-- <i class="bi bi-person-circle"></i>  -->
+            <img src="<%=(currentUser.image !==
+            "")?`/images/${currentUser.image}`:`/images/profile.png`%>"
+            width="20" /> <%=currentUser.username%>
           </a>
           <div class="dropdown-menu bg-dark py-3 text-white">
             <a href="/user/1/profile" class="dropdown-item text-white">
@@ -78,7 +81,7 @@
             </a>
 
             <a href="/auth/user-logout" class="dropdown-item text-white">
-              <i class="fa fa-user-times"></i> Logout
+              <i class="bi bi-person-x"></i> Logout
             </a>
           </div>
         </li>
