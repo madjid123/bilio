@@ -10,7 +10,7 @@
     "heruko"
   ],
   "engines": {
-    "node": "14.x",
+    "node": "10.16.0",
     "npm": "6.9.0"
   },
   "scripts": {
