@@ -38,9 +38,10 @@ router.post("/auth/user-login", passport.authenticate("local",
 {
     failureRedirect : "/auth/user-login",
     failureFlash : "Username ou mot de passe non valide"
-}), (req, res) => {
+}),async  (req, res) => {
     
-     let url = (req.user.type ==='lecteur')? "/user/1": "/admin";
+     let url = (req.isAuthenticated() && req.user.type ==='lecteur')? "/user/1": "/admin";
+     console.log(url)
      res.redirect(url)
 });
 

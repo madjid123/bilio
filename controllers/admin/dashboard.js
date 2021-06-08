@@ -2,6 +2,7 @@
 const Document = require('../../models/document');
 const User = require('../../models/user');
 const Activity = require('../../models/activity');
+const Pret = require('../../models/pret');
 // GLOBAL_VARIABLES
 const PER_PAGE = 10;
 
@@ -18,16 +19,12 @@ exports.getDashboard = async (req, res, next) => {
         const users_count = await User.find().countDocuments() - 1;
         const documents_count = await Document.find().countDocuments();
         const activity_count = await Activity.find().countDocuments();
-        const activities = await Activity
-            .find()
-            .sort('-entryTime')
-            .skip((PER_PAGE * page) - PER_PAGE)
-            .limit(PER_PAGE);
+        const pret_count = await Pret.find().countDocuments();
 
         res.render("admin/index", {
             users_count: users_count,
             documents_count: documents_count,
-            activities: activities,
+            prets : pret_count,
             current: page,
             pages: Math.ceil(activity_count / PER_PAGE),
         });

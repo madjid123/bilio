@@ -34,17 +34,17 @@ exports.postAdminSignUp = async (req, res, next) => {
 
       });
       const user = await User.register(newAdmin, req.body.password);
-      await passport.authenticate("local")(req ,res, next, {
-        failureFlash : true
-      },
-        ( ) => {
+      
+      await passport.authenticate("local")(
+        req ,res , () =>{
         req.flash(
           "success",
           "Bonjour, " + user.username + " Bienvenue au tableau de bord"
         );
-        console.log(req.user)
-        res.redirect("/admin");
+        req.isAuthenticated()
+        return res.redirect("/admin");
       });
+      
     } else {
       req.flash("error", "Secret code does not matching!");
       return res.redirect("back");
@@ -92,21 +92,22 @@ exports.postUserSignUp = async (req, res, next) => {
 
       if(req.user && req.user !== 'lecteur') newUser.estInscrit = true
       await User.register(newUser, req.body.password);
-
+      }
       //var users = await User.find({})
-      if(req.user &&req.user.type !=='lecteur') 
+      if(req.isAuthenticated() &&req.user.type !=='lecteur') 
       res.redirect("/admin/users/1")
       else 
-      passport.authenticate("local",{
-        successRedirect : "/users/1", 
-        failureRedirect : "/auth/user-signUp",
+      await passport.authenticate("local")(req, res,
 
-      },(req, res) =>{
+      () =>{
+        req.isAuthenticated()
+        res.redirect("/user/1")
 
       })
-    }
+    
   } catch (err) {
     console.error(err);
+    
     req.flash("error", err.message)
     return res.redirect("back");
   }
