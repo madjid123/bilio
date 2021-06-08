@@ -15,7 +15,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "set NODE_ENV=dev && set PORT = 5000  && node app.js",
+    "start": "node app.js",
     "dev": "SET NODE_ENV=dev && nodemon app.js"
   },
   "author": "Azad Mamun",
