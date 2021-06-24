@@ -9,13 +9,14 @@ const User = require("../models/user"),
     Activity = require("../models/activity"),
     Document = require("../models/document"),
     Pret = require("../models/pret"),
-    Comment = require("../models/comment"),
     Exemplaire = require('../models/exemplaire'),
     infogen = require('../global/dureepret');
 
 // importing utilities
 const deleteImage = require('../utils/delete_image');
-const { exemplaire } = require('../routes/admin');
+const {
+    exemplaire
+} = require('../routes/admin');
 
 // GLOBAL_VARIABLES
 const PER_PAGE = 5;
@@ -28,22 +29,28 @@ exports.getUserDashboard = async (req, res, next) => {
     try {
         // fetch user info from db and populate it with related document pret
         const user = await User.findById(user_id);
-
-        if (user.exemplairepretInfo.length > 0) {
-            const prets = await Pret.find({ "user_id.id": user._id });
-
-            for (let pret of prets) {
-                if (pret.document_info.dateDeRetour < Date.now()) {
-                    user.violatonFlag = true;
-                    user.save();
-                    req.flash("warning", "You are flagged for not returning " + pret.document_info.titre + " in time");
-                    break;
-                }
-            }
-        }
+        const pret = await Pret.find({
+                "user_id.id": user_id,
+                $or: [{
+                        "pretStatut": "en cours"
+                    },
+                    {
+                        "pretStatut": "reserver"
+                    },
+                    {
+                        "pretStatut": "retard"
+                    },
+                    {
+                        "pretStatut": "prolonoger"
+                    }
+                ]
+            })
+            .populate('document_info.doc_id')
+            .populate('document_info.exemplaire_id');
 
         res.render("user/index", {
             user: user,
+            prets: pret,
             current: page,
         });
     } catch (err) {
@@ -127,7 +134,7 @@ exports.postUploadUserImage = async (req, res, next) => {
         user.image = imageUrl;
         await user.save();
 
-       
+
 
         res.redirect("/user/1/profile");
     } catch (err) {
@@ -157,38 +164,52 @@ exports.postpretDocument = async (req, res, next) => {
     try {
         const document = await Document.findById(req.params.document_id).populate('exemplaires');
         const user = await User.findById(req.params.user_id);
-        
-        const existe = await Pret.exists({"user_id.id" : user._id, "document_info.doc_id" : document._id ,"pretStatut" : "en cours"})
-        if(existe){
-            req.flash("error","Vous ne pouvez pas prêt le meme document")
+
+        const existe = await Pret.exists({
+            "user_id.id": user._id,
+            "document_info.doc_id": document._id,
+            "pretStatut": "en cours"
+        })
+        if (existe) {
+            req.flash("error", "Vous ne pouvez pas prêt le meme document")
             return res.redirect('back')
         }
-        const exemplaire = await Exemplaire.findOne({"doc_id" :document._id ,"estDisponible" : true})
-        console.log("exemplaire :  ", exemplaire.cote, " id : ",exemplaire._id)
+        const exemplaire = await Exemplaire.findOne({
+            "doc_id": document._id,
+            "estDisponible": true
+        })
+        console.log("exemplaire :  ", exemplaire.cote, " id : ", exemplaire._id)
         console.log("doc_id : ", req.params.document_id)
         console.log("ex doc_id", exemplaire.doc_id)
-        
+
         let tday = new Date()
         const pret = new Pret({
             pretStatut: "reserver",
             document_info: {
                 doc_id: document._id,
-                exemplaire_id: { id :exemplaire._id ,cote :  exemplaire.cote}
+                exemplaire_id: {
+                    id: exemplaire._id,
+                    cote: exemplaire.cote
+                }
             },
             user_id: {
                 id: user._id,
                 username: user.username,
-                numero : user.numero
+                numero: user.numero
             },
-            
-             
+
+
         });
-        exemplaire.estDisponible= false
-        
+        exemplaire.estDisponible = false
+
         pret.createdAt = tday
-        
-        pret.document_info.dateDeRetour = (new Date()).setDate(tday.getDate() + infogen.dureePret[user.categorie]) 
-        await document.updateOne({ $inc: { "ExemplairesDisponible": -1 } })
+
+        pret.document_info.dateDeRetour = (new Date()).setDate(tday.getDate() + infogen.dureePret[user.categorie])
+        await document.updateOne({
+            $inc: {
+                "ExemplairesDisponible": -1
+            }
+        })
         // putting pret record on individual user document
         user.exemplairepretInfo.push(exemplaire._id);
 
@@ -210,10 +231,14 @@ exports.postpretDocument = async (req, res, next) => {
 exports.getShowRenewReturn = async (req, res, next) => {
     const user_id = req.user._id;
     try {
-        const pret = await Pret.find({ "user_id.id": user_id })
-        .populate('document_info.doc_id')
-        .populate('document_info.exemplaire_id');
-        res.render("user/MesPrets", { prets: pret });
+        const pret = await Pret.find({
+                "user_id.id": user_id
+            })
+            .populate('document_info.doc_id')
+            .populate('document_info.exemplaire_id');
+        res.render("user/MesPrets", {
+            prets: pret
+        });
     } catch (err) {
         console.error(err);
         return res.redirect("back");
@@ -268,9 +293,12 @@ exports.deleteUserAccount = async (req, res, next) => {
             deleteImage(imagePath);
         }
 
-        await pret.deleteMany({ "user_id.id": user_id });
-        await Comment.deleteMany({ "auteur.id": user_id });
-        await Activity.deleteMany({ "user_id.id": user_id });
+        await pret.deleteMany({
+            "user_id.id": user_id
+        });
+        await Activity.deleteMany({
+            "user_id.id": user_id
+        });
 
         res.redirect("/");
     } catch (err) {
@@ -278,4 +306,3 @@ exports.deleteUserAccount = async (req, res, next) => {
         res.redirect('back');
     }
 }
-

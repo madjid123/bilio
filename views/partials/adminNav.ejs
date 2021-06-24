@@ -8,7 +8,7 @@
 </div>
 
 </nav>
-<% include ./userNav %> 
+<% include ./userNav %>
 <div class="row flex-nowrap p-0 m-0">
 
   <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
@@ -40,13 +40,14 @@
             </ul>
           </li>
 
-           <%if(currentUser.type =="admin"){ %>
+          <%if(currentUser.type =="admin"){ %>
           <li>
             <a href="#submenu4" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
               <i class="fs-4 fa bi-people"></i> <span class="ms-1 d-none d-sm-inline">Administration</span></a>
             <ul class="collapse nav flex-column ms-1" id="submenu4" data-bs-parent="#menu">
               <li class="w-100">
-                <a href="/admin/user/priv" class="nav-link px-0"> <span class="d-none d-sm-inline">Utilisateurs</span></a>
+                <a href="/admin/user/priv" class="nav-link px-0"> <span
+                    class="d-none d-sm-inline">Utilisateurs</span></a>
               </li>
               <li class="w-100">
                 <a href="/admin/profile" class="nav-link px-0"> <span class="d-none d-sm-inline">Profile</span></a>
@@ -83,20 +84,19 @@
         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1"
           data-bs-toggle="dropdown" aria-expanded="false">
           <img src="<%= (currentUser.image)?`/images/${currentUser.image}` : `/images/profile.png`%>" width="30"
-            height="30" class="rounded-circle">
+          height="30" class="rounded-circle">
           <span class="d-none d-sm-inline mx-1">
             <%= currentUser.username%>
           </span>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-dark bg-dark  text-small shadow" aria-labelledby="dropdownUser1">
-          <li><a href='/admin/profile' class="dropdown-item" href="#">Profile</a></li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          <li><a class="dropdown-item" href="/auth/admin-logout">déconnecter</a></li>
-        </ul>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark bg-dark  text-small shadow" aria-labelledby="dropdownUser1">
+            <li><a href='/admin/profile' class="dropdown-item" href="#">Profile</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="/auth/admin-logout">déconnecter</a></li>
+          </ul>
       </div>
     </div>
-  </div> 
-  <div class="col m-0  p-0 ">
-   
+  </div>
+  <div class="flex-row col m-0  p-0 ">

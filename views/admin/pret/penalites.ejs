@@ -1,215 +1,213 @@
 <% include ../../partials/header %>
 
 
-    <!--NAVIGATION BAR FOR ADMIN-->
-    <% include ../../partials/adminNav %>
-        <header id="main-header" class="py-2 bg-light text-secondary shadow text-center">
+<!--NAVIGATION BAR FOR ADMIN-->
+<% include ../../partials/adminNav %>
+<header id="main-header" class="py-2 container p-5 m-0 bg-light text-secondary shadow text-center">
 
-                        <h1><i class="fa fa-pencil"></i> Gestion des pénalités </h1>
-        </header>
+    <h1><i class="fa fa-pencil"></i> Gestion des pénalités </h1>
+</header>
 
-        <!--ACTIONS-->
-        <section id="search_bar" class="  my-3 m-4   py-4 ">
-            <div class="container p-0 m-0">
+<!--ACTIONS-->
+<section id="search_bar" class="container m-1 p-0  my-3    py-4 ">
+    <div class="container">
 
-                <form action="/admin/users/penalites/1" method="POST">
-                    <div class="row mx-3 justify-content-around ">
-                        <div class="col-md-12 col-sm-12 col-xs-12 ">
-                            <div class="rounded-card">
-                                <div class="row py-4 px-4 justify-content-center text-center">
-                        <div class="col form-group">
-                            <select name="filter" class="form-control rounded-pill  ">
-                                <option selected disabled> Sélectionné un filtre
-                                </option>
-                                <option value="etat">Statut de Pénalité</option>
-                                <option value="numero">N° Lecteur</option>
-                            </select>
+        <form action="/admin/users/penalites/1" method="POST">
+            <div class="row mx-3 justify-content-around ">
+                <div class="col-md-12 col-sm-12 col-xs-12 ">
+                    <div class="rounded-card">
+                        <div class="row py-4 px-4 justify-content-center text-center">
+                            <div class="col form-group">
+                                <select name="filter" class="form-control rounded-pill  ">
+                                    <option selected disabled> Sélectionné un filtre
+                                    </option>
+                                    <option value="etat">Statut de Pénalité</option>
+                                    <option value="numero">N° Lecteur</option>
+                                </select>
+                            </div>
+
+                            <div class=" col form-group ">
+                                <input name="searchName" type="text" class="form-control rounded-pill  "
+                                    placeholder="Recherche lecteur">
+                            </div>
+
+                            <div class="col form-group">
+                                <input type="submit" class=" btn rounded-pill px-2  btn-outline-primary btn-block"
+                                    value="Recherche">
+                            </div>
                         </div>
-
-                        <div class=" col form-group ">
-                            <input name="searchName" type="text" class="form-control rounded-pill  "
-                                placeholder="Recherche lecteur">
-                        </div>
-
-                        <div class="col form-group">
-                            <input type="submit" class=" btn rounded-pill px-2  btn-outline-primary btn-block"
-                                value="Recherche">
-                        </div></div></div>
-                    </div></div>
-                </form>
+                    </div>
+                </div>
             </div>
-        </section>
+        </form>
+    </div>
+</section>
 
-        <% include ../../partials/alerts %>
+<% include ../../partials/alerts %>
 
-            <section id="penalites" class="mt-5 m-4">
-                <div class="container m-0 p-0">
-                    <div class=" row">
-                        <form action='/admin/users/penalite/ajouter' method='post' class="form">
-                            <div class="col  ">
-                                <div class="rounded-card  rounded-card  rounded-card  ">
-                                    <div class="rounded-card-header text-center">
-                                        <h3>Ajouter Une Pénalité</h3>
-                                    </div>
-                                    <div class=" row card-body p-4 justify-content-center text-center">
-                                        <div class="col form-group">
-                                            <label for="">N° Lecteur</label>
-                                            <input type="text" name="penalite[numero]" id="" class="form-control rounded-pill  "
-                                                placeholder="Numero/matricule de lecteur" aria-describedby="helpId" required>
-                                        </div>
-                                        <div class="col form-group">
-                                            <label for="">Montant</label>
-                                            <input type="number" name="penalite[montant]" id="" class="form-control rounded-pill  "
-                                                placeholder="Montant" aria-describedby="helpId" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="">Note</label>
-                                            <input type="text" name="penalite[note]" id="" class="form-control rounded-pill  "
-                                                placeholder="Note" aria-describedby="helpId" required>
-                                        </div>
-                                        
-                                        <div class=" form-group"> <input type='submit'
-                                                class=" btn rounded-pill  px-5 btn-primary " value="Pénaliser">
-                                        </div>
-                                    </div>
-
-
-                                </div>
-
+<section id="penalites" class="mt-5 container m-0 p-0 ">
+    <div class="container m-0 p-0 justify-content-center">
+        <div class=" row">
+            <form action='/admin/users/penalite/ajouter' method='post' class="form">
+                <div class="col  ">
+                    <div class="rounded-card  rounded-card  rounded-card  ">
+                        <div class="rounded-card-header text-center">
+                            <h3>Ajouter Une Pénalité</h3>
+                        </div>
+                        <div class=" row card-body p-4 justify-content-center text-center">
+                            <div class="col form-group">
+                                <label for="">N° Lecteur</label>
+                                <input type="text" name="penalite[numero]" id="" class="form-control rounded-pill  "
+                                    placeholder="Numero/matricule de lecteur" aria-describedby="helpId" required>
                             </div>
-                        </form>
-                    </div>
+                            <div class="col form-group">
+                                <label for="">Montant</label>
+                                <input type="number" name="penalite[montant]" id="" class="form-control rounded-pill  "
+                                    placeholder="Montant" aria-describedby="helpId" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Note</label>
+                                <input type="text" name="penalite[note]" id="" class="form-control rounded-pill  "
+                                    placeholder="Note" aria-describedby="helpId" required>
+                            </div>
 
-                   
-                </div> </section>
-                <div class="container m-0 p-0 text-center justify-content-center">
-                    <div class="row mx-3">
-                        <div class="col p-3  justify-content-around">
-                            <div class="col p-0   rounded-card justify-content-center">
-                                <div class="rounded-card-header">
-                                    <h4>Pénalités</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div style="overflow-x :auto">
-                                <table mb-5 justify-content-center text-center  class="table mb-5 text-center  table-light" >
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>Numero de lecteur </th>
-                                            <th>Nom de lecteur</th>
-                                            <th>Montant</th>
-                                            <th>Note</th>
-                                            <th>Etat</th>
-                                            <th>date de Pénalité</th>
-                                            <th>Pénalisé par</th>
-                                            <th>Modifier</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% penalites.forEach(penalite=> { %>
-                                            <% if(penalite.user_id) {%>
-                                            <tr>
-                                                <td>
-                                                    <%= penalite.numero%>
-                                                </td>
-                                                <td>
-                                                    <%= `${penalite.user_id.nom} ${penalite.user_id.prenom} ` %>
-                                                </td>
-                                                <td>
-                                                    <%= penalite.montant%>
-                                                </td>
-
-                                                <td>
-                                                    <%= penalite.note%>
-                                                </td>
-                                                <td>
-                                                    <%= penalite.etat%>
-                                                </td>
-                                                <td>
-                                                    <%= penalite.dateDePenalite.toDateString() %>
-                                                </td>
-                                                <td> 
-                                                    <%= penalite.admin_id.username %>
-                                                </td>
-                                                <td>
-                                                    
-                                                    <span class='text-white justify-content-center text-center'>
-                                                        <% if(penalite.etat === 'en cours'){ %>
-                                                        <a href="/admin/users/penalite/enlever/<%=penalite.user_id._id%>"
-                                                            class=" btn rounded-pill  btn-danger btn-sm m-1">Enlever</a>
-                                                        >
-                                                        <% }%>
-                                                        
-
-                                                        
-                                                            
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <%} }); %>
-
-                                    </tbody>
-                                </table>
-                                </div>
-                                <% if (pages> 0) { %>
-                                    <nav class=" mb-2">
-                                        <ul class="pagination justify-content-center">
-
-                                            <% if (current==1) { %>
-                                                <li class="page-item disabled"><a class="page-link">First</a></li>
-                                                <% } else { %>
-                                                    <li class="page-item"><a
-                                                            href="/admin/documentInventory/<%=filter%>/<%=value%>/1"
-                                                            class="page-link">First</a></li>
-                                                    <% } %>
-
-                                                        <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %>
-                                                            <% if (i !==1) { %>
-                                                                <li class="page-item disabled"><a class="page-link">....
-                                                                </li>
-                                                                <% } %>
-                                                                    <% for (; i <=(Number(current) + 4) && i <=pages;
-                                                                        i++) { %>
-                                                                        <% if (i==current) { %>
-                                                                            <li class="page-item active"><a
-                                                                                    class="page-link">
-                                                                                    <%= i %>
-                                                                                </a></li>
-                                                                            <% } else { %>
-                                                                                <li class="page-item"><a
-                                                                                        class="page-link"
-                                                                                        href="/admin/documentInventory/<%=filter%>/<%=value%>/<%=i%>">
-                                                                                        <%=i%>
-                                                                                    </a> </li>
-                                                                                <% } %>
-                                                                                    <% if (i==Number(current) + 4 && i <
-                                                                                        pages) { %>
-                                                                                        <li class="page-item disabled">
-                                                                                            <a class="page-link">....
-                                                                                        </li>
-                                                                                        <% } %>
-                                                                                            <% } %>
-                                                                                                <% if (current==pages) {
-                                                                                                    %>
-                                                                                                    <li
-                                                                                                        class="page-item disabled">
-                                                                                                        <a
-                                                                                                            class="page-link">Last</a>
-                                                                                                    </li>
-                                                                                                    <% } else { %>
-                                                                                                        <li
-                                                                                                            class="page-item">
-                                                                                                            <a href="/admin/documentInventory/<%=filter%>/<%=value%>/<%=pages%>"
-                                                                                                                class="page-link">Last</a>
-                                                                                                        </li>
-                                                                                                        <% } %>
-                                        </ul>
-                                    </nav>
-                                    <% } %>
-                                    </div>
+                            <div class=" form-group"> <input type='submit' class=" btn rounded-pill  px-5 btn-primary "
+                                    value="Pénaliser">
                             </div>
                         </div>
+
+
                     </div>
+
                 </div>
+            </form>
+        </div>
+
+
+    </div>
+</section>
+<div class="container m-0 p-0 text-center justify-content-center">
+    <div class="row mx-3">
+        <div class="col p-3  justify-content-around">
+            <div class="col p-0   rounded-card justify-content-center">
+                <div class="rounded-card-header">
+                    <h4>Pénalités</h4>
                 </div>
-            </section>
-            <% include ../../partials/footer %>
+                <div class="card-body">
+                    <div style="overflow-x :auto">
+                        <table mb-5 justify-content-center text-center class="table mb-5 text-center  table-light">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Numero de lecteur </th>
+                                    <th>Nom de lecteur</th>
+                                    <th>Montant</th>
+                                    <th>Note</th>
+                                    <th>Etat</th>
+                                    <th>date de Pénalité</th>
+                                    <th>Pénalisé par</th>
+                                    <th>Modifier</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% penalites.forEach(penalite=> { %>
+                                <% if(penalite.user_id) {%>
+                                <tr>
+                                    <td>
+                                        <%= penalite.numero%>
+                                    </td>
+                                    <td>
+                                        <%= `${penalite.user_id.nom} ${penalite.user_id.prenom} ` %>
+                                    </td>
+                                    <td>
+                                        <%= penalite.montant%>
+                                    </td>
+
+                                    <td>
+                                        <%= penalite.note%>
+                                    </td>
+                                    <td>
+                                        <%= penalite.etat%>
+                                    </td>
+                                    <td>
+                                        <%= penalite.dateDePenalite.toDateString() %>
+                                    </td>
+                                    <td>
+                                        <%= penalite.admin_id.username %>
+                                    </td>
+                                    <td>
+
+                                        <span class='text-white justify-content-center text-center'>
+                                            <% if(penalite.etat === 'en cours'){ %>
+                                            <a href="/admin/users/penalite/enlever/<%=penalite.user_id._id%>"
+                                                class=" btn rounded-pill  btn-danger btn-sm m-1">Enlever</a>
+                                            >
+                                            <% }%>
+
+
+
+
+                                        </span>
+                                    </td>
+                                </tr>
+                                <%} }); %>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <% if (pages> 0) { %>
+                    <nav class=" mb-2">
+                        <ul class="pagination justify-content-center">
+
+                            <% if (current==1) { %>
+                            <li class="page-item disabled"><a class="page-link">First</a></li>
+                            <% } else { %>
+                            <li class="page-item"><a href="/admin/documentInventory/<%=filter%>/<%=value%>/1"
+                                    class="page-link">First</a></li>
+                            <% } %>
+
+                            <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %>
+                            <% if (i !==1) { %>
+                            <li class="page-item disabled"><a class="page-link">....
+                            </li>
+                            <% } %>
+                            <% for (; i <=(Number(current) + 4) && i <=pages;
+                                                                        i++) { %>
+                            <% if (i==current) { %>
+                            <li class="page-item active"><a class="page-link">
+                                    <%= i %>
+                                </a></li>
+                            <% } else { %>
+                            <li class="page-item"><a class="page-link"
+                                    href="/admin/documentInventory/<%=filter%>/<%=value%>/<%=i%>">
+                                    <%=i%>
+                                </a> </li>
+                            <% } %>
+                            <% if (i==Number(current) + 4 && i <
+                                                                                        pages) { %>
+                            <li class="page-item disabled">
+                                <a class="page-link">....
+                            </li>
+                            <% } %>
+                            <% } %>
+                            <% if (current==pages) {
+                                                                                                    %>
+                            <li class="page-item disabled">
+                                <a class="page-link">Last</a>
+                            </li>
+                            <% } else { %>
+                            <li class="page-item">
+                                <a href="/admin/documentInventory/<%=filter%>/<%=value%>/<%=pages%>"
+                                    class="page-link">Last</a>
+                            </li>
+                            <% } %>
+                        </ul>
+                    </nav>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</section>
+<% include ../../partials/footer %>

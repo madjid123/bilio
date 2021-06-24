@@ -11,18 +11,15 @@
         </div>
         <div class="container col-md-12" style="color: #444">
           <div class="">
-            <div
-              class="
+            <div class="
                 row
                 indicators
                 d-flex
                 justify-content-around
                 py-4
                 text-dark text-center
-              "
-            >
-              <div
-                class="
+              ">
+              <div class="
                   col-md-3
                   my-1
                   stepsdes
@@ -32,13 +29,11 @@
                   mr-
                   shadow-sm
                   text-light
-                "
-              >
+                ">
                 Titre/auteurs/Numéros
               </div>
 
-              <div
-                class="
+              <div class="
                   col-md-4
                   my-1
                   stepsdes
@@ -47,13 +42,11 @@
                   py-1
                   shadow-sm
                   text-light
-                "
-              >
+                ">
                 Edition/categorie/Indexation
               </div>
 
-              <div
-                class="
+              <div class="
                   col-md-3
                   my-1
                   stepsdes
@@ -62,8 +55,7 @@
                   py-1
                   shadow-sm
                   text-light
-                "
-              >
+                ">
                 Resume/Notes
               </div>
             </div>
@@ -77,12 +69,7 @@
                   <div class="form-group">
                     <label class="form-label">Type de document </label>
 
-                    <select
-                      name="document[type]"
-                      class="form-control rounded-pill obl"
-                      size="1"
-                      value=""
-                    >
+                    <select name="document[type]" class="form-control rounded-pill obl" size="1" value="">
                       <option value="" selected="">--</option>
                       <option value="Livre">Livre</option>
                       <option value="Thèse">Thèse</option>
@@ -94,67 +81,39 @@
                 <div class="col px-1">
                   <div class="form-group">
                     <label class="form-label">langue de publication</label>
-                    <input
-                      type="text"
-                      name="document[lang]"
-                      placeholder="langue de publication"
-                      class="form-control rounded-pill obl"
-                    />
+                    <input type="text" name="document[lang]" placeholder="langue de publication"
+                      class="form-control rounded-pill obl" />
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="form-label">Titre propre</label>
-                  <input
-                    type="text"
-                    name="document[titre]"
-                    placeholder="Titre du document"
-                    class="form-control rounded-pill obl"
-                    required
-                  />
+                  <input type="text" name="document[titre]" placeholder="Titre du document"
+                    class="form-control rounded-pill obl" required />
                 </div>
                 <div class="form-group">
                   <label class="form-label">Complément du Titre </label>
-                  <input
-                    type="text"
-                    name="document[compTitre]"
-                    placeholder="Complément du Titre "
-                    class="form-control rounded-pill"
-                  />
+                  <input type="text" name="document[compTitre]" placeholder="Complément du Titre "
+                    class="form-control rounded-pill" />
                 </div>
 
                 <div class="form-group">
                   <label class="form-label">Auteurs</label>
-                  <input
-                    type="text"
-                    name="document[auteur]"
-                    placeholder="les noms des auteurs"
-                    class="form-control rounded-pill obl"
-                    required
-                  />
+                  <input type="text" name="document[auteur]" placeholder="les noms des auteurs"
+                    class="form-control rounded-pill obl" required />
                 </div>
                 <div class="form-group">
                   <label class="form-label">ISBN</label>
-                  <input
-                    type="text"
-                    name="document[ISBN]"
-                    placeholder="ISBN"
-                    class="form-control rounded-pill obl"
-                    required
-                  />
+                  <input type="text" name="document[ISBN]" placeholder="ISBN" class="form-control rounded-pill obl"
+                    required />
                 </div>
               </div>
-<div class="form-group gx-0 bttns justify-content-center">
-            <button
-              type="button"
-              class="md-3 btnPrev px-5 btn rounded-pill btn-outline-success"
-            >
-              Prev
-            </button>
+              <div class="form-group gx-0 bttns justify-content-center">
+                <button type="button" class="md-3 btnPrev px-5 btn rounded-pill btn-outline-success">
+                  Prev
+                </button>
 
-            <button
-              type="button"
-              class="
+                <button type="button" class="
                 -md-3
                 btnNext
                 px-5
@@ -162,67 +121,74 @@
                 rounded-pill
                 px-2
                 btn-outline-success
-              "
-            >
-              Next
-            </button>
+              ">
+                  Next
+                </button>
+              </div>
+            </div>
+            <div class="steps">
+              <div class="row mb-12">
+                <div class="form-group">
+                  <label class="form-label">Editeur</label>
+                  <input type="text" name="document[editeur]" placeholder="Editeur" class="form-control rounded-pill"
+                    required />
+                </div>
+                <div class="col form-group">
+                  <label class="form-label">Année d'édition/de Soutenance</label>
+                  <input type="number" name="document[annee]" placeholder="Année d'édition ou de soutenance"
+                    class="form-control rounded-pill obl" required />
+                </div>
+
+                <div class="col form-group">
+                  <label class="form-label">Categorie</label>
+                  <input type="text" name="document[categorie]" placeholder="Categorie"
+                    class="form-control rounded-pill obl" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Vedettes</label>
+                  <input type="text" name="document[vedettes]" placeholder="Vedettes" class="form-control rounded-pill"
+                    required />
+                </div>
+              </div>
+              <div class="gx-0 bttns justify-content-center">
+                <button type="button" class="md-3 btnPrev px-5 btn rounded-pill btn-outline-success">
+                  Prev
+                </button>
+
+                <button type="button" class="
+                -md-3
+                btnNext
+                px-5
+                btn
+                rounded-pill
+                px-2
+                btn-outline-success
+              ">
+                  Next
+                </button>
+              </div>
             </div>
           </div>
-          <div class="steps">
-            <div class="row mb-12">
-              <div class="form-group">
-                <label class="form-label">Editeur</label>
-                <input
-                  type="text"
-                  name="document[editeur]"
-                  placeholder="Editeur"
-                  class="form-control rounded-pill"
-                  required
-                />
+          <div class="position-relative container">
+            <div class="steps">
+              <div class="row gx-0 justify-content-center mb-3">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="form-label">Note générale</label>
+                    <textarea name="document[notegen]" cols="40" rows="5" class="form-control "></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Resumé</label>
+                    <textarea name="document[resume]" cols="40" rows="9" class="form-control obl"></textarea>
+                  </div>
+                </div>
               </div>
-              <div class="col form-group">
-                <label class="form-label">Année d'édition/de Soutenance</label>
-                <input
-                  type="number"
-                  name="document[annee]"
-                  placeholder="Année d'édition ou de soutenance"
-                  class="form-control rounded-pill obl"
-                  required
-                />
-              </div>
+              <div class="gx-0 bttns justify-content-center">
+                <button type="button" class="md-3 btnPrev px-5 btn rounded-pill btn-outline-success">
+                  Prev
+                </button>
 
-              <div class="col form-group">
-                <label class="form-label">Categorie</label>
-                <input
-                  type="text"
-                  name="document[categorie]"
-                  placeholder="Categorie"
-                  class="form-control rounded-pill obl"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-label">Vedettes</label>
-                <input
-                  type="text"
-                  name="document[vedettes]"
-                  placeholder="Vedettes"
-                  class="form-control rounded-pill"
-                  required
-                />
-              </div>
-            </div>
-<div class="gx-0 bttns justify-content-center">
-            <button
-              type="button"
-              class="md-3 btnPrev px-5 btn rounded-pill btn-outline-success"
-            >
-              Prev
-            </button>
-
-            <button
-              type="button"
-              class="
+                <button type="button" class="
                 -md-3
                 btnNext
                 px-5
@@ -230,63 +196,13 @@
                 rounded-pill
                 px-2
                 btn-outline-success
-              "
-            >
-              Next
-            </button>
+              ">
+                  Next
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="position-relative container">
-        <div class="steps">
-          <div class="row gx-0 justify-content-center mb-3">
-            <div class="col">
-              <div class="form-group">
-                <label class="form-label">Note générale</label>
-                <textarea
-                  name="document[notegen]"
-                  cols="40"
-                  rows="5"
-                  class="form-control rounded-pill"
-                ></textarea>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Resumé</label>
-                <textarea
-                  name="document[resume]"
-                  cols="40"
-                  rows="5"
-                  class="form-control rounded-pill obl"
-                ></textarea>
-              </div>
-            </div>
-          </div>
-          <div class="gx-0 bttns justify-content-center">
-            <button
-              type="button"
-              class="md-3 btnPrev px-5 btn rounded-pill btn-outline-success"
-            >
-              Prev
-            </button>
-
-            <button
-              type="button"
-              class="
-                -md-3
-                btnNext
-                px-5
-                btn
-                rounded-pill
-                px-2
-                btn-outline-success
-              "
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
   </form>
 </div>
 

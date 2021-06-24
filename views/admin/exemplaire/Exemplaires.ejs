@@ -2,10 +2,7 @@
 <!-- this is supposed to be more i don't know-->
 <!--NAVIGATION BAR FOR ADMIN-->
 <% include ../../partials/adminNav %>
-<header
-  id="main-header"
-  class="py-2 bg-light text-secondary shadow text-center"
->
+<header id="main-header" class="py-2 bg-light text-secondary shadow text-center">
   <h1><i class="fa fa-doc"></i> Gestion des exemplaires</h1>
 </header>
 <% include ../../partials/alerts%>
@@ -21,19 +18,12 @@
             <br />
             <div class="card-body">
               <div class="col justify-content-center text-center">
-                <a
-                  class="btn rounded-pill display-1 btn-primary text-bold"
-                  href="/admin/document/<%=doc_id%>/exemplaire/add"
-                  ><i class="bi bi-plus-circle pr-2" width="30"></i
-                  >Exemplaire</a
-                >
+                <a class="btn rounded-pill display-1 btn-primary text-bold"
+                  href="/admin/document/<%=doc_id%>/exemplaire/add"><i class="bi bi-plus-circle pr-2"
+                    width="30"></i>Exemplaire</a>
               </div>
               <div style="overflow-x: auto">
-                <table
-                  mb-5
-                  text-center
-                  class="table mb-5 text-center table-light"
-                >
+                <table mb-5 text-center class="table mb-5 text-center table-light">
                   <% if(exemplaire.length !==0 ) {%>
                   <br />
                   <thead class="thead-light">
@@ -54,26 +44,19 @@
                       <td><%= exemplaire.localisation%></td>
                       <td><%= exemplaire.support%></td>
                       <td><%= exemplaire.typePret%></td>
-                      <td><%= exemplaire.statut%></td>
+                      <td class="<%= (!exemplaire.estDisponible) ? `text-danger` :`text-success`%>">
+                        <%= (exemplaire.estDisponible) ? "Disponible" : "Non Disponible"%></td>
                       <td>
-                        <a
-                          href="/admin/document/<%=exemplaire.doc_id%>/exemplaire/update/<%=exemplaire._id%>"
-                          class="btn rounded-pill btn-outline-primary btn-sm"
-                          >Update</a
-                        >
-                        <a
-                          href="/admin/document/<%=exemplaire.doc_id%>/exemplaire/delete/<%=exemplaire._id%>"
-                          class="btn rounded-pill btn-sm btn-danger"
-                          >Delete</a
-                        >
+                        <a href="/admin/document/<%=exemplaire.doc_id%>/exemplaire/update/<%=exemplaire._id%>"
+                          class="btn rounded-pill btn-outline-primary btn-sm">Modifier</a>
+                        <a href="/admin/document/<%=exemplaire.doc_id%>/exemplaire/delete/<%=exemplaire._id%>"
+                          class="btn rounded-pill btn-sm btn-danger">Supprimer</a>
                       </td>
                     </tr>
                     <% }); %> <% }else {%>
                     <hr />
                     <tr class="text-center">
-                      <span class="text-center text-danger"
-                        >Pas d'exemplaires</span
-                      >
+                      <span class="text-center text-danger">Pas d'exemplaires</span>
                     </tr>
                     <% }%>
                   </tbody>

@@ -12,20 +12,27 @@ exports.getDocuments = async (req, res, next) => {
    // constructing search object
    if (filter != 'all' && value != 'all') {
       // fetch documents by search value and filter
-      switch(filter){
-            case "titre":
-                case "categorie" :
-                case "resume" :
-                case "auteur" : {
+      switch (filter) {
+         case "titre":
+         case "categorie":
+         case "resume":
+         case "auteur": {
 
-                    searchObj = {filter : {$regex : `.*${value}.*`}};
-                 }break;
-                 default : {
-                    searchObj[filter] = value;
-                 }
-                 
-        }
+            searchObj = {
+               filter: {
+                  $regex: `.*${value}.*`
+               }
+            };
+         }
+         break;
+      default: {
+         searchObj[filter] = value;
+      }
+
+      }
+
    }
+   console.log(searchObj);
 
    try {
       // Fetch documents from database
@@ -63,10 +70,31 @@ exports.findDocuments = async (req, res, next) => {
       return res.redirect('back');
    }
 
-   const searchObj = {};
-   searchObj[filter] = value;
+   let searchObj = {};
+   switch (filter) {
+      case "titre":
+      case "categorie":
+      case "resume":
+      case "auteur":
+      case "note":
+      case "compTitre":
+      case "edition": {
+
+         searchObj[filter] = {
+
+            $regex: `.*${value}.*`
+
+         };
+      }
+      break;
+   default: {
+      searchObj[filter] = value;
+   }
+
+   }
 
    try {
+      console.log(searchObj);
       // Fetch documents from database
       const documents = await Document
          .find(searchObj)
@@ -100,7 +128,9 @@ exports.getDocumentDetails = async (req, res, next) => {
    try {
       const document_id = req.params.document_id;
       const document = await Document.findById(document_id).populate("exemplaires");
-      res.render("user/documentDetails", { document: document });
+      res.render("user/documentDetails", {
+         document: document
+      });
    } catch (err) {
       console.error(err);
       return res.redirect("back");

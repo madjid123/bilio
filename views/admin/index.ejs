@@ -4,10 +4,7 @@
 <% include ../partials/adminNav %>
 
 <!--DASHBOARD SECTION-->
-<header
-  id="main-header"
-  class="py-2 text-center bg-light text-secondary justify-content-center shadow"
->
+<header id="main-header" class="py-2 text-center bg-light text-secondary justify-content-center shadow">
   <div class="container justify-content-center">
     <h1><i class="fa fa-gear"></i>Tableau de bord</h1>
   </div>
@@ -19,75 +16,106 @@
 <section id="posts" class="my-5">
   <div class="container">
     <div class="row">
-      <div class="col-md-3">
-        <div
-          class="
+      <div class="col">
+        <div class="
             rounded-card rounded-rounded-card rounded-card
             text-center
             bg-info
             text-white
             p-3
             mb-3
-          "
-        >
+          ">
           <div class="card-block">
             <h3>Documents</h3>
             <h1 class="display-4">
               <i class="fa fa-pencil"></i>
               <%=documents_count%>
             </h1>
-            <a
-              href="/admin/documentInventory/all/all/1"
-              class="btn rounded-pill btn-outline-light"
-              >Voir</a
-            >
+            <a href="/admin/documentInventory/all/all/1" class="btn rounded-pill btn-outline-light">Voir</a>
           </div>
         </div>
+      </div>
+      <div class="col">
 
-        <div
-          class="
+        <div class="
             rounded-card rounded-rounded-card rounded-card
             text-center
             bg-success
             text-white
             p-3
             mb-3
-          "
-        >
+          ">
           <div class="card-block">
-            <h3>Users</h3>
+            <h3>Lecteurs</h3>
             <h1 class="display-4">
               <i class="fa fa-users"></i>
               <%=users_count%>
             </h1>
-            <a href="/admin/users/1" class="btn rounded-pill btn-outline-light"
-              >Utilisateurs</a
-            >
+            <a href="/admin/users/1" class="btn rounded-pill btn-outline-light">Voir</a>
           </div>
         </div>
-        <div
-          class="
+      </div>
+      <div class="col">
+        <div class="
             rounded-card rounded-rounded-card rounded-card
             text-center
             bg-dark
             text-white
             p-3
             mb-3
-          "
-        >
+          ">
           <div class="card-block">
             <h3>Prets</h3>
             <h1 class="display-4">
               <i class="fa fa-users"></i>
               <%=prets%>
             </h1>
-            <a href="/admin/prets/1" class="btn rounded-pill btn-outline-light"
-              >Prets</a
-            >
+            <a href="/admin/prets/1" class="btn rounded-pill btn-outline-light">Prets</a>
           </div>
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col">
+        <div class="
+            rounded-card rounded-rounded-card rounded-card
+            text-center
+            bg-warning
+            text-white
+            p-3
+            mb-3
+          ">
+          <div class="card-block">
+            <h3>Utilisateur Suspendus</h3>
+            <h1 class="display-4">
+              <i class="fa fa-users"></i>
+              <%=users_suspendu%>
+            </h1>
+            <a href="/admin/users/1" class="btn rounded-pill btn-outline-light">Voir</a>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="
+            rounded-card rounded-rounded-card rounded-card
+            text-center
+            bg-danger
+            text-white
+            p-3
+            mb-3
+          ">
+          <div class="card-block">
+            <h3>Prêt en Retard</h3>
+            <h1 class="display-4">
+              <i class="fa fa-users"></i>
+              <%=prets_retard%>
+            </h1>
+            <a href="/admin/prets/1" class="btn rounded-pill btn-outline-light">Voir</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
 </section>
 

@@ -62,19 +62,22 @@ exports.postAdminDocumentInventory = async (req, res, next) => {
             req.flash("error", "Search field is empty. Please fill the search field in order to get a result");
             return res.redirect('back');
         }
-        const searchObj = {};
-        switch(filter){
+        let searchObj = {};
+        switch (filter) {
             case "titre":
-                case "categorie" :
-                case "resume" :
-                case "auteur" : {
+            case "categorie":
+            case "resume":
+            case "auteur": {
 
-                    searchObj = {filter : {$regex : `.*${value}.*`}};
-                 }break;
-                 default : {
-                    searchObj[filter] = value;
-                 }
-                 
+                searchObj[filter] = {
+                    $regex: `.*${value}.*`
+                };
+            }
+            break;
+        default: {
+            searchObj[filter] = value;
+        }
+
         }
         console.log(searchObj);
         // get the documents count
@@ -104,9 +107,11 @@ exports.getDocumentCopies = async (req, res, next) => {
     const doc_id = req.params.doc_id;
     try {
         var document = await Document.findById(doc_id).populate('exemplaires');
-        res.render('admin/exemplaire/Exemplaires', { exemplaire: document.exemplaires, doc_id: doc_id })
-    }
-    catch (err) {
+        res.render('admin/exemplaire/Exemplaires', {
+            exemplaire: document.exemplaires,
+            doc_id: doc_id
+        })
+    } catch (err) {
         console.error(err)
         res.redirect('back')
     }

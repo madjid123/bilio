@@ -7,8 +7,7 @@ const express = require("express"),
     User = require("../models/user"),
     Document = require("../models/document"),
     Activity = require("../models/activity"),
-    pret = require("../models/pret"),
-    Comment = require("../models/comment");
+    pret = require("../models/pret");
 
 // importing controller
 const adminController = require('../controllers/admin');
@@ -96,8 +95,8 @@ router.post('/admin/users/penalites/:page', middleware.estAdmin, adminController
 router.post('/admin/pret/add', middleware.estAdmin, adminController.pret.postpretDocument)
 router.get('/admin/pret/return/:pret_id', middleware.estAdmin, adminController.pret.ReturnDocument)
 
-router.get('/admin/pret/confirmer/:pret_id',middleware.estAdmin, adminController.pret.getConfirmerPret)
-router.get('/admin/pret/prolonoger/:pret_id',middleware.estAdmin, adminController.pret.getProlonogerPret)
+router.get('/admin/pret/confirmer/:pret_id', middleware.estAdmin, adminController.pret.getConfirmerPret)
+router.get('/admin/pret/prolonoger/:pret_id', middleware.estAdmin, adminController.pret.getProlonogerPret)
 
 router.post('/admin/users/penalite/ajouter/', middleware.estAdmin, adminController.penalites.postPenalite)
 router.get('/admin/users/penalite/enlever/:user_id', middleware.estAdmin, middleware.estAdmin, adminController.penalites.deletePenalite)
@@ -105,13 +104,16 @@ router.get('/admin/users/penalite/enlever/:user_id', middleware.estAdmin, middle
 router.get('/admin/add', middleware.estAdmin, adminController.users.getAddPrivUser)
 router.post('/admin/add', middleware.estAdmin, adminController.users.postAddPrivUser)
 
-router.get('/admin/user/priv', middleware.estSuperAdmin , adminController.users.getPrivUser)
+router.get('/admin/user/priv', middleware.estSuperAdmin, adminController.users.getPrivUser)
 
-router.post('/admin/user/priv/:user_id/update', middleware.estSuperAdmin , adminController.users.updatePrivUser)
+router.post('/admin/user/priv/:user_id/update', middleware.estSuperAdmin, adminController.users.updatePrivUser)
 
-router.get('/admin/user/priv/:user_id/delete', middleware.estSuperAdmin , adminController.users.deletePrivUser)
+router.get('/admin/user/priv/:user_id/delete', middleware.estSuperAdmin, adminController.users.deletePrivUser)
+router.get('/admin/users/:user_id/modifier', middleware.estAdmin, adminController.users.getModifierUser)
 
-router.get('/back',(req, res) =>{
+router.post('/admin/users/:user_id/modifier', middleware.estAdmin, adminController.users.postModifierUser)
+
+router.get('/back', (req, res) => {
     res.redirect('back')
 })
 module.exports = router;

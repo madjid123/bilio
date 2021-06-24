@@ -2,12 +2,13 @@
 const fs = require('fs');
 const Mongoclient = require('mongodb').MongoClient
 
-const client = Mongoclient.connect(process.env.DB_URL, { useUnifiedTopology: true })
+const client = Mongoclient.connect(process.env.DB_URL, {
+    useUnifiedTopology: true
+})
 // importing models
 const User = require('../../models/user');
 const Activity = require('../../models/activity');
 const Pret = require('../../models/pret');
-const Comment = require('../../models/comment');
 const Suspension = require('../../models/suspension');
 // importing utilities
 const deleteImage = require('../../utils/delete_image');
@@ -20,13 +21,17 @@ exports.getUserList = async (req, res, next) => {
         const page = req.params.page || 1;
 
         const users = await User
-            .find({type : "lecteur"})
+            .find({
+                type: "lecteur"
+            })
             .sort('-dateDadhesion')
             .skip((PER_PAGE * page) - PER_PAGE)
             .limit(PER_PAGE)
             .populate("suspension_id");
 
-        const users_count = await User.find().countDocuments();
+        const users_count = await User.find({
+            type: 'lecteur'
+        }).countDocuments();
 
         res.render('admin/user/users', {
             users: users,
@@ -46,12 +51,33 @@ exports.postShowSearchedUser = async (req, res, next) => {
         const page = req.params.page || 1;
         const search_value = req.body.searchUser;
 
-        const users = await User.find({type : "lecteur",
-            $or: [
-                { "prenom": { $regex: ".*" + search_value + ".*" } },
-                { "nom": { $regex: ".*" + search_value + ".*" } },
-                { "username": { $regex: ".*" + search_value + ".*" } },
-                { "email": { $regex: ".*" + search_value + ".*" } },
+        const users = await User.find({
+            type: "lecteur",
+            $or: [{
+                    "prenom": {
+                        $regex: ".*" + search_value + ".*"
+                    }
+                },
+                {
+                    "nom": {
+                        $regex: ".*" + search_value + ".*"
+                    }
+                },
+                {
+                    "username": {
+                        $regex: ".*" + search_value + ".*"
+                    }
+                },
+                {
+                    "email": {
+                        $regex: ".*" + search_value + ".*"
+                    }
+                },
+                {
+                    "numero": {
+                        $regex: ".*" + search_value + ".*"
+                    }
+                },
             ]
         });
 
@@ -80,9 +106,11 @@ exports.postFlagUser = async (req, res, next) => {
 
         if (user.violationFlag) {
             user.violationFlag = false;
-            await Suspension.findOneAndRemove({ "user.id": user_id });
+            await Suspension.findOneAndRemove({
+                "user.id": user_id
+            });
             await user.save();
-            req.flash("success", `An user named ${user.prenom} ${user.nom} is just unflagged!`);
+            req.flash("success", `Un lecteur nom : ${user.prenom} ,prenom :  ${user.nom} n'est plus sanctionné !`);
         } else {
             //user.violationFlag = true;
 
@@ -94,15 +122,14 @@ exports.postFlagUser = async (req, res, next) => {
                 motif: req.body.motif,
 
 
-            }
-            )
-            let duree =  (!Number.isNaN(Number.parseInt(req.body.duree))) ? Number.parseInt(req.body.duree ): undefined;
+            })
+            let duree = (!Number.isNaN(Number.parseInt(req.body.duree))) ? Number.parseInt(req.body.duree) : undefined;
             let tday = new Date()
-            if(duree)
+            if (duree)
                 tday.setDate(tday.getDate() + duree)
-            
+
             suspension.expireAt = (duree) ? tday : undefined;
-            suspension.duree= duree;
+            suspension.duree = duree;
 
             await suspension.save()
             user.suspension_id = suspension._id
@@ -110,7 +137,7 @@ exports.postFlagUser = async (req, res, next) => {
             await user.save();
             //            await Suspension.updateOne({ _id: suspension._id }, { created_at: { index: { expires: "10s" } } })
 
-            req.flash("warning", `An user named ${user.prenom} ${user.nom} is just flagged!`);
+            req.flash("warning", `Un lecteur ${user.prenom} ${user.nom} est sanctionné!`);
         }
 
         res.redirect("back");
@@ -121,22 +148,24 @@ exports.postFlagUser = async (req, res, next) => {
 };
 
 // admin : inscription d'un etudiant
-exports.getInscrireUser = async (req, res, next)  =>{
+exports.getInscrireUser = async (req, res, next) => {
     try {
 
         const user_id = req.params.user_id
         const user = await User.findById(user_id)
-        if(user.estInscrit){
+        if (user.estInscrit) {
             user.estInscrit = false;
             user.save()
-            req.flash("success","Utilisateur est non inscrit")
+            req.flash("success", "Utilisateur est non inscrit")
             res.redirect('/admin/users/1')
         }
-        await User.findByIdAndUpdate(user_id, {estInscrit : true})
+        await User.findByIdAndUpdate(user_id, {
+            estInscrit: true
+        })
         req.flash('success', "Utilisateur est incrit!")
         res.redirect('/admin/users/1')
 
-    }catch(err){
+    } catch (err) {
         console.error(err)
         req.flash("error", err.message)
         res.redirect('back')
@@ -144,10 +173,14 @@ exports.getInscrireUser = async (req, res, next)  =>{
 }
 exports.getSupprimerToutInscription = async (req, res, next) => {
     try {
-        await User.updateMany({estInscrit : true},{estInscrit : false} )
-        req.flash('success','Les inscriptions ont été supprimeés')
+        await User.updateMany({
+            estInscrit: true
+        }, {
+            estInscrit: false
+        })
+        req.flash('success', 'Les inscriptions ont été supprimeés')
         res.redirect('/admin/users/1')
-    }catch(err){
+    } catch (err) {
         console.error(err)
         req.flash("error", err.message)
         res.redirect('back')
@@ -158,15 +191,17 @@ exports.getUserProfile = async (req, res, next) => {
     try {
         const user_id = req.params.user_id;
         const user = await User.findById(user_id);
-        const prets = await Pret.find({ "user_id.id": user_id });
-        const comments = await Comment.find({ "auteur.id": user_id });
-        const activities = await Activity.find({ "user_id.id": user_id }).sort('-entryTime');
+        const prets = await Pret.find({
+            "user_id.id": user_id
+        });
+        const activities = await Activity.find({
+            "user_id.id": user_id
+        }).sort('-entryTime');
 
         res.render("admin/user/user", {
             user: user,
             prets: prets,
             activities: activities,
-            comments: comments,
         });
     } catch (err) {
         console.error(err);
@@ -179,7 +214,9 @@ exports.getUserAllActivities = async (req, res, next) => {
     try {
         const user_id = req.params.user_id;
 
-        const activities = await Activity.find({ "user_id.id": user_id })
+        const activities = await Activity.find({
+                "user_id.id": user_id
+            })
             .sort('-entryTime');
         res.render("admin/activities", {
             activities: activities
@@ -194,7 +231,9 @@ exports.getUserAllActivities = async (req, res, next) => {
 exports.postShowActivitiesByCategory = async (req, res, next) => {
     try {
         const categorie = req.body.categorie;
-        const activities = await Activity.find({ "categorie": categorie });
+        const activities = await Activity.find({
+            "categorie": categorie
+        });
 
         res.render("admin/activities", {
             activities: activities,
@@ -204,23 +243,60 @@ exports.postShowActivitiesByCategory = async (req, res, next) => {
         res.redirect('back');
     }
 };
+exports.getModifierUser = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.user_id)
+        res.render('admin/user/modifier', {
+            user: user
+        })
+    } catch (err) {
+        console.error(err)
+        req.flash('error', err.message)
+        res.redirect('back')
+    }
+
+}
+exports.postModifierUser = async (req, res, next) => {
+    try {
+        const UpdateUser = req.body.User
+        const user = await User.findById(req.params.user_id)
+
+        console.log(user.password)
+        await user.setPassword(req.body.password)
+        await User.findByIdAndUpdate(req.params.user_id, UpdateUser)
+        req.flash('success', "les informations de lecteur ont été modifier")
+        res.redirect("/admin/users/profile/" + req.params.user_id)
+    } catch (err) {
+        console.error(err)
+        req.flash('error', err.message)
+        res.redirect('back')
+    }
+}
 
 // admin -> delete a user
 exports.getDeleteUser = async (req, res, next) => {
     try {
         const user_id = req.params.user_id;
         const user = await User.findById(user_id);
-        await user.remove();
 
+        if (user.exemplairepretInfo.length > 0) {
+            req.flash("error", "La suppression d'un lecteur qui a encore un pret est interdite")
+            return res.redirect('back')
+        }
+        await user.remove();
         let imagePath = `images/${user.image}`;
-        if (fs.existsSync(imagePath)) {
+        if (user.image != '' && fs.existsSync(imagePath)) {
+            console.log(imagePath)
             deleteImage(imagePath);
         }
 
-        await pret.deleteMany({ "user_id.id": user_id });
-        await Comment.deleteMany({ "auteur.id": user_id });
-        await Activity.deleteMany({ "user_id.id": user_id });
-
+        await Pret.deleteMany({
+            "user_id.id": user_id
+        });
+        await Activity.deleteMany({
+            "user_id.id": user_id
+        });
+        req.flash("success", "Compte de Lecteur a été supprimé ")
         res.redirect("/admin/users/1");
     } catch (err) {
         console.error(err);
@@ -229,7 +305,9 @@ exports.getDeleteUser = async (req, res, next) => {
 }
 exports.getAddPrivUser = async (req, res, next) => {
     try {
-        res.render('signup', { estAdmin: true })
+        res.render('signup', {
+            estAdmin: true
+        })
     } catch (err) {
         console.error(err)
         res.redirect('back')
@@ -242,8 +320,9 @@ exports.postAddPrivUser = async (req, res, next) => {
             const newAdmin = new User({
                 username: req.body.username,
                 email: req.body.email,
-                type: req.body.type,
-                estAdmin: (req.body.type === 'admin') ? true : false,
+                nom: req.body.nom,
+                prenom: req.body.prenom,
+                type: "bibliothecaire",
             });
 
             const user = await User.register(newAdmin, req.body.password);
@@ -260,26 +339,31 @@ exports.postAddPrivUser = async (req, res, next) => {
         req.flash(
             "error",
             "Given info matches someone registered as User. Please provide different info for registering as Admin"
-        ); console.error(err)
+        );
+        console.error(err)
 
-        return res.render("signup", { estAdmin: true });
+        return res.render("signup", {
+            estAdmin: true
+        });
     }
 
 }
 
 exports.getPrivUser = async (req, res, next) => {
-    const users = await User.find(  {type : "bibliothecaire" })
-    res.render("admin/user/privUsers",{
-        users: users ,
-        pages : 0,
+    const users = await User.find({
+        type: "bibliothecaire"
+    })
+    res.render("admin/user/privUsers", {
+        users: users,
+        pages: 0,
     })
 }
 exports.deletePrivUser = async (req, res, next) => {
-    try{
-    await User.findByIdAndRemove(req.params.user_id);
-    req.flash("success","Utilisateur a été supprimé")
-    res.redirect('/admin/user/priv')
-    }catch {
+    try {
+        await User.findByIdAndRemove(req.params.user_id);
+        req.flash("success", "Utilisateur a été supprimé")
+        res.redirect('/admin/user/priv')
+    } catch {
         console.error(err)
         req.flash("error", "erreur lors la suppression de l'utilisateur.")
         res.redirect('back')
@@ -287,22 +371,22 @@ exports.deletePrivUser = async (req, res, next) => {
 }
 exports.updatePrivUser = async (req, res, next) => {
     try {
-        with (req.body.admin) {
-        const updateObj={
-            username : username ,
-            email: email
+        with(req.body.admin) {
+            const updateObj = {
+                username: username,
+                email: email
 
+            }
+            const user = await User.findByIdAndUpdate(req.params.user_id, updateObj)
+
+
+            req.flash('success', "Modification de l'utilisateur :  " + user.username)
+            res.redirect('/admin/user/priv')
         }
-const user = await User.findByIdAndUpdate(req.params.user_id, updateObj)
-    
-    
-    req.flash('success', "Modification de l'utilisateur :  " + user.username )     
-    res.redirect('/admin/user/priv')
-        }
-    }catch(err){
+    } catch (err) {
         console.error(err)
 
-        req.flash("error", "erreur lors de la modification de l'utilisateur. \n " + err.message )
+        req.flash("error", "erreur lors de la modification de l'utilisateur. \n " + err.message)
         res.redirect('back')
     }
 }

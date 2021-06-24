@@ -1,213 +1,208 @@
 <% include ../../partials/header %>
 
 
-    <!--NAVIGATION BAR FOR ADMIN-->
-    <% include ../../partials/adminNav %>
-        <header id="main-header" class="py-4 bg-light text-secondary shadow text-center">
-            <div class="container m-0 p-0">
-                        <h1><i class="fa fa-pencil"></i> Gestion des prêts</h1>
+<!--NAVIGATION BAR FOR ADMIN-->
+<% include ../../partials/adminNav %>
+<header id="main-header" class="py-4 bg-light text-secondary container p-0 m-0  shadow text-center">
+    <div class="container m-0 p-0">
+        <h1><i class="fa fa-pencil"></i> Gestion des prêts</h1>
+    </div>
+</header>
+
+<!--ACTIONS-->
+<section id="search_bar" class="my-3  px-0 container  py-3 rounded-card ">
+    <div class="container  text-white ">
+        <form action="/admin/prets/1" method="POST">
+            <div class="row p-0 m-0">
+                <div class="col">
+                    <select name="filter" class="form-control rounded-pill  ">
+                        <option selected disabled>selctionné option
+                        </option>
+                        <option name="titre" value="document_info.exemplaire_id.cote">N° Exemplaire</option>
+                        <option name="auteur" value="user_id.numero">N° Etudiant</option>
+                    </select>
+                </div>
+
+                <div class="col ">
+                    <input name="searchName" type="text" class="form-control rounded-pill  "
+                        placeholder="Recherche utlisateurs">
+                </div>
+
+                <div class="col ">
+                    <input type="submit" class=" btn rounded-pill  btn-outline-primary btn-block" value="Search">
+                </div>
             </div>
-        </header>
+        </form>
+    </div>
+</section>
 
-        <!--ACTIONS-->
-        <section id="search_bar" class="my-3 m-4 py-4 rounded-card ">
-            <div class="container  text-white ">
-                <form action="/admin/prets/1" method="POST">
-                    <div class="row">
-                        <div class="col-md-5 p-1">
-                            <select name="filter" class="form-control rounded-pill  ">
-                                <option selected disabled>Select Option
-                                </option>
-                                <option name="titre" value="document_info.exemplaire_id.cote">N° Exemplaire</option>
-                                <option name="auteur" value="user_id.numero">N° Etudiant</option>
-                            </select>
-                        </div>
+<% include ../../partials/alerts %>
 
-                        <div class="col-md-5 p-1">
-                            <input name="searchName" type="text" class="form-control rounded-pill  "
-                                placeholder="Recherche utlisateurs">
-                        </div>
-
-                        <div class="col-md-2 p-1">
-                            <input type="submit" class=" btn rounded-pill  btn-outline-primary btn-block"
-                                value="Search">
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </section>
-
-        <% include ../../partials/alerts %>
-
-            <!-- BOOK INVENTORY -->
-            <section id="documentInventory" class="mt-5">
-                <div class="container m-0 p-0">
-                    <div class=" row">
-                        <form action='/admin/pret/add' method='post' class="form">
-                            <div class="col ">
-                                <div class="rounded-card  rounded-card  rounded-card p-4 ">
-                                    <div class=" row justify-content-center text-center">
-                                        <div class="col form-group">
-                                            <label for="">N Exemplaire</label>
-                                            <input type="text" name="exemplaire_num" id="" class="form-control rounded-pill  "
-                                                placeholder="N exemplaire" aria-describedby="helpId">
-                                        </div>
-                                        <div class="col form-group">
-                                            <label for="">N lecteur</label>
-                                            <input type="text" name="user_num" id="" class="form-control rounded-pill  "
-                                                placeholder="N lecteur" aria-describedby="helpId">
-                                        </div>
-                                        <div class=" form-group"> <input type='submit'
-                                                class=" btn rounded-pill  px-5 btn-primary " value="Effectuer un prêt">
-                                        </div>
-                                    </div>
-
-
-                                </div>
-
+<!-- BOOK INVENTORY -->
+<section id="documentInventory" class="mt-5 justify-content-center text-center">
+    <div class="container  p-0">
+        <div class=" row justify-content-center text-center">
+            <form action='/admin/pret/add' method='post' class="form">
+                <div class="col justify-content-center text-center  ">
+                    <div class="rounded-card  rounded-card  rounded-card p-4 ">
+                        <div class=" row justify-content-center text-center">
+                            <div class="col form-group">
+                                <label for="">N Exemplaire</label>
+                                <input type="text" name="exemplaire_num" id="" class="form-control rounded-pill  "
+                                    placeholder="N exemplaire" aria-describedby="helpId">
                             </div>
-                        </form>
+                            <div class="col form-group">
+                                <label for="">N lecteur</label>
+                                <input type="text" name="user_num" id="" class="form-control rounded-pill  "
+                                    placeholder="N lecteur" aria-describedby="helpId">
+                            </div>
+                            <div class=" form-group"> <input type='submit' class=" btn rounded-pill  px-5 btn-primary "
+                                    value="Effectuer un prêt">
+                            </div>
+                        </div>
+
+
                     </div>
 
                 </div>
-                <div class="container mt-5  p-0">
-                    <div class="row mx-1 ">
-                        <div class="col">
-                            <div class="col rounded-card  p-0  rounded-card  rounded-card text-white">
-                                <div class="card-body" style="overflow-x: auto;">
-                                    <table  class="table mb-5 text-center  table-light">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>Titre du document</th>
-                                            <th>Cote d'exemplaire</th>
-                                            <th>nom et prenom</th>
-                                            <th>numero du lecteur</th>
-                                            <th>date du pret</th>
-                                            <th>date de retourne</th>
-                                            <th>Statut</th>
-                                            <th>Edit</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        
-                                        <% prets.forEach(pret=> { %>
+            </form>
+        </div>
 
-                                            <tr class="<%=(pret.pretStatut==='retard' )?`table-danger`: ``%>">
-                                                <% if(pret.user_id.id) { %>{
-                                                <td>
-                                                    <%= pret.document_info.doc_id.titre %>
-                                                </td>
-                                                <td>
-                                                    <%= pret.document_info.exemplaire_id.id.cote %>
-                                                </td>
-                                                <td>
-                                                    <%= `${pret.user_id.id.nom} ${pret.user_id.id.prenom} ` %>
-                                                </td>
-                                                <td>
-                                                    <%= pret.user_id.id.numero %>
-                                                </td>
-                                                <td>
-                                                    <%= pret.document_info.dateDePret.toDateString() %>
-                                                </td>
-                                                <td>
-                                                    <%= pret.document_info.dateDeRetour.toDateString() %>
-                                                </td>
-                                                <td>
-                                                    <%= pret.pretStatut %>
-                                                </td>
-                                                <td>
-                                                    <%  if(pret.pretStatut === 'en cours' || pret.pretStatut === 'retard'){ %> 
-                                                        
-                                                        <span class='text-white justify-content-center text-center'>
-                                                            <a href="/admin/pret/return/<%=pret._id%>"
-                                                                class=" btn rounded-pill  btn-danger btn-sm m-1">Retourner</a>
+    </div>
+    <div class="container mt-5  p-0">
+        <div class="row mx-1 ">
+            <div class="col">
+                <div class="col rounded-card  p-0  rounded-card  rounded-card text-white">
+                    <div class="card-body" style="overflow-x: auto;">
+                        <table class="table mb-5 text-center  table-light">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Titre du document</th>
+                                    <th>Cote d'exemplaire</th>
+                                    <th>Nom et Prénom</th>
+                                    <th>Numéro du lecteur</th>
+                                    <th>Date du prêt</th>
+                                    <th>Date de retour</th>
 
-                                                            
-                                                        </span>
-                                                    <% } if(pret.pretStatut === 'en cours' && !pret.document_info.estProlonoger){%>
-                                                         <span class='text-white justify-content-center text-center'>
-                                                            <a href="/admin/pret/prolonoger/<%=pret._id%>"
-                                                            class=" btn rounded-pill  btn-outline-success btn-sm m-1">Prolonoger</a>
+                                    <th>Type du prêt</th>
+                                    <th>Statut</th>
+                                    <th>Edit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                                                        
-                                                    </span>
-                                                    <%}%>
+                                <% prets.forEach(pret=> { %>
+
+                                <tr class="<%=(pret.pretStatut==='retard' )?`table-danger`: ``%>">
+                                    <% if(pret.user_id.id) { %>
+                                    <td>
+                                        <%= pret.document_info.doc_id.titre %>
+                                    </td>
+                                    <td>
+                                        <%= pret.document_info.exemplaire_id.id.cote %>
+                                    </td>
+                                    <td>
+                                        <%= `${pret.user_id.id.nom} ${pret.user_id.id.prenom} ` %>
+                                    </td>
+                                    <td>
+                                        <%= pret.user_id.id.numero %>
+                                    </td>
+                                    <td>
+                                        <%= pret.document_info.dateDePret.toDateString() %>
+                                    </td>
+                                    <td>
+                                        <%= pret.document_info.dateDeRetour.toDateString() %>
+                                    </td>
+                                    <td>
+                                        <%= pret.document_info.exemplaire_id.id.typePret %>
+                                    </td>
+                                    <td>
+                                        <%= pret.pretStatut %>
+                                    </td>
+                                    <td>
+                                        <%  if(pret.pretStatut === 'en cours' || pret.pretStatut === 'retard'){ %>
+
+                                        <span class='text-white justify-content-center text-center'>
+                                            <a href="/admin/pret/return/<%=pret._id%>"
+                                                class=" btn rounded-pill  btn-danger btn-sm m-1">Retourner</a>
+
+
+                                        </span>
+                                        <% } if(pret.pretStatut === 'en cours' && !pret.document_info.estProlonoger){%>
+                                        <span class='text-white justify-content-center text-center'>
+                                            <a href="/admin/pret/prolonoger/<%=pret._id%>"
+                                                class=" btn rounded-pill  btn-outline-success btn-sm m-1">Prolonoger</a>
+
+
+                                        </span>
+                                        <%}%>
                                                     <% if(pret.pretStatut ==='reserver'){ %>
-                                                         <span class='text-white justify-content-center text-center'>
-                                                        <a href="/admin/pret/confirmer/<%=pret._id%>"
-                                                            class=" btn rounded-pill  btn-success btn-sm m-1">Confirmer</a>
-
-                                                        
-                                                    </span>
-                                                   <% }%> 
-                                                </td>
-                                            </tr>
-                                            <%} }); %>
-
-                                    </tbody>
-                                </table>
+                                        <span class='text-white justify-content-center text-center'>
+                                            <a href="/admin/pret/confirmer/<%=pret._id%>"
+                                                class=" btn rounded-pill  btn-success btn-sm m-1">Confirmer</a>
 
 
-                                <% if (pages> 0) { %>
-                                    <nav class="ml-3 mb-2">
-                                        <ul class="pagination offset-md-3">
+                                        </span>
+                                        <% }%>
+                                    </td>
+                                </tr>
+                                <%} }); %>
 
-                                            <% if (current==1) { %>
-                                                <li class="page-item disabled"><a class="page-link">First</a></li>
-                                                <% } else { %>
-                                                    <li class="page-item"><a
-                                                            href="/admin/prets/1"
-                                                            class="page-link">First</a></li>
-                                                    <% } %>
+                            </tbody>
+                        </table>
 
-                                                        <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %>
-                                                            <% if (i !==1) { %>
-                                                                <li class="page-item disabled"><a class="page-link">....
-                                                                </li>
-                                                                <% } %>
-                                                                    <% for (; i <=(Number(current) + 4) && i <=pages;
+
+                        <% if (pages> 0) { %>
+                        <nav class="ml-3 mb-2">
+                            <ul class="pagination offset-md-3">
+
+                                <% if (current==1) { %>
+                                <li class="page-item disabled"><a class="page-link">First</a></li>
+                                <% } else { %>
+                                <li class="page-item"><a href="/admin/prets/1" class="page-link">First</a></li>
+                                <% } %>
+
+                                <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %>
+                                <% if (i !==1) { %>
+                                <li class="page-item disabled"><a class="page-link">....
+                                </li>
+                                <% } %>
+                                <% for (; i <=(Number(current) + 4) && i <=pages;
                                                                         i++) { %>
-                                                                        <% if (i==current) { %>
-                                                                            <li class="page-item active"><a
-                                                                                    class="page-link">
-                                                                                    <%= i %>
-                                                                                </a></li>
-                                                                            <% } else { %>
-                                                                                <li class="page-item"><a
-                                                                                        class="page-link"
-                                                                                        href="/admin/prets/<%=i%>">
-                                                                                        <%=i%>
-                                                                                    </a> </li>
-                                                                                <% } %>
-                                                                                    <% if (i==Number(current) + 4 && i <
+                                <% if (i==current) { %>
+                                <li class="page-item active"><a class="page-link">
+                                        <%= i %>
+                                    </a></li>
+                                <% } else { %>
+                                <li class="page-item"><a class="page-link" href="/admin/prets/<%=i%>">
+                                        <%=i%>
+                                    </a> </li>
+                                <% } %>
+                                <% if (i==Number(current) + 4 && i <
                                                                                         pages) { %>
-                                                                                        <li class="page-item disabled">
-                                                                                            <a class="page-link">....
-                                                                                        </li>
-                                                                                        <% } %>
-                                                                                            <% } %>
-                                                                                                <% if (current==pages) {
+                                <li class="page-item disabled">
+                                    <a class="page-link">....
+                                </li>
+                                <% } %>
+                                <% } %>
+                                <% if (current==pages) {
                                                                                                     %>
-                                                                                                    <li
-                                                                                                        class="page-item disabled">
-                                                                                                        <a
-                                                                                                            class="page-link">Last</a>
-                                                                                                    </li>
-                                                                                                    <% } else { %>
-                                                                                                        <li
-                                                                                                            class="page-item">
-                                                                                                            <a href="/admin/prets/<%=pages%>"
-                                                                                                                class="page-link">Last</a>
-                                                                                                        </li>
-                                                                                                        <% } %>
-                                        </ul>
-                                    </nav>
-                                    <% } %>
-                            </div>
-                        </div>
+                                <li class="page-item disabled">
+                                    <a class="page-link">Last</a>
+                                </li>
+                                <% } else { %>
+                                <li class="page-item">
+                                    <a href="/admin/prets/<%=pages%>" class="page-link">Last</a>
+                                </li>
+                                <% } %>
+                            </ul>
+                        </nav>
+                        <% } %>
                     </div>
                 </div>
-                </div>
-            </section>
+            </div>
+        </div>
+    </div>
+</section>
 
-            <% include ../../partials/footer %>
+<% include ../../partials/footer %>

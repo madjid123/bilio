@@ -1,0 +1,124 @@
+<% include ../../partials/header %> <% if(currentUser && currentUser.type !==
+'lecteur') {%> <% include ../../partials/adminNav%> <%} else {%> <% include
+	../../partials/userNav %> <%}%> <% include ../../partials/alerts%>
+<section id="usersignUpForm">
+
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="rounded-card">
+					<div class="rounded-card-header text-center">
+						<h4>Modifier les informations d'un lecteur</h4>
+					</div>
+					<div class="card-body">
+						<form class="p-3" action="/admin/users/<%=user._id%>/modifier"
+							method="POST">
+							<div class="row">
+								<div class="col form-group">
+									<label class="form-label">Prenom</label>
+									<input type="text" name="User[prenom]"
+										placeholder="Prenom de lecteur"
+										class="form-control rounded-pill"
+										value="<%=user.prenom%>" required />
+								</div>
+
+								<div class="col form-group">
+									<label class="form-label">Nom</label>
+									<input type="text" name="User[nom]"
+										placeholder="Nom de lecteur"
+										class="form-control rounded-pill"
+										value="<%=user.nom%>" required />
+								</div>
+							</div>
+							<div class="row">
+								<div class="col form-group">
+									<label class="form-label">Pseudo</label>
+									<input type="text" name="User[username]"
+										placeholder="pseudo"
+										class="form-control rounded-pill"
+										value="<%=user.username%>" required />
+								</div>
+								<div class="col form-group">
+									<label class="form-label">Numéro/Matricule de
+										lecteur</label>
+									<input type="text" name="User[numero]"
+										placeholder="numero"
+										class="form-control rounded-pill"
+										value="<%=user.numero%>" required />
+								</div>
+							</div>
+							<div class="row">
+								<div class="col form-group">
+									<label class="form-label">Email</label>
+									<input type="email" name="User[email]"
+										placeholder="Email"
+										value="<%=user.email%>"
+										class="form-control rounded-pill"
+										required />
+								</div>
+								<div class="col form-group">
+									<label class="form-label">Structure</label>
+									<input type="text" name="User[structure]"
+										placeholder="Structure"
+										value="<%=user.structure%>"
+										class="form-control rounded-pill" />
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col form-group">
+									<label class="form-label">Catégorie</label>
+									<select type="text" name="User[categorie]"
+										default="" value=""
+										class="form-control rounded-pill"
+										required>
+										<option value="<%=user.categorie%>"
+											selected>--</option>
+										<option value="Etudiant">Etudiant
+										</option>
+										<option value="Chercheur">Chercheur
+										</option>
+										<option value="Enseignant">Enseignant
+										</option>
+									</select>
+								</div>
+								<div class="col form-group">
+									<label class="form-label">Date de
+										naissance</label>
+									<input type="date" name="User[dateDeNaissance]"
+										placeholder="Date de naissance"
+										class="form-control rounded-pill"
+										value="<%=user.dateDeNaissance%>"
+										required />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="form-label">Mot de passe</label>
+								<input type="password" name="password"
+									placeholder="Password"
+									class="form-control rounded-pill"
+									value="<%=user.password%>" required />
+							</div>
+
+							<div class="form-group">
+								<label class="form-label">Addresse</label>
+								<input type="text" name="User[addresse]"
+									placeholder="Address"
+									class="form-control rounded-pill"
+									value="<%=user.addresse%>" />
+							</div>
+							<div class="justify-content-center text-center">
+								<button type="submit"
+									class="btn rounded-pill btn-primary text-center px-10">
+									Submit
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<% include ../../partials/footer %>

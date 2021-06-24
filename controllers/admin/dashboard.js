@@ -16,17 +16,24 @@ exports.getDashboard = async (req, res, next) => {
     var page = req.query.page || 1;
     try {
 
-        const users_count = await User.find().countDocuments() - 1;
+        const users_count = await User.find({
+            type: 'lecteur'
+        }).countDocuments();
+        const users_suspendu_count = await User.find({
+            "violationFlag": true
+        }).countDocuments();
         const documents_count = await Document.find().countDocuments();
-        const activity_count = await Activity.find().countDocuments();
         const pret_count = await Pret.find().countDocuments();
+        const prets_retard_count = await Pret.find({
+            "pretStatut": "retard"
+        }).countDocuments();
 
         res.render("admin/index", {
             users_count: users_count,
+            users_suspendu: users_suspendu_count,
             documents_count: documents_count,
-            prets : pret_count,
-            current: page,
-            pages: Math.ceil(activity_count / PER_PAGE),
+            prets: pret_count,
+            prets_retard: prets_retard_count,
         });
     } catch (err) {
         console.error(err)
@@ -51,9 +58,12 @@ exports.postDashboard = async (req, res, next) => {
         // fetching activities by search query
         const activities = await Activity
             .find({
-                $or: [
-                    { "user_id.username": search_value },
-                    { "categorie": search_value }
+                $or: [{
+                        "user_id.username": search_value
+                    },
+                    {
+                        "categorie": search_value
+                    }
                 ]
             });
 

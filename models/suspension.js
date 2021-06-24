@@ -14,6 +14,7 @@ const suspensionSchema = new mongoose.Schema({
     },
     motif: String,
     duree: Number,
+    admin_id : {type : mongoose.Schema.Types.ObjectId , ref : "User"},
     expireAt: Date
 
 })
