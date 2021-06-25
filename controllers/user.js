@@ -178,9 +178,6 @@ exports.postpretDocument = async (req, res, next) => {
             "doc_id": document._id,
             "estDisponible": true
         })
-        console.log("exemplaire :  ", exemplaire.cote, " id : ", exemplaire._id)
-        console.log("doc_id : ", req.params.document_id)
-        console.log("ex doc_id", exemplaire.doc_id)
 
         let tday = new Date()
         const pret = new Pret({

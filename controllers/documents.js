@@ -32,7 +32,6 @@ exports.getDocuments = async (req, res, next) => {
       }
 
    }
-   console.log(searchObj);
 
    try {
       // Fetch documents from database
@@ -94,7 +93,6 @@ exports.findDocuments = async (req, res, next) => {
    }
 
    try {
-      console.log(searchObj);
       // Fetch documents from database
       const documents = await Document
          .find(searchObj)

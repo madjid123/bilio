@@ -40,7 +40,6 @@ exports.postSearchprets = async (req, res, next) => {
         SearchObj[`${req.body.filter}`] = req.body.searchName;
 
 
-        console.log(SearchObj)
         const prets = await Pret.find(SearchObj)
             .sort("-document_info.dateDePret")
             .populate("document_info.doc_id")
@@ -263,8 +262,7 @@ exports.getProlonogerPret = async (req, res, next) => {
         }
         let tday = new Date()
         let pretDate = new Date(pret.document_info.dateDeRetour)
-        tday = tday.setDate(pretDate.getDate() + infogen.dureePret[user.categorie])
-        pret.document_info.dateDeRetour = tday
+        pret.document_info.dateDeRetour = Date.now() + infogen.dureePret[user.categorie] * 24 * 60 * 60 * 1000
         pret.document_info.estProlonoger = true
         pret.save()
         req.flash("success", "Prêt a été pronologer")
