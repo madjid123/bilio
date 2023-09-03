@@ -34,6 +34,7 @@ if (process.env.NODE_ENV !== "production") require("dotenv").config();
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
 app.use(express.static(__dirname + "/public"));
+app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(__dirname + "/images"));
 app.use(express.json());
