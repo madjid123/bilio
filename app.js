@@ -17,12 +17,12 @@ const express = require("express"),
   documentRoutes = require("./routes/documents"),
   authRoutes = require("./routes/auth"),
   cors = require("cors");
-  require("./utils/cron_job");
+require("./utils/cron_job");
 
 
 // uncomment below line for first time to seed database;
- //const Seed = require('./seed');
- //Seed(1000);
+//const Seed = require('./seed');
+//Seed(1000);
 app.use(cors({
   origin: ['http://localhost:3000'],
   methods: ['GET', 'POST'],
@@ -34,6 +34,7 @@ if (process.env.NODE_ENV !== "production") require("dotenv").config();
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
 app.use(express.static(__dirname + "/public"));
+app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(__dirname + "/images"));
 app.use(express.json());
@@ -117,7 +118,7 @@ app.use(adminRoutes);
 app.use(documentRoutes);
 app.use(authRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`server is running on  port : [${PORT}]`);
